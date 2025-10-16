@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Performance optimizations */
+@layer base {
+  * {
+    /* Enable hardware acceleration */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  img {
+    /* Optimize image rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249, 115, 22, 0.3) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.3);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(249, 115, 22, 0.5);
+}
+
+body {
+  transition: opacity 5s ease;
+  /* Enable GPU acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+body::-webkit-scrollbar-thumb {
+  opacity: 0;
+  transition: opacity 5s ease;
+}
+
+body:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
+/* Optimize transitions */
+.transition-all,
+.transition-colors,
+.transition-transform {
+  will-change: transform, opacity;
+}
+
+/* Fade in animation for AI greeting */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
