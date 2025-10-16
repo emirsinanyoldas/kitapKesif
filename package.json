@@ -9,10 +9,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "add-reviews": "node scripts/add-reviews.js"
+    "add-reviews": "node scripts/add-reviews.js",
+    "import-books": "node scripts/import-books.js",
+    "test-api": "node scripts/test-open-library.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
+    "dotenv": "^16.3.1",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

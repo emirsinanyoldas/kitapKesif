@@ -24,6 +24,7 @@ KitapKeşif is a full-stack web application that allows users to discover books,
 - 🤖 **AI Assistant**: Interactive help widget
 - 💾 **Smart Caching**: 90% fewer API calls with intelligent caching
 - 🎯 **Lazy Loading**: Components and images load on-demand
+- 📚 **Open Library Integration**: Import hundreds of books automatically
 
 ---
 
@@ -108,12 +109,24 @@ VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-4. **Run development server**
+4. **Import books from Open Library (Optional)**
+```bash
+# Test API connection first
+npm run test-api
+
+# Import 300+ books automatically
+npm run import-books
+
+# Add reviews to imported books
+npm run add-reviews
+```
+
+5. **Run development server**
 ```bash
 npm run dev
 ```
 
-5. **Open in browser**
+6. **Open in browser**
 ```
 http://localhost:5173
 ```
@@ -161,6 +174,9 @@ Comprehensive documentation is available in the following files:
 | [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) | Summary of architecture improvements |
 | [PROJECT_STATUS.md](PROJECT_STATUS.md) | Current project status and metrics |
 | [ARCHITECTURE_DIAGRAM.md](ARCHITECTURE_DIAGRAM.md) | Visual architecture diagrams |
+| [OPEN_LIBRARY_INTEGRATION.md](OPEN_LIBRARY_INTEGRATION.md) | **📚 Open Library API integration guide** |
+| [QUICK_START_IMPORT.md](QUICK_START_IMPORT.md) | **⚡ Quick start for importing books** |
+| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Technical implementation details |
 
 ---
 
@@ -328,6 +344,15 @@ For support, questions, or feedback:
 ```bash
 # Install dependencies
 npm install
+
+# Test Open Library API
+npm run test-api
+
+# Import books from Open Library
+npm run import-books
+
+# Add reviews to books
+npm run add-reviews
 
 # Run development server
 npm run dev
