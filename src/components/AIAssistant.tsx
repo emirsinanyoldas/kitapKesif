@@ -1,5 +1,6 @@
 import { Bot, X } from 'lucide-react';
 import { useState, useMemo, memo } from 'react';
+import { createPortal } from 'react-dom';
 import { getRandomGreeting } from '../utils/aiGreetings';
 
 export const AIAssistant = memo(function AIAssistant() {
@@ -9,7 +10,7 @@ export const AIAssistant = memo(function AIAssistant() {
   // useMemo ensures it doesn't change on every render
   const greeting = useMemo(() => getRandomGreeting(), []);
 
-  return (
+  const content = (
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -59,4 +60,6 @@ export const AIAssistant = memo(function AIAssistant() {
       )}
     </>
   );
+
+  return createPortal(content, document.body);
 });

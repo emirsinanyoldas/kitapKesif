@@ -1,5 +1,6 @@
 import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { scrollToTop as scrollToTopUtil } from '../utils';
 import { SCROLL_TO_TOP_THRESHOLD } from '../constants';
 
@@ -25,7 +26,7 @@ export function ScrollToTop() {
 
   if (!isVisible) return null;
 
-  return (
+  const content = (
     <button
       onClick={handleScrollToTop}
       style={{ position: 'fixed', bottom: '2rem', left: '2rem', zIndex: 9999 }}
@@ -35,4 +36,6 @@ export function ScrollToTop() {
       <ArrowUp className="w-6 h-6" strokeWidth={2.5} />
     </button>
   );
+
+  return createPortal(content, document.body);
 }

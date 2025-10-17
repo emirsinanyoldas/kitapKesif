@@ -43,8 +43,7 @@
 
 body {
   transition: opacity 5s ease;
-  /* Enable GPU acceleration */
-  transform: translateZ(0);
+  /* Removed transform to prevent stacking context issues with fixed positioning */
   backface-visibility: hidden;
 }
 
