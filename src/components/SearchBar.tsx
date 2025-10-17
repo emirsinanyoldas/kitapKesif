@@ -34,7 +34,7 @@ export const SearchBar = memo(function SearchBar({ onSearch, onCategoryFilter, c
             </button>
 
             {showCategories && (
-              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-orange-200/50 dark:border-blue-800/50 overflow-hidden">
+              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-orange-200/50 dark:border-blue-800/50 overflow-hidden z-50">
                 <div className="p-2">
                   <button
                     onClick={() => {

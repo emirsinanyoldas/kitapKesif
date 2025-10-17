@@ -11,7 +11,13 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "add-reviews": "node scripts/add-reviews.js",
     "import-books": "node scripts/import-books.js",
-    "test-api": "node scripts/test-open-library.js"
+    "test-api": "node scripts/test-open-library.js",
+    "fix-db": "node scripts/fix-database-permissions.js",
+    "check-db": "node scripts/check-database.js",
+    "sql": "node scripts/run-sql.js",
+    "backup-db": "node scripts/backup-database.js",
+    "restore-db": "node scripts/restore-database.js",
+    "db-manager": "node scripts/database-manager.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
