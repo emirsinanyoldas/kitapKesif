@@ -13,14 +13,18 @@ export const AIAssistant = memo(function AIAssistant() {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-8 right-8 p-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-2xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:scale-110 z-40 animate-pulse"
+        style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999 }}
+        className="p-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-2xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:scale-110 animate-pulse"
         aria-label="AI Assistant"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-8 w-96 h-[500px] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-blue-200/50 dark:border-blue-800/50 overflow-hidden z-40">
+        <div 
+          style={{ position: 'fixed', bottom: '6rem', right: '2rem', zIndex: 9999 }}
+          className="w-96 h-[500px] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-blue-200/50 dark:border-blue-800/50 overflow-hidden"
+        >
           <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
             <h3 className="text-white font-bold text-lg flex items-center gap-2">
               <Bot className="w-5 h-5" />

@@ -28,7 +28,8 @@ export function ScrollToTop() {
   return (
     <button
       onClick={handleScrollToTop}
-      className="fixed bottom-8 left-8 p-4 rounded-full bg-orange-100/80 dark:bg-slate-700/80 text-orange-600 dark:text-orange-400 shadow-lg backdrop-blur-sm transition-all duration-300 hover:brightness-90 z-40"
+      style={{ position: 'fixed', bottom: '2rem', left: '2rem', zIndex: 9999 }}
+      className="p-4 rounded-full bg-orange-100/80 dark:bg-slate-700/80 text-orange-600 dark:text-orange-400 shadow-lg backdrop-blur-sm transition-all duration-300 hover:brightness-90 hover:scale-110"
       aria-label="Scroll to top"
     >
       <ArrowUp className="w-6 h-6" strokeWidth={2.5} />

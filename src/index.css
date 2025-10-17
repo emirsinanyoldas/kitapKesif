@@ -80,6 +80,14 @@ body:hover::-webkit-scrollbar-thumb {
   animation: fadeIn 0.5s ease-out;
 }
 
+/* Ensure fixed buttons stay on top */
+@layer utilities {
+  .fixed-button {
+    position: fixed !important;
+    z-index: 9999 !important;
+  }
+}
+
 /* Reduce motion for accessibility and performance */
 @media (prefers-reduced-motion: reduce) {
   *,
