@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase, hasSupabaseConnection } from '../lib/supabase';
 import { Review } from '../types';
 
 export class ReviewService {
@@ -9,6 +9,12 @@ export class ReviewService {
     bookId: string
   ): Promise<{ data: Review[] | null; error: Error | null }> {
     try {
+      // If no Supabase connection, return empty reviews
+      if (!hasSupabaseConnection) {
+        console.warn('⚠️ Reviews require Supabase configuration.');
+        return { data: [], error: null };
+      }
+
       const { data, error } = await supabase
         .from('reviews')
         .select('*')

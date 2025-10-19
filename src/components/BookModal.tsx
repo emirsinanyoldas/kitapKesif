@@ -11,6 +11,16 @@ interface BookModalProps {
 }
 
 export const BookModal = memo(function BookModal({ book, reviews, onClose }: BookModalProps) {
+  // Debug: Log book data to console
+  console.log('BookModal - Book data:', book);
+  console.log('BookModal - Reviews:', reviews);
+
+  // Ensure we have valid book data
+  if (!book) {
+    console.error('BookModal - No book data provided');
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
       <div
@@ -39,10 +49,10 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
             <div className="space-y-6">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                  {book.title}
+                  {book.title || 'Başlık Yok'}
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">
-                  {book.author}
+                  {book.author || 'Yazar Bilinmiyor'}
                 </p>
 
                 <div className="flex items-center gap-3 mb-4">
@@ -57,12 +67,14 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
                   </span>
                 </div>
 
-                <div className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium border border-blue-200/50 dark:border-blue-700/50">
-                  {book.category}
-                </div>
+                {book.category && (
+                  <div className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium border border-blue-200/50 dark:border-blue-700/50">
+                    {book.category}
+                  </div>
+                )}
 
                 <p className="mt-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {book.description}
+                  {book.description || 'Bu kitap için açıklama bulunmamaktadır.'}
                 </p>
               </div>
 

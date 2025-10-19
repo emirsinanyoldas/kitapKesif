@@ -1,9 +1,20 @@
 import { BookOpen, Mail, Info, Shield, Users, Heart } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import { InfoModal } from './InfoModal';
+import { HowItWorks } from './footer-modals/HowItWorks';
+import { FAQ } from './footer-modals/FAQ';
+import { WriteReview } from './footer-modals/WriteReview';
+import { ContactUs } from './footer-modals/ContactUs';
 
 export const Footer = memo(function Footer() {
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+
+  const openModal = (modalName: string) => setActiveModal(modalName);
+  const closeModal = () => setActiveModal(null);
+
   return (
-    <footer className="mt-20 bg-gradient-to-b from-orange-50 to-amber-100 dark:from-slate-900 dark:to-blue-950 border-t border-orange-300/40 dark:border-blue-900/40">
+    <>
+      <footer className="mt-20 bg-gradient-to-b from-orange-50 to-amber-100 dark:from-slate-900 dark:to-blue-950 border-t border-orange-300/40 dark:border-blue-900/40">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
@@ -23,14 +34,14 @@ export const Footer = memo(function Footer() {
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
+                <button onClick={() => openModal('how-it-works')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
                   Nasıl Çalışır?
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
+                <button onClick={() => openModal('faq')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
                   Sıkça Sorulan Sorular
-                </a>
+                </button>
               </li>
               <li>
                 <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
@@ -52,9 +63,9 @@ export const Footer = memo(function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
+                <button onClick={() => openModal('write-review')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
                   Yorum Yaz
-                </a>
+                </button>
               </li>
               <li>
                 <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
@@ -71,19 +82,19 @@ export const Footer = memo(function Footer() {
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
+                <button onClick={() => openModal('contact')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
                   Bize Ulaşın
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
+                <button onClick={() => openModal('contact')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
                   Destek
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
+                <button onClick={() => openModal('contact')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300">
                   Geri Bildirim
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -108,5 +119,23 @@ export const Footer = memo(function Footer() {
         </div>
       </div>
     </footer>
+
+    {/* Modals */}
+    <InfoModal isOpen={activeModal === 'how-it-works'} onClose={closeModal} title="Nasıl Çalışır?">
+      <HowItWorks />
+    </InfoModal>
+
+    <InfoModal isOpen={activeModal === 'faq'} onClose={closeModal} title="Sıkça Sorulan Sorular">
+      <FAQ />
+    </InfoModal>
+
+    <InfoModal isOpen={activeModal === 'write-review'} onClose={closeModal} title="Yorum Yaz">
+      <WriteReview />
+    </InfoModal>
+
+    <InfoModal isOpen={activeModal === 'contact'} onClose={closeModal} title="Bize Ulaşın">
+      <ContactUs />
+    </InfoModal>
+    </>
   );
 });

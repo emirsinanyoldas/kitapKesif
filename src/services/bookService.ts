@@ -1,5 +1,6 @@
-import { supabase } from '../lib/supabase';
+import { supabase, hasSupabaseConnection } from '../lib/supabase';
 import { Book } from '../types';
+import { OpenLibraryService } from './openLibraryService';
 
 // Simple in-memory cache
 let booksCache: { data: Book[] | null; timestamp: number } | null = null;
@@ -15,6 +16,12 @@ export class BookService {
       const now = Date.now();
       if (booksCache && (now - booksCache.timestamp) < CACHE_DURATION) {
         return { data: booksCache.data, error: null };
+      }
+
+      // If no Supabase connection, use Open Library API
+      if (!hasSupabaseConnection) {
+        console.warn('⚠️ Using Open Library API as fallback. Configure Supabase for full features.');
+        return await this.fetchBooksFromOpenLibrary();
       }
 
       const { data, error } = await supabase
@@ -34,6 +41,58 @@ export class BookService {
       return {
         data: null,
         error: error instanceof Error ? error : new Error('Unknown error occurred'),
+      };
+    }
+  }
+
+  /**
+   * Fetch books from Open Library API (fallback mode)
+   */
+  static async fetchBooksFromOpenLibrary(): Promise<{ data: Book[] | null; error: Error | null }> {
+    try {
+      // Check cache first
+      const now = Date.now();
+      if (booksCache && (now - booksCache.timestamp) < CACHE_DURATION) {
+        return { data: booksCache.data, error: null };
+      }
+
+      // Popular search queries for diverse books
+      const queries = [
+        'bestseller',
+        'classic literature',
+        'science fiction',
+        'fantasy',
+        'mystery'
+      ];
+
+      const { data, error } = await OpenLibraryService.fetchBooksForImport(queries, 10);
+
+      if (error) {
+        return { data: null, error };
+      }
+
+      // Transform to full Book objects with generated IDs
+      const books: Book[] = (data || []).map((partialBook, index) => ({
+        id: `demo-${index}`,
+        title: partialBook.title || 'Unknown Title',
+        author: partialBook.author || 'Unknown Author',
+        description: partialBook.description || 'No description available.',
+        cover_image: partialBook.cover_image || '',
+        back_cover_image: partialBook.back_cover_image || null,
+        category: partialBook.category || 'General',
+        average_rating: partialBook.average_rating || 0,
+        total_reviews: partialBook.total_reviews || 0,
+        created_at: new Date().toISOString(),
+      }));
+
+      // Update cache
+      booksCache = { data: books, timestamp: now };
+
+      return { data: books, error: null };
+    } catch (error) {
+      return {
+        data: null,
+        error: error instanceof Error ? error : new Error('Failed to fetch from Open Library'),
       };
     }
   }

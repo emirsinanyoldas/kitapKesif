@@ -41,6 +41,7 @@ function App() {
         onSearch={setSearchQuery}
         onCategoryFilter={setSelectedCategory}
         categories={categories}
+        selectedCategory={selectedCategory}
       />
 
       <main className="container mx-auto px-6 pb-12">
