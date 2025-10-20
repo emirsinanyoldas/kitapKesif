@@ -10,24 +10,33 @@ export function useBookModal() {
   const [error, setError] = useState<string | null>(null);
 
   const openModal = useCallback(async (book: Book) => {
+    console.log('Opening modal for book:', book);
     setSelectedBook(book);
     setLoading(true);
     setError(null);
 
-    const { data, error: fetchError } = await ReviewService.fetchReviewsByBookId(book.id);
+    try {
+      const { data, error: fetchError } = await ReviewService.fetchReviewsByBookId(book.id);
 
-    if (fetchError) {
+      if (fetchError) {
+        console.error('Error fetching reviews:', fetchError);
+        setError(MESSAGES.ERROR_FETCHING_REVIEWS);
+        setReviews([]);
+      } else {
+        console.log('Fetched reviews:', data);
+        setReviews(data || []);
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching reviews:', err);
       setError(MESSAGES.ERROR_FETCHING_REVIEWS);
-      console.error('Error fetching reviews:', fetchError);
+      setReviews([]);
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setReviews(data || []);
-    setLoading(false);
   }, []);
 
   const closeModal = useCallback(() => {
+    console.log('Closing modal');
     setSelectedBook(null);
     setReviews([]);
     setError(null);

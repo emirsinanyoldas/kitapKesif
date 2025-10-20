@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 interface InfoModalProps {
   isOpen: boolean;
@@ -9,6 +9,8 @@ interface InfoModalProps {
 }
 
 export const InfoModal = memo(function InfoModal({ isOpen, onClose, title, children }: InfoModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
   // Close modal on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -18,6 +20,37 @@ export const InfoModal = memo(function InfoModal({ isOpen, onClose, title, child
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
+      
+      // Scroll to modal when it opens
+      const scrollToModal = () => {
+        if (modalRef.current) {
+          // Check if modal is already in viewport
+          const rect = modalRef.current.getBoundingClientRect();
+          const isInViewport = (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+          );
+
+          // Only scroll if modal is not in viewport
+          if (!isInViewport) {
+            modalRef.current.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center',
+              inline: 'center'
+            });
+          }
+        }
+      };
+
+      // Use requestAnimationFrame for better timing
+      if (modalRef.current) {
+        requestAnimationFrame(() => {
+          // Fallback to setTimeout if needed
+          setTimeout(scrollToModal, 50);
+        });
+      }
     }
 
     return () => {
@@ -30,6 +63,7 @@ export const InfoModal = memo(function InfoModal({ isOpen, onClose, title, child
 
   return (
     <div 
+      ref={modalRef}
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
       onClick={onClose}
     >

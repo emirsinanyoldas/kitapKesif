@@ -1,19 +1,22 @@
+import { Book } from '../types';
+
 /**
- * Format date to Turkish locale
+ * Format rating to one decimal place
  */
-export function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('tr-TR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+export function formatRating(rating: number): string {
+  return rating.toFixed(1);
 }
 
 /**
- * Format rating to fixed decimal
+ * Format date to readable format
  */
-export function formatRating(rating: number, decimals: number = 1): string {
-  return rating.toFixed(decimals);
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('tr-TR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 }
 
 /**
@@ -22,21 +25,61 @@ export function formatRating(rating: number, decimals: number = 1): string {
 export function scrollToTop(): void {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
+    behavior: 'smooth'
   });
 }
 
 /**
- * Check if string is empty or whitespace
+ * Scroll to element with ID
  */
-export function isEmpty(str: string): boolean {
-  return !str || str.trim().length === 0;
+export function scrollToElement(id: string): void {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
 }
 
 /**
- * Truncate text to specified length
+ * Ensure element is visible in viewport
  */
-export function truncate(text: string, length: number): string {
-  if (text.length <= length) return text;
-  return text.substring(0, length) + '...';
+export function ensureElementInViewport(element: HTMLElement): void {
+  const rect = element.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  
+  // If element is not in viewport, scroll to it
+  if (rect.top < 0 || rect.bottom > viewportHeight) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+}
+
+/**
+ * Get current scroll position
+ */
+export function getScrollPosition(): { x: number; y: number } {
+  return {
+    x: window.pageXOffset || document.documentElement.scrollLeft,
+    y: window.pageYOffset || document.documentElement.scrollTop
+  };
+}
+
+/**
+ * Check if element is in viewport
+ */
+export function isElementInViewport(element: HTMLElement): boolean {
+  const rect = element.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= viewportHeight &&
+    rect.right <= viewportWidth
+  );
 }

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Header } from './components/Header';
 import { SearchBar } from './components/SearchBar';
 import { BookCard } from './components/BookCard';
@@ -28,6 +28,18 @@ function App() {
   const handleSettingsClick = () => {
     alert(MESSAGES.SETTINGS_COMING_SOON);
   };
+
+  // Log any errors with lazy loading
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      if (event.filename && event.filename.includes('BookModal')) {
+        console.error('Error loading BookModal:', event.error);
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-100 via-amber-50 to-orange-200 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 transition-colors duration-300">

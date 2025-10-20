@@ -2,7 +2,7 @@ import { X, Star, User } from 'lucide-react';
 import { Book, Review } from '../types';
 import { formatDate, formatRating } from '../utils';
 import { MESSAGES } from '../constants';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 interface BookModalProps {
   book: Book;
@@ -11,9 +11,13 @@ interface BookModalProps {
 }
 
 export const BookModal = memo(function BookModal({ book, reviews, onClose }: BookModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
   // Debug: Log book data to console
-  console.log('BookModal - Book data:', book);
-  console.log('BookModal - Reviews:', reviews);
+  useEffect(() => {
+    console.log('BookModal - Book data:', book);
+    console.log('BookModal - Reviews:', reviews);
+  }, [book, reviews]);
 
   // Ensure we have valid book data
   if (!book) {
@@ -21,15 +25,72 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
     return null;
   }
 
+  // Handle escape key to close modal and scroll to modal
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    // Scroll to modal when it opens
+    const scrollToModal = () => {
+      if (modalRef.current) {
+        // Check if modal is already in viewport
+        const rect = modalRef.current.getBoundingClientRect();
+        const isInViewport = (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+
+        // Only scroll if modal is not in viewport
+        if (!isInViewport) {
+          modalRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+          });
+        }
+      }
+    };
+
+    // Use requestAnimationFrame for better timing
+    if (modalRef.current) {
+      requestAnimationFrame(() => {
+        // Fallback to setTimeout if needed
+        setTimeout(scrollToModal, 50);
+      });
+    }
+
+    document.addEventListener('keydown', handleEscape);
+    // Prevent body scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      // Restore body scrolling when modal is closed
+      document.body.style.overflow = 'unset';
+    };
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+    <div 
+      ref={modalRef}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" 
+      onClick={onClose}
+    >
       <div
         className="relative w-full max-w-6xl max-h-[90vh] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
       >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 dark:bg-slate-700/90 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+          aria-label="Close modal"
         >
           <X className="w-6 h-6" />
         </button>
@@ -42,6 +103,10 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
                   src={book.cover_image}
                   alt={book.title}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://placehold.co/300x400?text=Kapak+Resmi+Yok';
+                  }}
                 />
               </div>
             </div>
@@ -101,6 +166,16 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
                                 src={review.user_avatar}
                                 alt={review.user_name}
                                 className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.parentElement!.innerHTML = `
+                                    <div class="w-full h-full flex items-center justify-center">
+                                      <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                      </svg>
+                                    </div>
+                                  `;
+                                }}
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
