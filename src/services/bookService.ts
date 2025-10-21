@@ -4,11 +4,13 @@ import { OpenLibraryService } from './openLibraryService';
 
 // Simple in-memory cache
 let booksCache: { data: Book[] | null; timestamp: number } | null = null;
+let fallbackBooksCache: { data: Book[] | null; timestamp: number } | null = null;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 export class BookService {
   /**
    * Fetch all books ordered by rating (with caching)
+   * Combines database books and fallback books to ensure all content is displayed
    */
   static async fetchBooks(): Promise<{ data: Book[] | null; error: Error | null }> {
     try {
@@ -18,25 +20,52 @@ export class BookService {
         return { data: booksCache.data, error: null };
       }
 
-      // If no Supabase connection, use Open Library API
-      if (!hasSupabaseConnection) {
-        console.warn('⚠️ Using Open Library API as fallback. Configure Supabase for full features.');
-        return await this.fetchBooksFromOpenLibrary();
+      let allBooks: Book[] = [];
+      const errors: string[] = [];
+
+      // Always try to fetch from Supabase if credentials are configured
+      if (hasSupabaseConnection) {
+        try {
+          const { data, error } = await supabase
+            .from('books')
+            .select('*')
+            .order('average_rating', { ascending: false });
+
+          if (error) {
+            errors.push(`Database error: ${error.message}`);
+          } else {
+            allBooks = [...allBooks, ...(data || [])];
+          }
+        } catch (dbError) {
+          errors.push(`Database fetch failed: ${dbError instanceof Error ? dbError.message : 'Unknown error'}`);
+        }
       }
 
-      const { data, error } = await supabase
-        .from('books')
-        .select('*')
-        .order('average_rating', { ascending: false });
-
-      if (error) {
-        return { data: null, error: new Error(error.message) };
+      // If no Supabase connection or if database fetch failed, use Open Library API
+      if (!hasSupabaseConnection || allBooks.length === 0) {
+        console.warn('⚠️ Using Open Library API as fallback. Configure Supabase for full features.');
+        const fallbackResult = await this.fetchBooksFromOpenLibrary();
+        
+        if (fallbackResult.error) {
+          errors.push(`Fallback error: ${fallbackResult.error.message}`);
+        } else {
+          // Merge fallback books with existing books, avoiding duplicates
+          const fallbackBooks = fallbackResult.data || [];
+          const uniqueFallbackBooks = fallbackBooks.filter(fallbackBook => 
+            !allBooks.some(existingBook => existingBook.title === fallbackBook.title)
+          );
+          allBooks = [...allBooks, ...uniqueFallbackBooks];
+        }
       }
 
       // Update cache
-      booksCache = { data: data || [], timestamp: now };
+      booksCache = { data: allBooks, timestamp: now };
 
-      return { data: data || [], error: null };
+      if (errors.length > 0) {
+        console.warn('⚠️ Some book sources had errors:', errors.join('; '));
+      }
+
+      return { data: allBooks, error: null };
     } catch (error) {
       return {
         data: null,
@@ -52,8 +81,8 @@ export class BookService {
     try {
       // Check cache first
       const now = Date.now();
-      if (booksCache && (now - booksCache.timestamp) < CACHE_DURATION) {
-        return { data: booksCache.data, error: null };
+      if (fallbackBooksCache && (now - fallbackBooksCache.timestamp) < CACHE_DURATION) {
+        return { data: fallbackBooksCache.data, error: null };
       }
 
       // Popular search queries for diverse books
@@ -86,7 +115,7 @@ export class BookService {
       }));
 
       // Update cache
-      booksCache = { data: books, timestamp: now };
+      fallbackBooksCache = { data: books, timestamp: now };
 
       return { data: books, error: null };
     } catch (error) {
@@ -102,6 +131,7 @@ export class BookService {
    */
   static clearCache(): void {
     booksCache = null;
+    fallbackBooksCache = null;
   }
 
   /**

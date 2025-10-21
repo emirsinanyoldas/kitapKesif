@@ -19,7 +19,7 @@ export function measureRenderTime(componentName: string, callback: () => void): 
 /**
  * Debounce function for performance optimization
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -41,7 +41,7 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle function for performance optimization
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
@@ -117,8 +117,12 @@ export function prefersReducedMotion(): boolean {
  * Get connection quality
  */
 export function getConnectionQuality(): 'slow' | 'fast' | 'unknown' {
-  // Using 'any' here because these are non-standard properties
-  const nav: any = navigator;
+  // Using type assertion here because these are non-standard properties
+  const nav = navigator as Navigator & {
+    connection?: { effectiveType?: string };
+    mozConnection?: { effectiveType?: string };
+    webkitConnection?: { effectiveType?: string };
+  };
   const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
   
   if (!connection) {
@@ -139,8 +143,8 @@ export function getConnectionQuality(): 'slow' | 'fast' | 'unknown' {
  * Request idle callback for non-critical tasks
  */
 export function runWhenIdle(callback: () => void): void {
-  // Using 'any' here because requestIdleCallback might not be available
-  const win: any = window;
+  // Using type assertion here because requestIdleCallback might not be available
+  const win = window as Window & typeof globalThis & { requestIdleCallback?: (callback: () => void) => number };
   if (win.requestIdleCallback) {
     win.requestIdleCallback(callback);
   } else {
