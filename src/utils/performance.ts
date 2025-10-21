@@ -117,7 +117,9 @@ export function prefersReducedMotion(): boolean {
  * Get connection quality
  */
 export function getConnectionQuality(): 'slow' | 'fast' | 'unknown' {
-  const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+  // Using 'any' here because these are non-standard properties
+  const nav: any = navigator;
+  const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
   
   if (!connection) {
     return 'unknown';
@@ -137,8 +139,10 @@ export function getConnectionQuality(): 'slow' | 'fast' | 'unknown' {
  * Request idle callback for non-critical tasks
  */
 export function runWhenIdle(callback: () => void): void {
-  if ('requestIdleCallback' in window) {
-    (window as any).requestIdleCallback(callback);
+  // Using 'any' here because requestIdleCallback might not be available
+  const win: any = window;
+  if (win.requestIdleCallback) {
+    win.requestIdleCallback(callback);
   } else {
     setTimeout(callback, 1);
   }

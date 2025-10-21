@@ -13,18 +13,6 @@ interface BookModalProps {
 export const BookModal = memo(function BookModal({ book, reviews, onClose }: BookModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Debug: Log book data to console
-  useEffect(() => {
-    console.log('BookModal - Book data:', book);
-    console.log('BookModal - Reviews:', reviews);
-  }, [book, reviews]);
-
-  // Ensure we have valid book data
-  if (!book) {
-    console.error('BookModal - No book data provided');
-    return null;
-  }
-
   // Handle escape key to close modal and scroll to modal
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -32,6 +20,10 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
         onClose();
       }
     };
+
+    // Debug: Log book data to console
+    console.log('BookModal - Book data:', book);
+    console.log('BookModal - Reviews:', reviews);
 
     // Scroll to modal when it opens
     const scrollToModal = () => {
@@ -73,7 +65,13 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
       // Restore body scrolling when modal is closed
       document.body.style.overflow = 'unset';
     };
-  }, [onClose]);
+  }, [book, reviews, onClose]);
+
+  // Ensure we have valid book data
+  if (!book) {
+    console.error('BookModal - No book data provided');
+    return null;
+  }
 
   return (
     <div 

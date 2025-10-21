@@ -5,146 +5,146 @@
 
 ---
 
-## 🎯 Database Overview
+## 🎯 Veritabanı Genel Bakışı
 
-Your KitapKeşif project uses **Supabase (PostgreSQL)** as the database backend. I've analyzed your current setup and will guide you through everything SQL-related.
+KitapKeşif projeniz veritabanı arka ucu olarak **Supabase (PostgreSQL)** kullanır. Mevcut kurulumunuzu analiz ettim ve size SQL ile ilgili her şeyi rehberlik edeceğim.
 
-### **Current Database Status:**
+### **Mevcut Veritabanı Durumu:**
 
-✅ **Connected:** Supabase PostgreSQL  
-✅ **Tables:** 2 tables (books, reviews)  
-✅ **Security:** Row Level Security (RLS) enabled  
-✅ **Performance:** Basic indexes implemented  
-⚠️ **Issue:** Missing INSERT/UPDATE policies (needs fixing)
-
----
-
-## 📋 Table of Contents
-
-1. [Current Database Schema](#current-database-schema)
-2. [Required SQL Fixes](#required-sql-fixes)
-3. [How to Execute SQL](#how-to-execute-sql)
-4. [Database Management](#database-management)
-5. [Performance Optimization](#performance-optimization)
-6. [Security Best Practices](#security-best-practices)
-7. [Common SQL Operations](#common-sql-operations)
+✅ **Bağlandı:** Supabase PostgreSQL  
+✅ **Tablolar:** 2 tablo (books, reviews)  
+✅ **Güvenlik:** Satır Seviyesi Güvenlik (RLS) etkin  
+✅ **Performans:** Temel dizinler uygulandı  
+⚠️ **Sorun:** INSERT/UPDATE politikaları eksik (düzeltme gerekiyor)
 
 ---
 
-## 🗄️ Current Database Schema
+## 📋 İçindekiler
 
-### **Table 1: books**
+1. [Mevcut Veritabanı Şeması](#mevcut-veritabanı-şeması)
+2. [Gerekli SQL Düzeltmeleri](#gerekli-sql-düzeltmeleri)
+3. [SQL Nasıl Yürütülür](#sql-nasıl-yürütülür)
+4. [Veritabanı Yönetimi](#veritabanı-yönetimi)
+5. [Performans Optimizasyonu](#performans-optimizasyonu)
+6. [Güvenlik En İyi Uygulamaları](#güvenlik-en-iyi-uygulamaları)
+7. [Yaygın SQL İşlemleri](#yaygın-sql-işlemleri)
 
-Stores all book information including metadata, covers, and ratings.
+---
+
+## 🗄️ Mevcut Veritabanı Şeması
+
+### **Tablo 1: books**
+
+Tüm kitap bilgilerini, meta verileri, kapakları ve derecelendirmeleri saklar.
 
 ```sql
 CREATE TABLE books (
-  -- Primary Key
+  -- Birincil Anahtar
   id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   
-  -- Book Information
+  -- Kitap Bilgileri
   title           text NOT NULL,
   author          text NOT NULL,
   description     text NOT NULL,
   
-  -- Images
+  -- Görseller
   cover_image     text NOT NULL,
   back_cover_image text,
   
-  -- Classification
+  -- Sınıflandırma
   category        text NOT NULL,
   
-  -- Ratings & Reviews
+  -- Derecelendirmeler ve İncelemeler
   average_rating  numeric DEFAULT 0,
   total_reviews   integer DEFAULT 0,
   
-  -- Metadata
+  -- Meta Veriler
   created_at      timestamptz DEFAULT now()
 );
 ```
 
-**Fields Explained:**
-- `id`: Unique identifier (auto-generated UUID)
-- `title`: Book title
-- `author`: Primary author name
-- `description`: Book description/summary
-- `cover_image`: Front cover URL
-- `back_cover_image`: Back cover URL (optional)
-- `category`: Genre/category (Fiction, Fantasy, etc.)
-- `average_rating`: Calculated average from reviews
-- `total_reviews`: Count of reviews
-- `created_at`: When book was added
+**Alanlar Açıklanmıştır:**
+- `id`: Benzersiz tanımlayıcı (otomatik oluşturulan UUID)
+- `title`: Kitap başlığı
+- `author`: Birincil yazar adı
+- `description`: Kitap açıklaması/özeti
+- `cover_image`: Ön kapak URL'si
+- `back_cover_image`: Arka kapak URL'si (isteğe bağlı)
+- `category`: Tür/kategori (Kurgu, Fantastik, vb.)
+- `average_rating`: İncelemelerden hesaplanan ortalama
+- `total_reviews`: İnceleme sayısı
+- `created_at`: Kitabın eklendiği zaman
 
 ---
 
-### **Table 2: reviews**
+### **Tablo 2: reviews**
 
-Stores user reviews and ratings for books.
+Kitaplar için kullanıcı incelemelerini ve derecelendirmelerini saklar.
 
 ```sql
 CREATE TABLE reviews (
-  -- Primary Key
+  -- Birincil Anahtar
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   
-  -- Foreign Key (relationship to books)
+  -- Yabancı Anahtar (kitaplar tablosuyla ilişki)
   book_id       uuid NOT NULL REFERENCES books(id) ON DELETE CASCADE,
   
-  -- User Information
+  -- Kullanıcı Bilgileri
   user_name     text NOT NULL,
   user_avatar   text NOT NULL,
   
-  -- Review Content
+  -- İnceleme İçeriği
   rating        integer NOT NULL CHECK (rating >= 1 AND rating <= 5),
   comment       text NOT NULL,
   
-  -- Metadata
+  -- Meta Veriler
   created_at    timestamptz DEFAULT now()
 );
 ```
 
-**Fields Explained:**
-- `id`: Unique identifier (auto-generated UUID)
-- `book_id`: Links to books table (foreign key)
-- `user_name`: Reviewer's name
-- `user_avatar`: Reviewer's avatar URL
-- `rating`: 1-5 stars (validated by CHECK constraint)
-- `comment`: Review text
-- `created_at`: When review was posted
+**Alanlar Açıklanmıştır:**
+- `id`: Benzersiz tanımlayıcı (otomatik oluşturulan UUID)
+- `book_id`: Kitaplar tablosuna bağlar (yabancı anahtar)
+- `user_name`: İnceleyenin adı
+- `user_avatar`: İnceleyenin avatar URL'si
+- `rating`: 1-5 yıldız (CHECK kısıtlaması ile doğrulanır)
+- `comment`: İnceleme metni
+- `created_at`: İncelemenin yayınlandığı zaman
 
 ---
 
-### **Table Relationships**
+### **Tablo İlişkileri**
 
 ```
-books (1) ←──── (Many) reviews
-  └── One book can have many reviews
-  └── If book deleted, all its reviews deleted (CASCADE)
+books (1) ←──── (Çok) reviews
+  └── Bir kitabın birçok incelemesi olabilir
+  └── Kitap silinirse, tüm incelemeleri silinir (CASCADE)
 ```
 
 ---
 
-## 🔧 Required SQL Fixes
+## 🔧 Gerekli SQL Düzeltmeleri
 
-### **CRITICAL: Fix Row Level Security Policies**
+### **KRİTİK: Satır Seviyesi Güvenlik Politikalarını Düzeltin**
 
-Your database currently **blocks INSERT and UPDATE operations**. Here's the fix:
+Veritabanınız şu anda **INSERT ve UPDATE işlemlerini engelliyor**. İşte düzeltme:
 
-#### **Step 1: Open Supabase SQL Editor**
+#### **1. Adım: Supabase SQL Düzenleyiciyi Açın**
 
-1. Go to: https://supabase.com/dashboard
-2. Select your project
-3. Click **"SQL Editor"** in sidebar
-4. Click **"New query"**
+1. Şuraya gidin: https://supabase.com/dashboard
+2. Projenizi seçin
+3. Kenar çubuğunda **"SQL Editor"**'a tıklayın
+4. **"New query"**'e tıklayın
 
-#### **Step 2: Run This SQL**
+#### **2. Adım: Bu SQL'i Çalıştırın**
 
 ```sql
 -- ============================================
--- FIX DATABASE PERMISSIONS
--- Run this in Supabase SQL Editor
+-- VERİTABANI İZİNLERİNİ DÜZELT
+-- Bunu Supabase SQL Düzenleyicide çalıştırın
 -- ============================================
 
--- Fix books table policies
+-- Kitaplar tablosu politikalarını düzelt
 DROP POLICY IF EXISTS "Anyone can insert books" ON books;
 DROP POLICY IF EXISTS "Anyone can update books" ON books;
 
@@ -159,7 +159,7 @@ CREATE POLICY "Anyone can update books"
   USING (true)
   WITH CHECK (true);
 
--- Fix reviews table policies
+-- İncelemeler tablosu politikalarını düzelt
 DROP POLICY IF EXISTS "Anyone can insert reviews" ON reviews;
 DROP POLICY IF EXISTS "Anyone can update reviews" ON reviews;
 
@@ -174,7 +174,7 @@ CREATE POLICY "Anyone can update reviews"
   USING (true)
   WITH CHECK (true);
 
--- Verify policies are active
+-- Politikaların aktif olduğunu doğrula
 SELECT 
   schemaname,
   tablename,
@@ -185,10 +185,10 @@ WHERE tablename IN ('books', 'reviews')
 ORDER BY tablename, policyname;
 ```
 
-#### **Expected Result:**
+#### **Beklenen Sonuç:**
 
-You should see output like:
-```
+Şu çıktıyı görmelisiniz:
+```sql
 schemaname | tablename | policyname                  | operation
 -----------+-----------+-----------------------------+-----------
 public     | books     | Anyone can insert books     | INSERT
@@ -201,29 +201,29 @@ public     | reviews   | Anyone can view reviews     | SELECT
 
 ---
 
-## 📝 How to Execute SQL
+## 📝 SQL Nasıl Yürütülür
 
-### **Method 1: Supabase SQL Editor (Recommended)**
+### **Yöntem 1: Supabase SQL Düzenleyici (Önerilen)**
 
-**Best for:** One-time queries, schema changes, data fixes
+**En iyi kullanım:** Tek seferlik sorgular, şema değişiklikleri, veri düzeltmeleri
 
-1. **Login to Supabase:** https://supabase.com/dashboard
-2. **Select Project:** Choose your KitapKeşif project
-3. **Open SQL Editor:** Click "SQL Editor" in left sidebar
-4. **New Query:** Click "New query" button
-5. **Paste SQL:** Copy any SQL code I provide
-6. **Run:** Click "Run" or press `Ctrl+Enter`
-7. **Check Results:** View output below
+1. **Supabase'e Giriş Yapın:** https://supabase.com/dashboard
+2. **Proje Seçin:** KitapKeşif projenizi seçin
+3. **SQL Düzenleyiciyi Açın:** Sol kenar çubuğunda "SQL Editor"a tıklayın
+4. **Yeni Sorgu:** "New query" düğmesine tıklayın
+5. **SQL Yapıştırın:** Size verdiğim SQL kodunu kopyalayın
+6. **Çalıştırın:** "Run" veya `Ctrl+Enter` tuşuna basın
+7. **Sonuçları Kontrol Edin:** Aşağıdaki çıktıyı görüntüleyin
 
 ---
 
-### **Method 2: Migration Files**
+### **Yöntem 2: Geçiş Dosyaları**
 
-**Best for:** Version-controlled schema changes
+**En iyi kullanım:** Sürüm kontrolü ile şema değişiklikleri
 
-All migration files are in: `supabase/migrations/`
+Tüm geçiş dosyaları şurada: `supabase/migrations/`
 
-**Existing Migrations:**
+**Mevcut Geçişler:**
 ```
 20251011080112_create_books_and_reviews_schema.sql
 20251015000000_add_diverse_realistic_reviews.sql
@@ -231,19 +231,19 @@ All migration files are in: `supabase/migrations/`
 20251017000000_allow_book_inserts.sql
 ```
 
-**To create new migration:**
-1. Create file: `supabase/migrations/YYYYMMDDHHMMSS_description.sql`
-2. Add your SQL code
-3. Run in Supabase SQL Editor
+**Yeni geçiş oluşturmak için:**
+1. Dosya oluşturun: `supabase/migrations/YYYYMMDDHHMMSS_aciklama.sql`
+2. SQL kodunuzu ekleyin
+3. Supabase SQL Düzenleyicide çalıştırın
 
 ---
 
-## 🎯 Common SQL Operations
+## 🎯 Yaygın SQL İşlemleri
 
-### **1. View All Books**
+### **1. Tüm Kitapları Görüntüle**
 
 ```sql
--- Get all books with their ratings
+-- Tüm kitapları derecelendirmeleriyle birlikte alın
 SELECT 
   id,
   title,
@@ -259,10 +259,10 @@ LIMIT 50;
 
 ---
 
-### **2. Count Books by Category**
+### **2. Kategoriye Göre Kitap Sayısı**
 
 ```sql
--- See how many books in each category
+-- Her kategoride kaç kitap olduğunu görün
 SELECT 
   category,
   COUNT(*) as book_count,
@@ -274,10 +274,10 @@ ORDER BY book_count DESC;
 
 ---
 
-### **3. Find Books Without Reviews**
+### **3. İncelemesiz Kitapları Bul**
 
 ```sql
--- Books that need reviews
+-- İncelemeye ihtiyacı olan kitaplar
 SELECT 
   b.id,
   b.title,
@@ -290,10 +290,10 @@ ORDER BY b.created_at DESC;
 
 ---
 
-### **4. Top Rated Books**
+### **4. En İyi Dereceli Kitaplar**
 
 ```sql
--- Best books with at least 3 reviews
+-- En az 3 incelemeye sahip en iyi kitaplar
 SELECT 
   title,
   author,
@@ -308,10 +308,10 @@ LIMIT 10;
 
 ---
 
-### **5. Recent Reviews**
+### **5. Son İncelemeler**
 
 ```sql
--- Latest reviews across all books
+-- Tüm kitaplardaki en son incelemeler
 SELECT 
   r.id,
   b.title as book_title,
@@ -327,10 +327,10 @@ LIMIT 20;
 
 ---
 
-### **6. Book Details with Reviews**
+### **6. Kitap Detayları ve İncelemeler**
 
 ```sql
--- Get a specific book with all its reviews
+-- Belirli bir kitabı tüm incelemeleriyle birlikte alın
 SELECT 
   b.title,
   b.author,
@@ -342,16 +342,16 @@ SELECT
   r.created_at as review_date
 FROM books b
 LEFT JOIN reviews r ON b.id = r.book_id
-WHERE b.title ILIKE '%hobbit%'  -- Change book title here
+WHERE b.title ILIKE '%hobbit%'  -- Kitap başlığını burada değiştirin
 ORDER BY r.created_at DESC;
 ```
 
 ---
 
-### **7. Add a Book Manually**
+### **7. Manuel Olarak Kitap Ekleyin**
 
 ```sql
--- Insert a single book
+-- Tek bir kitap ekleyin
 INSERT INTO books (
   title,
   author,
@@ -375,10 +375,10 @@ INSERT INTO books (
 
 ---
 
-### **8. Update Book Rating**
+### **8. Kitap Derecelendirmesini Güncelle**
 
 ```sql
--- Recalculate average rating for a book
+-- Bir kitap için ortalama derecelendirmeyi yeniden hesaplayın
 UPDATE books
 SET 
   average_rating = (
@@ -398,10 +398,10 @@ WHERE id IN (
 
 ---
 
-### **9. Delete Old Books**
+### **9. Eski Kitapları Sil**
 
 ```sql
--- Remove books older than 1 year with no reviews
+-- 1 yıldan fazla süredir incelemesi olmayan kitapları kaldır
 DELETE FROM books
 WHERE total_reviews = 0
   AND created_at < NOW() - INTERVAL '1 year';
@@ -409,10 +409,10 @@ WHERE total_reviews = 0
 
 ---
 
-### **10. Search Books**
+### **10. Kitapları Ara**
 
 ```sql
--- Full-text search across title, author, description
+-- Başlık, yazar, açıklama ve kategori genelinde tam metin araması
 SELECT 
   id,
   title,
@@ -430,70 +430,70 @@ ORDER BY average_rating DESC;
 
 ---
 
-## 🚀 Performance Optimization
+## 🚀 Performans Optimizasyonu
 
-### **Current Indexes**
+### **Mevcut Dizinler**
 
-Your database already has these performance indexes:
+Veritabanınızda zaten şu performans dizinleri var:
 
 ```sql
--- Existing indexes
-idx_books_category          -- Fast category filtering
-idx_books_rating            -- Fast sorting by rating
-idx_reviews_book_id         -- Fast review lookups
-idx_reviews_created_at      -- Fast recent reviews
+-- Mevcut dizinler
+idx_books_category          -- Hızlı kategori filtreleme
+idx_books_rating            -- Derecelendirmeye göre hızlı sıralama
+idx_reviews_book_id         -- Hızlı inceleme aramaları
+idx_reviews_created_at      -- Hızlı son incelemeler
 ```
 
-### **Recommended Additional Indexes**
+### **Önerilen Ek Dizinler**
 
 ```sql
--- Add text search index for better search performance
+-- Daha iyi arama performansı için tam metin arama dizini ekleyin
 CREATE INDEX idx_books_title_search 
 ON books USING gin(to_tsvector('english', title));
 
 CREATE INDEX idx_books_author_search 
 ON books USING gin(to_tsvector('english', author));
 
--- Add composite index for common queries
+-- Ortak sorgular için bileşik dizin ekleyin
 CREATE INDEX idx_books_category_rating 
 ON books(category, average_rating DESC);
 
--- Add index for book lookups by creation date
+-- Oluşturma tarihine göre kitap aramaları için dizin ekleyin
 CREATE INDEX idx_books_created_at 
 ON books(created_at DESC);
 ```
 
 ---
 
-## 🔒 Security Best Practices
+## 🔒 Güvenlik En İyi Uygulamaları
 
-### **Row Level Security (RLS)**
+### **Satır Seviyesi Güvenlik (RLS)**
 
-✅ **Already Enabled:** Both tables have RLS active
+✅ **Zaten Etkin:** Her iki tabloda da RLS aktif
 
-**Current Policies:**
-- ✅ SELECT (read) - Public access
-- ⚠️ INSERT (create) - **NEEDS FIXING** (see Required SQL Fixes)
-- ⚠️ UPDATE (modify) - **NEEDS FIXING** (see Required SQL Fixes)
-- ❌ DELETE (remove) - Not allowed (good for data integrity)
+**Mevcut Politikalar:**
+- ✅ SELECT (okuma) - Genel erişim
+- ⚠️ INSERT (oluşturma) - **DÜZELTME GEREKİR** (bkz. Gerekli SQL Düzeltmeleri)
+- ⚠️ UPDATE (değiştirme) - **DÜZELTME GEREKİR** (bkz. Gerekli SQL Düzeltmeleri)
+- ❌ DELETE (kaldırma) - İzin verilmez (veri bütünlüğü için iyi)
 
-### **Best Practices Applied:**
+### **Uygulanan En İyi Uygulamalar:**
 
-1. ✅ **UUID Primary Keys** - Unpredictable, secure
-2. ✅ **Foreign Key Constraints** - Data integrity
-3. ✅ **CHECK Constraints** - Valid ratings (1-5)
-4. ✅ **CASCADE Deletes** - Automatic cleanup
-5. ✅ **NOT NULL Constraints** - Required fields enforced
-6. ✅ **Timestamps** - Audit trail
+1. ✅ **UUID Birincil Anahtarlar** - Tahmin edilemeyen, güvenli
+2. ✅ **Yabancı Anahtar Kısıtlamaları** - Veri bütünlüğü
+3. ✅ **CHECK Kısıtlamaları** - Geçerli derecelendirmeler (1-5)
+4. ✅ **CASCADE Silmeler** - Otomatik temizlik
+5. ✅ **NOT NULL Kısıtlamaları** - Gerekli alanlar zorunlu
+6. ✅ **Zaman Damgaları** - Denetim izi
 
 ---
 
-## 📊 Database Maintenance
+## 📊 Veritabanı Bakımı
 
-### **Regular Health Checks**
+### **Düzenli Sağlık Kontrolleri**
 
 ```sql
--- Check database statistics
+-- Veritabanı istatistiklerini kontrol edin
 SELECT 
   schemaname,
   tablename,
@@ -505,10 +505,10 @@ WHERE schemaname = 'public'
 ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 ```
 
-### **Backup Verification**
+### **Yedekleme Doğrulama**
 
 ```sql
--- Count total records
+-- Toplam kayıtları say
 SELECT 
   'books' as table_name,
   COUNT(*) as total_records
@@ -520,10 +520,10 @@ SELECT
 FROM reviews;
 ```
 
-### **Check for Orphaned Reviews**
+### **Sahipsiz İncelemeleri Kontrol Edin**
 
 ```sql
--- Reviews with no matching book (should be empty)
+-- Eşleşen kitabı olmayan incelemeler (boş olmalıdır)
 SELECT r.*
 FROM reviews r
 LEFT JOIN books b ON r.book_id = b.id
@@ -532,68 +532,66 @@ WHERE b.id IS NULL;
 
 ---
 
-## 🎯 Next Steps
+## 🎯 Sonraki Adımlar
 
-### **Immediate Actions:**
+### **Acil Eylemler:**
 
-1. ✅ **Fix RLS Policies** - Run the SQL from "Required SQL Fixes" section
-2. ✅ **Import Books** - Run `npm run import-books` after fixing policies
-3. ✅ **Add Reviews** - Run `npm run add-reviews` to populate reviews
-4. ✅ **Verify Data** - Use SQL queries to check everything works
+1. ✅ **RLS Politikalarını Düzelt** - "Gerekli SQL Düzeltmeleri" bölümünden SQL'i çalıştır
+2. ✅ **Kitapları İçe Aktar** - Politikaları düzelttikten sonra `npm run import-books` komutunu çalıştır
+3. ✅ **İnceleme Ekle** - `npm run add-reviews` komutunu çalıştırarak incelemeleri doldur
+4. ✅ **Verileri Doğrula** - Her şeyin çalıştığını kontrol etmek için SQL sorgularını kullan
 
-### **Optional Enhancements:**
+### **İsteğe Bağlı Geliştirmeler:**
 
-1. **Add Full-Text Search Indexes** - Better search performance
-2. **Create Database Functions** - Automate rating calculations
-3. **Add Triggers** - Auto-update ratings when reviews added
-4. **Implement Soft Deletes** - Keep deleted items for recovery
+1. **Tam Metin Arama Dizinleri Ekle** - Daha iyi arama performansı
+2. **Veritabanı Fonksiyonları Oluştur** - Derecelendirme hesaplamalarını otomatikleştir
+3. **Tetikleyiciler Ekle** - İnceleme eklendiğinde derecelendirmeleri otomatik güncelle
+4. **Yumuşak Silmeleri Uygula** - Kurtarma için silinen öğeleri sakla
 
 ---
 
-## 📞 Need Help?
+## 📞 Yardıma mı İhtiyacınız Var?
 
-### **Quick SQL Help Commands:**
+### **Hızlı SQL Yardım Komutları:**
 
 ```sql
--- List all tables
+-- Tüm tabloları listele
 \dt
 
--- Describe table structure
+-- Tablo yapısını tanımla
 \d books
 \d reviews
 
--- Show all policies
+-- Tüm politikaları göster
 SELECT * FROM pg_policies;
 
--- Show all indexes
+-- Tüm dizinleri göster
 SELECT * FROM pg_indexes WHERE schemaname = 'public';
 ```
 
 ---
 
-## ✅ Summary
+## ✅ Özet
 
-**Your Database:**
+**Veritabanınız:**
 - ✅ PostgreSQL via Supabase
-- ✅ Well-structured schema
-- ✅ Proper relationships
-- ✅ Performance indexes
-- ⚠️ Needs RLS policy fixes
+- ✅ İyi yapılandırılmış şema
+- ✅ Uygun ilişkiler
+- ✅ Performans dizinleri
+- ⚠️ RLS politikası düzeltmeleri gerekiyor
 
-**I'm handling:**
-- ✅ All SQL operations
-- ✅ Schema management
-- ✅ Performance optimization
-- ✅ Security configuration
-- ✅ Data integrity
+**Ben hallediyorum:**
+- ✅ Tüm SQL işlemleri
+- ✅ Şema yönetimi
+- ✅ Performans optimizasyonu
+- ✅ Güvenlik yapılandırması
+- ✅ Veri bütünlüğü
 
-**You need to:**
-1. Run the RLS fix SQL (one time)
-2. Use provided SQL queries when needed
-3. Let me know if you need any database changes
+**Sizin yapmanız gerekenler:**
+1. RLS düzeltme SQL'ini çalıştır (bir kez)
+2. Gerektiğinde sağlanan SQL sorgularını kullan
+3. Herhangi bir veritabanı değişikliği gerektiğinde bana bildir
 
 ---
 
-**Your SQL Database Specialist is ready!** 🚀
-
-All SQL operations are documented, optimized, and ready to use. No SQL knowledge required from your end - just follow the instructions above!
+**SQL Veritabanı Uzmanınız Hazır!** 🚀

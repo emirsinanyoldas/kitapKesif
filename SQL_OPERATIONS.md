@@ -1,42 +1,42 @@
-# 🎯 SQL Operations Guide - Quick Reference
+# 🎯 SQL İşlemleri Rehberi - Hızlı Referans
 
-**Your SQL Database Specialist - Ready-to-Use Queries**
+**SQL Veritabanı Uzmanınız - Kullanıma Hazır Sorgular**
 
-This guide contains all the SQL queries you might need for managing your book database. Simply copy and paste into Supabase SQL Editor.
+Bu rehber, kitap veritabanınızı yönetmek için ihtiyacınız olabilecek tüm SQL sorgularını içerir. Sadece kopyalayıp Supabase SQL Düzenleyiciye yapıştırın.
 
 ---
 
-## 📍 Quick Access
+## 📍 Hızlı Erişim
 
-**Supabase SQL Editor:** https://supabase.com/dashboard → Your Project → SQL Editor → New Query
+**Supabase SQL Düzenleyici:** https://supabase.com/dashboard → Projeniz → SQL Düzenleyici → Yeni Sorgu
 
-**Available NPM Commands:**
+**Mevcut NPM Komutları:**
 ```bash
-npm run check-db        # Check database health
-npm run import-books    # Import books from Open Library
-npm run add-reviews     # Add sample reviews
-npm run fix-db          # Fix database permissions (if needed)
-npm run sql -- "QUERY"  # Run custom SQL query
+npm run check-db        # Veritabanı sağlığını kontrol et
+npm run import-books    # Open Library'den kitap içe aktar
+npm run add-reviews     # Örnek incelemeler ekle
+npm run fix-db          # Veritabanı izinlerini düzelt (gerekirse)
+npm run sql -- "SORGU"  # Özel SQL sorgusu çalıştır
 ```
 
 ---
 
-## 🚨 CRITICAL: First-Time Setup
+## 🚨 KRİTİK: İlk Kurulum
 
-**Before importing books, run this once:**
+**Kitapları içe aktarmadan önce bunu bir kez çalıştırın:**
 
-See file: [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql)
+Dosyaya bakın: [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql)
 
-Or run: `npm run fix-db`
+Veya çalıştırın: `npm run fix-db`
 
 ---
 
-## 📊 Common Queries
+## 📊 Yaygın Sorgular
 
-### 1. View All Books
+### 1. Tüm Kitapları Görüntüle
 
 ```sql
--- Get all books with ratings
+-- Puanlarla birlikte tüm kitapları getir
 SELECT 
   id,
   title,
@@ -50,10 +50,10 @@ ORDER BY average_rating DESC, created_at DESC
 LIMIT 50;
 ```
 
-### 2. Count Books by Category
+### 2. Kategoriye Göre Kitap Sayısı
 
 ```sql
--- See distribution of books across categories
+-- Kitapların kategorilere dağılımını gör
 SELECT 
   category,
   COUNT(*) as book_count,
@@ -64,10 +64,10 @@ GROUP BY category
 ORDER BY book_count DESC;
 ```
 
-### 3. Top Rated Books
+### 3. En Yüksek Puanlı Kitaplar
 
 ```sql
--- Best books with at least 3 reviews
+-- En az 3 incelemeye sahip en iyi kitaplar
 SELECT 
   title,
   author,
@@ -81,10 +81,10 @@ ORDER BY average_rating DESC, total_reviews DESC
 LIMIT 20;
 ```
 
-### 4. Recently Added Books
+### 4. Son Eklenen Kitaplar
 
 ```sql
--- Books added in the last 7 days
+-- Son 7 günde eklenen kitaplar
 SELECT 
   title,
   author,
@@ -93,19 +93,19 @@ SELECT
   total_reviews,
   created_at,
   CASE 
-    WHEN created_at > NOW() - INTERVAL '1 day' THEN 'Today'
-    WHEN created_at > NOW() - INTERVAL '2 days' THEN 'Yesterday'
-    ELSE to_char(created_at, 'Mon DD, YYYY')
+    WHEN created_at > NOW() - INTERVAL '1 day' THEN 'Bugün'
+    WHEN created_at > NOW() - INTERVAL '2 days' THEN 'Dün'
+    ELSE to_char(created_at, 'DD Mon YYYY')
   END as added_when
 FROM books
 WHERE created_at > NOW() - INTERVAL '7 days'
 ORDER BY created_at DESC;
 ```
 
-### 5. Books Without Reviews
+### 5. İncelemesi Olmayan Kitaplar
 
 ```sql
--- Books that need reviews
+-- İncelemeye ihtiyacı olan kitaplar
 SELECT 
   id,
   title,
@@ -117,10 +117,10 @@ WHERE total_reviews = 0
 ORDER BY created_at DESC;
 ```
 
-### 6. Search Books
+### 6. Kitap Ara
 
 ```sql
--- Search by title, author, or category (case-insensitive)
+-- Başlığa, yazara veya kategoriye göre ara (büyük/küçük harf duyarsız)
 SELECT 
   id,
   title,
@@ -138,10 +138,10 @@ ORDER BY average_rating DESC
 LIMIT 20;
 ```
 
-### 7. Get Book Details with All Reviews
+### 7. Tüm İncelemelerle Kitap Detaylarını Al
 
 ```sql
--- Complete book information including all reviews
+-- Tüm incelemeler dahil olmak üzere eksiksiz kitap bilgisi
 SELECT 
   b.id as book_id,
   b.title,
@@ -157,14 +157,14 @@ SELECT
   r.created_at as review_date
 FROM books b
 LEFT JOIN reviews r ON b.id = r.book_id
-WHERE b.title ILIKE '%hobbit%'  -- Change book title here
+WHERE b.title ILIKE '%hobbit%'  -- Burada kitap başlığını değiştirin
 ORDER BY r.created_at DESC;
 ```
 
-### 8. Recent Reviews Across All Books
+### 8. Tüm Kitaplardaki Son İncelemeler
 
 ```sql
--- Latest reviews with book information
+-- Kitap bilgileriyle birlikte son incelemeler
 SELECT 
   r.id,
   b.title as book_title,
@@ -174,10 +174,10 @@ SELECT
   r.comment,
   r.created_at,
   CASE 
-    WHEN r.created_at > NOW() - INTERVAL '1 hour' THEN 'Just now'
-    WHEN r.created_at > NOW() - INTERVAL '1 day' THEN 'Today'
-    WHEN r.created_at > NOW() - INTERVAL '2 days' THEN 'Yesterday'
-    ELSE to_char(r.created_at, 'Mon DD, YYYY')
+    WHEN r.created_at > NOW() - INTERVAL '1 hour' THEN 'Şimdi'
+    WHEN r.created_at > NOW() - INTERVAL '1 day' THEN 'Bugün'
+    WHEN r.created_at > NOW() - INTERVAL '2 days' THEN 'Dün'
+    ELSE to_char(r.created_at, 'DD Mon YYYY')
   END as review_time
 FROM reviews r
 JOIN books b ON r.book_id = b.id
@@ -185,17 +185,17 @@ ORDER BY r.created_at DESC
 LIMIT 30;
 ```
 
-### 9. Rating Distribution
+### 9. Puan Dağılımı
 
 ```sql
--- See how many books have each rating range
+-- Her puan aralığında kaç kitap olduğunu gör
 SELECT 
   CASE 
-    WHEN average_rating >= 4.5 THEN '⭐⭐⭐⭐⭐ Excellent (4.5+)'
-    WHEN average_rating >= 4.0 THEN '⭐⭐⭐⭐ Very Good (4.0-4.4)'
-    WHEN average_rating >= 3.0 THEN '⭐⭐⭐ Good (3.0-3.9)'
-    WHEN average_rating >= 2.0 THEN '⭐⭐ Fair (2.0-2.9)'
-    ELSE '⭐ Needs Improvement (<2.0)'
+    WHEN average_rating >= 4.5 THEN '⭐⭐⭐⭐⭐ Mükemmel (4.5+)'
+    WHEN average_rating >= 4.0 THEN '⭐⭐⭐⭐ Çok İyi (4.0-4.4)'
+    WHEN average_rating >= 3.0 THEN '⭐⭐⭐ İyi (3.0-3.9)'
+    WHEN average_rating >= 2.0 THEN '⭐⭐ Orta (2.0-2.9)'
+    ELSE '⭐ Geliştirilmeli (<2.0)'
   END as rating_category,
   COUNT(*) as book_count,
   ARRAY_AGG(title ORDER BY average_rating DESC) as sample_books
@@ -205,10 +205,10 @@ GROUP BY rating_category
 ORDER BY MIN(average_rating) DESC;
 ```
 
-### 10. Statistics Overview
+### 10. İstatistik Genel Bakış
 
 ```sql
--- Complete database statistics
+-- Tam veritabanı istatistikleri
 SELECT 
   (SELECT COUNT(*) FROM books) as total_books,
   (SELECT COUNT(*) FROM reviews) as total_reviews,
@@ -220,12 +220,12 @@ SELECT
 
 ---
 
-## 🔧 Maintenance Queries
+## 🔧 Bakım Sorguları
 
-### Recalculate Book Ratings
+### Kitap Puanlarını Yeniden Hesapla
 
 ```sql
--- Update average ratings for all books based on their reviews
+-- Tüm kitapların ortalama puanlarını incelemelere göre güncelle
 UPDATE books
 SET 
   average_rating = COALESCE((
@@ -240,20 +240,20 @@ SET
   );
 ```
 
-### Find Orphaned Reviews
+### Sahipsiz İncelemeleri Bul
 
 ```sql
--- Reviews with no matching book (should be empty)
+-- Eşleşen kitabı olmayan incelemeler (boş olmalı)
 SELECT r.*
 FROM reviews r
 LEFT JOIN books b ON r.book_id = b.id
 WHERE b.id IS NULL;
 ```
 
-### Check Database Size
+### Veritabanı Boyutunu Kontrol Et
 
 ```sql
--- See how much space your data is using
+-- Verinizin ne kadar alan kullandığını gör
 SELECT 
   schemaname,
   tablename,
@@ -267,10 +267,10 @@ WHERE schemaname = 'public'
 ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 ```
 
-### Verify Indexes
+### İndeksleri Doğrula
 
 ```sql
--- Check all indexes are in place
+-- Tüm indekslerin yerinde olduğunu kontrol et
 SELECT 
   tablename,
   indexname,
@@ -280,10 +280,10 @@ WHERE schemaname = 'public'
 ORDER BY tablename, indexname;
 ```
 
-### Check RLS Policies
+### RLS Politikalarını Kontrol Et
 
 ```sql
--- Verify Row Level Security policies
+-- Satır Düzeyi Güvenlik politikalarını doğrula
 SELECT 
   schemaname,
   tablename,
@@ -299,12 +299,12 @@ ORDER BY tablename, cmd, policyname;
 
 ---
 
-## ➕ Data Modification
+## ➕ Veri Değişikliği
 
-### Add a Single Book
+### Tek Kitap Ekle
 
 ```sql
--- Insert a new book manually
+-- Manuel olarak yeni bir kitap ekle
 INSERT INTO books (
   title,
   author,
@@ -317,20 +317,20 @@ INSERT INTO books (
 ) VALUES (
   'The Hobbit',
   'J.R.R. Tolkien',
-  'A fantasy adventure following Bilbo Baggins on an unexpected journey.',
+  'Bilbo Baggins'ın beklenmedik yolculuğunu anlatan bir fantezi macerası.',
   'https://covers.openlibrary.org/b/isbn/9780261103344-L.jpg',
   'https://covers.openlibrary.org/b/isbn/9780261103344-M.jpg',
-  'Fantasy',
+  'Fantazi',
   0,
   0
 )
 RETURNING id, title, author;
 ```
 
-### Add a Review
+### İnceleme Ekle
 
 ```sql
--- Add a review to a book (replace book_id with actual UUID)
+-- Bir kitaba inceleme ekle (book_id'yi gerçek UUID ile değiştirin)
 INSERT INTO reviews (
   book_id,
   user_name,
@@ -338,15 +338,15 @@ INSERT INTO reviews (
   rating,
   comment
 ) VALUES (
-  'REPLACE_WITH_BOOK_ID',  -- Get from books table
+  'REPLACE_WITH_BOOK_ID',  -- Kitaplar tablosundan al
   'John Doe',
   'https://api.dicebear.com/7.x/avataaars/svg?seed=JohnDoe',
   5,
-  'This is an excellent book! Highly recommended.'
+  'Bu harika bir kitap! Şiddetle tavsiye ederim.'
 )
 RETURNING *;
 
--- Then update the book's rating
+-- Ardından kitabın puanını güncelle
 UPDATE books
 SET 
   average_rating = (SELECT AVG(rating) FROM reviews WHERE book_id = 'REPLACE_WITH_BOOK_ID'),
@@ -354,22 +354,22 @@ SET
 WHERE id = 'REPLACE_WITH_BOOK_ID';
 ```
 
-### Update Book Information
+### Kitap Bilgilerini Güncelle
 
 ```sql
--- Update book details
+-- Kitap detaylarını güncelle
 UPDATE books
 SET 
-  description = 'New description here',
-  category = 'New Category'
-WHERE title = 'Book Title Here'
+  description = 'Yeni açıklama burada',
+  category = 'Yeni Kategori'
+WHERE title = 'Kitap Başlığı Burada'
 RETURNING *;
 ```
 
-### Delete Books Without Reviews (Older than 30 days)
+### İncelemesi Olmayan Kitapları Sil (30 günden eski)
 
 ```sql
--- Clean up old books with no reviews
+-- İncelemesi olmayan eski kitapları temizle
 DELETE FROM books
 WHERE total_reviews = 0
   AND created_at < NOW() - INTERVAL '30 days'
@@ -378,12 +378,12 @@ RETURNING title, author, created_at;
 
 ---
 
-## 🔍 Advanced Analytics
+## 🔍 Gelişmiş Analizler
 
-### Books Performance Report
+### Kitap Performans Raporu
 
 ```sql
--- Comprehensive performance metrics per category
+-- Kategori bazında kapsamlı performans metrikleri
 SELECT 
   category,
   COUNT(*) as total_books,
@@ -402,10 +402,10 @@ GROUP BY category
 ORDER BY avg_rating DESC, total_books DESC;
 ```
 
-### Review Activity Timeline
+### İnceleme Aktivite Zaman Çizelgesi
 
 ```sql
--- Reviews per day for the last 30 days
+-- Son 30 gün için günlük inceleme sayısı
 SELECT 
   DATE(created_at) as review_date,
   COUNT(*) as reviews_count,
@@ -417,10 +417,10 @@ GROUP BY DATE(created_at)
 ORDER BY review_date DESC;
 ```
 
-### Most Active Reviewers
+### En Aktif İnceleyiciler
 
 ```sql
--- Top reviewers by number of reviews
+-- İnceleme sayısına göre en iyi inceleyiciler
 SELECT 
   user_name,
   COUNT(*) as total_reviews,
@@ -433,10 +433,10 @@ ORDER BY total_reviews DESC, avg_rating_given DESC
 LIMIT 20;
 ```
 
-### Books Needing Attention
+### Dikkat Çekmesi Gereken Kitaplar
 
 ```sql
--- Books with low ratings or few reviews
+-- Düşük puanlı veya az incelemeli kitaplar
 SELECT 
   title,
   author,
@@ -444,10 +444,10 @@ SELECT
   average_rating,
   total_reviews,
   CASE 
-    WHEN total_reviews = 0 THEN '🆕 No reviews yet'
-    WHEN total_reviews < 3 THEN '📝 Needs more reviews'
-    WHEN average_rating < 3.0 THEN '⚠️ Low rating'
-    ELSE '✅ Good'
+    WHEN total_reviews = 0 THEN '🆕 Henüz inceleme yok'
+    WHEN total_reviews < 3 THEN '📝 Daha fazla inceleme gerekli'
+    WHEN average_rating < 3.0 THEN '⚠️ Düşük puan'
+    ELSE '✅ İyi'
   END as status,
   created_at
 FROM books
@@ -457,39 +457,39 @@ ORDER BY total_reviews ASC, average_rating ASC;
 
 ---
 
-## 🎯 Performance Optimization
+## 🎯 Performans Optimizasyonu
 
-### Add Missing Indexes (if needed)
+### Eksik İndeksleri Ekle (gerekirse)
 
 ```sql
--- Full-text search indexes
+-- Tam metin arama indeksleri
 CREATE INDEX IF NOT EXISTS idx_books_title_search 
 ON books USING gin(to_tsvector('english', title));
 
 CREATE INDEX IF NOT EXISTS idx_books_author_search 
 ON books USING gin(to_tsvector('english', author));
 
--- Composite indexes for common queries
+-- Yaygın sorgular için bileşik indeksler
 CREATE INDEX IF NOT EXISTS idx_books_category_rating 
 ON books(category, average_rating DESC);
 
 CREATE INDEX IF NOT EXISTS idx_books_created_at 
 ON books(created_at DESC);
 
--- Partial index for books with reviews
+-- İncelemesi olan kitaplar için kısmi indeks
 CREATE INDEX IF NOT EXISTS idx_books_with_reviews 
 ON books(average_rating DESC) 
 WHERE total_reviews > 0;
 ```
 
-### Analyze Table Statistics
+### Tablo İstatistiklerini Analiz Et
 
 ```sql
--- Update table statistics for query optimizer
+-- Sorgu optimizasyonu için tablo istatistiklerini güncelle
 ANALYZE books;
 ANALYZE reviews;
 
--- Check last analyze time
+-- Son analiz zamanını kontrol et
 SELECT 
   schemaname,
   relname,
@@ -503,12 +503,12 @@ WHERE schemaname = 'public';
 
 ---
 
-## 🔐 Security Checks
+## 🔐 Güvenlik Kontrolleri
 
-### Verify All RLS Policies
+### Tüm RLS Politikalarını Doğrula
 
 ```sql
--- Complete RLS policy check
+-- Tam RLS politikası kontrolü
 SELECT 
   tablename,
   'SELECT' as operation,
@@ -538,10 +538,10 @@ FROM (VALUES ('books'), ('reviews')) AS t(tablename)
 ORDER BY tablename, operation;
 ```
 
-### Check Foreign Key Constraints
+### Yabancı Anahtar Kısıtlamalarını Kontrol Et
 
 ```sql
--- Verify referential integrity constraints
+-- Referans bütünlüğü kısıtlamalarını doğrula
 SELECT
   tc.table_name, 
   kcu.column_name,
@@ -562,44 +562,44 @@ WHERE tc.constraint_type = 'FOREIGN KEY'
 
 ---
 
-## 📋 Quick Troubleshooting
+## 📋 Hızlı Sorun Giderme
 
-### Problem: Can't insert books
-**Solution:** Run [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) or `npm run fix-db`
+### Problem: Kitap eklenemiyor
+**Çözüm:** [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) dosyasını çalıştırın veya `npm run fix-db` komutunu kullanın
 
-### Problem: Books have wrong rating
-**Solution:** Run the "Recalculate Book Ratings" query above
+### Problem: Kitapların yanlış puanı var
+**Çözüm:** Yukarıdaki "Kitap Puanlarını Yeniden Hesapla" sorgusunu çalıştırın
 
-### Problem: Slow queries
-**Solution:** Run the "Add Missing Indexes" query above
+### Problem: Yavaş sorgular
+**Çözüm:** Yukarıdaki "Eksik İndeksleri Ekle" sorgusunu çalıştırın
 
-### Problem: Need to check database health
-**Solution:** Run `npm run check-db`
+### Problem: Veritabanı sağlığını kontrol etmek gerek
+**Çözüm:** `npm run check-db` komutunu çalıştırın
 
-### Problem: Want to see all data
-**Solution:** Run "Statistics Overview" query above
-
----
-
-## 💡 Tips
-
-1. **Always backup before DELETE queries** - Supabase has automatic backups, but be careful
-2. **Use RETURNING clause** - See what was inserted/updated/deleted
-3. **Test with LIMIT first** - For UPDATE/DELETE, test with WHERE clause on small subset
-4. **Use transactions for multiple operations** - Wrap in BEGIN/COMMIT if needed
-5. **Check execution plans** - Use EXPLAIN ANALYZE for slow queries
+### Problem: Tüm veriyi görmek istiyorum
+**Çözüm:** Yukarıdaki "İstatistik Genel Bakış" sorgusunu çalıştırın
 
 ---
 
-## ✅ Summary
+## 💡 İpuçları
 
-**You now have:**
-- ✅ All common SQL operations ready to use
-- ✅ Maintenance and troubleshooting queries
-- ✅ Performance optimization scripts
-- ✅ Security verification queries
-- ✅ Analytics and reporting queries
+1. **DELETE sorgularından önce her zaman yedek alın** - Supabase otomatik yedeklemeye sahiptir, ancak dikkatli olun
+2. **RETURNING yan tümcesini kullanın** - Ne eklendi/güncellendi/silindiğini görün
+3. **Önce LIMIT ile test edin** - UPDATE/DELETE için küçük bir alt kümede WHERE yan tümcesiyle test edin
+4. **Birden fazla işlem için işlemleri kullanın** - Gerekirse BEGIN/COMMIT ile sarın
+5. **Yürütme planlarını kontrol edin** - Yavaş sorgular için EXPLAIN ANALYZE kullanın
 
-**No SQL knowledge required** - Just copy, paste, and run! 🚀
+---
 
-For any SQL task not covered here, let me know and I'll create the query for you!
+## ✅ Özet
+
+**Artık şunlara sahipsiniz:**
+- ✅ Kullanıma hazır tüm yaygın SQL işlemleri
+- ✅ Bakım ve sorun giderme sorguları
+- ✅ Performans optimizasyon scriptleri
+- ✅ Güvenlik doğrulama sorguları
+- ✅ Analiz ve raporlama sorguları
+
+**SQL bilgisi gerekmez** - Sadece kopyalayın, yapıştırın ve çalıştırın! 🚀
+
+Burada kapsanmayan herhangi bir SQL görevi için bana bildirin ve sorguyu sizin için oluşturayım!

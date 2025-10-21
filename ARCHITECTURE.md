@@ -1,16 +1,16 @@
-# KitapKeşif - Book Discovery & Review Platform
+# KitapKeşif - Kitap Keşfetme ve İnceleme Platformu
 
-A modern, responsive book discovery and review platform built with React, TypeScript, and Supabase.
+React, TypeScript ve Supabase ile oluşturulmuş modern, duyarlı bir kitap keşfetme ve inceleme platformu.
 
-## 🏗️ Architecture
+## 🏗️ Mimari
 
-This project follows a clean, modular architecture based on industry best practices:
+Bu proje, endüstriyel en iyi uygulamalara dayanan temiz, modüler bir mimari izler:
 
-### Directory Structure
+### Dizin Yapısı
 
 ```
 src/
-├── components/          # React components (UI layer)
+├── components/          # React bileşenleri (UI katmanı)
 │   ├── Header.tsx
 │   ├── Footer.tsx
 │   ├── BookCard.tsx
@@ -18,122 +18,122 @@ src/
 │   ├── SearchBar.tsx
 │   ├── ScrollToTop.tsx
 │   └── AIAssistant.tsx
-├── hooks/              # Custom React hooks (business logic)
-│   ├── useTheme.ts     # Theme management hook
-│   ├── useBooks.ts     # Books data management hook
-│   ├── useBookModal.ts # Book modal state hook
+├── hooks/              # Özel React hook'ları (iş mantığı)
+│   ├── useTheme.ts     # Tema yönetimi hook'u
+│   ├── useBooks.ts     # Kitap veri yönetimi hook'u
+│   ├── useBookModal.ts # Kitap modal durumu hook'u
 │   └── index.ts
-├── services/           # Service layer (API & business logic)
-│   ├── bookService.ts   # Book-related API calls
-│   ├── reviewService.ts # Review-related API calls
-│   ├── themeService.ts  # Theme management logic
+├── services/           # Servis katmanı (API ve iş mantığı)
+│   ├── bookService.ts   # Kitap ile ilgili API çağrıları
+│   ├── reviewService.ts # İnceleme ile ilgili API çağrıları
+│   ├── themeService.ts  # Tema yönetimi mantığı
 │   └── index.ts
-├── utils/              # Utility functions
-│   ├── helpers.ts      # Common helper functions
+├── utils/              # Yardımcı fonksiyonlar
+│   ├── helpers.ts      # Ortak yardımcı fonksiyonlar
 │   └── index.ts
-├── constants/          # Application constants
-│   └── index.ts        # Constants and messages
-├── lib/                # Third-party library configurations
-│   └── supabase.ts     # Supabase client
-├── types.ts            # TypeScript type definitions
-├── App.tsx             # Main application component
-├── main.tsx            # Application entry point
-└── index.css           # Global styles
+├── constants/          # Uygulama sabitleri
+│   └── index.ts        # Sabitler ve mesajlar
+├── lib/                # Üçüncü taraf kütüphane yapılandırmaları
+│   └── supabase.ts     # Supabase istemcisi
+├── types.ts            # TypeScript tip tanımlamaları
+├── App.tsx             # Ana uygulama bileşeni
+├── main.tsx            # Uygulama giriş noktası
+└── index.css           # Genel stiller
 ```
 
-## 🎨 Design Patterns
+## 🎨 Tasarım Kalıpları
 
-### 1. **Separation of Concerns**
-- **Components**: Pure presentational components (UI only)
-- **Hooks**: Business logic and state management
-- **Services**: API calls and data transformation
-- **Utils**: Reusable helper functions
+### 1. **İşlerin Ayrılması**
+- **Bileşenler**: Saf sunum bileşenleri (sadece UI)
+- **Hook'lar**: İş mantığı ve durum yönetimi
+- **Servisler**: API çağrıları ve veri dönüştürme
+- **Yardımcılar**: Yeniden kullanılabilir yardımcı fonksiyonlar
 
-### 2. **Custom Hooks Pattern**
-- `useTheme`: Manages theme state and persistence
-- `useBooks`: Handles book data fetching, filtering, and search
-- `useBookModal`: Manages modal state and review loading
+### 2. **Özel Hook'lar Kalıbı**
+- `useTheme`: Tema durumu ve kalıcılığını yönetir
+- `useBooks`: Kitap veri getirme, filtreleme ve aramayı işler
+- `useBookModal`: Modal durumu ve inceleme yüklemeyi yönetir
 
-### 3. **Service Layer Pattern**
-- `BookService`: Centralized book-related operations
-- `ReviewService`: Centralized review-related operations
-- `ThemeService`: Theme management utilities
+### 3. **Servis Katmanı Kalıbı**
+- `BookService`: Merkezi kitap ile ilgili işlemler
+- `ReviewService`: Merkezi inceleme ile ilgili işlemler
+- `ThemeService`: Tema yönetimi yardımcıları
 
-### 4. **Performance Optimizations**
-- React.memo for all components to prevent unnecessary re-renders
-- useCallback for stable function references in hooks
-- Lazy loading and code splitting ready
+### 4. **Performans Optimizasyonları**
+- Gereksiz yeniden oluşturmaları önlemek için tüm bileşenlerde React.memo
+- Hook'larda kararlı fonksiyon referansları için useCallback
+- Lazy loading ve kod bölme hazır
 
-## 🚀 Features
+## 🚀 Özellikler
 
-- **Theme Management**: Light/Dark mode with persistence
-- **Book Discovery**: Browse, search, and filter books
-- **Reviews**: Read and view book reviews
-- **Responsive Design**: Mobile-first approach
-- **Modern UI**: Gradient backgrounds, smooth transitions
+- **Tema Yönetimi**: Kalıcı açık/koyu mod
+- **Kitap Keşfi**: Kitaplara göz atma, arama ve filtreleme
+- **İncelemeler**: Kitap incelemelerini okuma ve görüntüleme
+- **Duyarlı Tasarım**: Mobil öncelikli yaklaşım
+- **Modern UI**: Gradyan arka planlar, düzgün geçişler
 
-## 🛠️ Technologies
+## 🛠️ Teknolojiler
 
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Supabase** - Backend & Database
-- **Vite** - Build tool
-- **Lucide React** - Icons
+- **React 18** - UI kütüphanesi
+- **TypeScript** - Tip güvenliği
+- **Tailwind CSS** - Stil
+- **Supabase** - Arka uç ve Veritabanı
+- **Vite** - Derleme aracı
+- **Lucide React** - İkonlar
 
-## 📦 Installation
+## 📦 Kurulum
 
 ```bash
-# Install dependencies
+# Bağımlılıkları yükle
 npm install
 
-# Run development server
+# Geliştirme sunucusunu çalıştır
 npm run dev
 
-# Build for production
+# Üretim için derle
 npm run build
 
-# Preview production build
+# Üretim derlemesini önizle
 npm run preview
 ```
 
-## 🔧 Environment Variables
+## 🔧 Ortam Değişkenleri
 
-Create a `.env` file in the root directory:
+Kök dizinde bir `.env` dosyası oluşturun:
 
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=supabase_url_niz
+VITE_SUPABASE_ANON_KEY=supabase_anon_anahtarınız
 ```
 
-## 📝 Code Quality
+## 📝 Kod Kalitesi
 
 ### TypeScript
-- Strict type checking enabled
-- All components properly typed
-- No `any` types used
+- Sıkı tip kontrolü etkin
+- Tüm bileşenler düzgün bir şekilde tiplenmiş
+- Hiçbir yerde `any` tipi kullanılmamış
 
-### Code Organization
-- Single Responsibility Principle
-- DRY (Don't Repeat Yourself)
-- Consistent naming conventions
-- Proper error handling
+### Kod Organizasyonu
+- Tek Sorumluluk İlkesi
+- DRY (Kendini Tekrarlama)
+- Tutarlı adlandırma kuralları
+- Uygun hata işleme
 
-### Performance
-- Memoized components
-- Optimized re-renders
-- Efficient state management
+### Performans
+- Belleğe alınmış bileşenler
+- Optimize edilmiş yeniden oluşturmalar
+- Verimli durum yönetimi
 
-## 🎯 Best Practices Implemented
+## 🎯 Uygulanan En İyi Uygulamalar
 
-1. **Component Structure**: Each component has a single responsibility
-2. **Type Safety**: Full TypeScript coverage
-3. **Error Handling**: Proper error states and user feedback
-4. **Loading States**: User-friendly loading indicators
-5. **Constants**: No magic strings or numbers
-6. **Reusability**: Shared utilities and services
-7. **Maintainability**: Clear code organization and documentation
+1. **Bileşen Yapısı**: Her bileşenin tek bir sorumluluğu vardır
+2. **Tip Güvenliği**: Tam TypeScript kapsamı
+3. **Hata İşleme**: Uygun hata durumları ve kullanıcı geri bildirimi
+4. **Yükleme Durumları**: Kullanıcı dostu yükleme göstergeleri
+5. **Sabitler**: Sihirli dizgiler veya sayılar yok
+6. **Yeniden Kullanılabilirlik**: Paylaşılan yardımcılar ve servisler
+7. **Bakım Kolaylığı**: Net kod organizasyonu ve belgeler
 
-## 📄 License
+## 📄 Lisans
 
-MIT License - feel free to use this project for learning and development.
+MIT Lisansı - bu projeyi öğrenme ve geliştirme için özgürce kullanabilirsiniz.

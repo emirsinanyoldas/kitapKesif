@@ -1,238 +1,238 @@
-# ⚡ Quick Start - Database Setup
+# ⚡ Hızlı Başlangıç - Veritabanı Kurulumu
 
-**Get your database running in 3 minutes!**
+**Veritabanınızı 3 dakikada çalıştırın!**
 
 ---
 
-## 🎯 The Easiest Way
+## 🎯 En Kolay Yol
 
-Run the interactive database manager:
+Etkileşimli veritabanı yöneticisini çalıştırın:
 
 ```bash
 npm run db-manager
 ```
 
-This gives you a menu to do everything:
-- ✅ Check database health
-- ✅ Fix permissions
-- ✅ Import books
-- ✅ Add reviews
-- ✅ Backup/restore
-- ✅ View statistics
-- ✅ Search books
+Bu size her şeyi yapmanız için bir menü sunar:
+- ✅ Veritabanı sağlığını kontrol et
+- ✅ İzinleri düzelt
+- ✅ Kitapları içe aktar
+- ✅ İncelemeler ekle
+- ✅ Yedekleme/geri yükleme
+- ✅ İstatistikleri görüntüle
+- ✅ Kitap ara
 
-**No commands to remember!** Just select from the menu.
+**Hatırlanacak komut yok!** Sadece menüden seçin.
 
 ---
 
-## 🚀 Quick Setup (3 Steps)
+## 🚀 Hızlı Kurulum (3 Adım)
 
-If you prefer command line:
+Komut satırını tercih ederseniz:
 
-### Step 1: Fix Permissions (ONE TIME)
+### Adım 1: İzinleri Düzelt (BİR KEZ)
 ```bash
 npm run fix-db
 ```
 
-**What it does:** Enables INSERT/UPDATE operations on your database.
+**Ne yapar:** Veritabanınızda INSERT/UPDATE işlemlerini etkinleştirir.
 
 ---
 
-### Step 2: Import Books
+### Adım 2: Kitapları İçe Aktar
 ```bash
 npm run import-books
 ```
 
-**What it does:** Adds 150+ books from Open Library API.
+**Ne yapar:** Open Library API'sinden 150+ kitap ekler.
 
 ---
 
-### Step 3: Verify
+### Adım 3: Doğrula
 ```bash
 npm run check-db
 ```
 
-**What it does:** Confirms everything is working.
+**Ne yapar:** Her şeyin çalıştığını onaylar.
 
 ---
 
-## 🎉 That's It!
+## 🎉 İşte Bu Kadar!
 
-Your database is now ready with:
-- ✅ 150+ books across 25+ categories
-- ✅ Proper structure and indexes
-- ✅ Security policies configured
-- ✅ Ready for production use
+Veritabanınız artık hazır:
+- ✅ 25+ kategoride 150+ kitap
+- ✅ Uygun yapı ve indeksler
+- ✅ Güvenlik politikaları yapılandırıldı
+- ✅ Üretim kullanımı için hazır
 
 ---
 
-## 📚 What's Next?
+## 📚 Sırada Ne Var?
 
-### Start the App
+### Uygulamayı Başlat
 ```bash
 npm run dev
 ```
 
-Your app now has a full book database!
+Uygulamanız artık tam bir kitap veritabanına sahip!
 
 ---
 
-### Optional: Add Reviews
+### İsteğe Bağlı: İncelemeler Ekle
 ```bash
 npm run add-reviews
 ```
 
-Adds realistic reviews to all books.
+Tüm kitaplara gerçekçi incelemeler ekler.
 
 ---
 
-### Optional: Create Backup
+### İsteğe Bağlı: Yedek Oluştur
 ```bash
 npm run backup-db
 ```
 
-Protects your data with a JSON backup.
+Verinizi bir JSON yedeğiyle korur.
 
 ---
 
-## 🆘 Troubleshooting
+## 🆘 Sorun Giderme
 
-### Problem: "INSERT permission denied"
+### Problem: "INSERT izni reddedildi"
 
-**Solution:**
+**Çözüm:**
 ```bash
 npm run fix-db
 ```
 
-If that doesn't work, see [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql)
+Eğer bu işe yaramazsa, [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) dosyasına bakın
 
 ---
 
-### Problem: "No books found"
+### Problem: "Kitap bulunamadı"
 
-**Solution:**
+**Çözüm:**
 ```bash
 npm run import-books
 ```
 
-Make sure you ran `npm run fix-db` first!
+Önce `npm run fix-db` komutunu çalıştırdığınızdan emin olun!
 
 ---
 
-### Problem: "Need help understanding commands"
+### Problem: "Komutları anlamakta zorlanıyorum"
 
-**Solution:** Read the guides:
-- [`DATABASE_README.md`](./DATABASE_README.md) - Main guide
-- [`DATABASE_STATUS.md`](./DATABASE_STATUS.md) - Current status
-- [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) - SQL queries
-
----
-
-## 💡 Pro Tips
-
-1. **Use the interactive manager:** `npm run db-manager`
-   - No need to remember commands
-   - See real-time statistics
-   - Search books directly
-
-2. **Check health regularly:** `npm run check-db`
-   - Verifies everything is working
-   - Shows current data counts
-   - Tests permissions
-
-3. **Backup before changes:** `npm run backup-db`
-   - Creates safety net
-   - Stored in `backups/` folder
-   - Can restore anytime
-
-4. **No SQL knowledge needed!**
-   - All operations are automated
-   - Pre-written queries available
-   - Complete documentation provided
+**Çözüm:** Rehberleri okuyun:
+- [`DATABASE_README.md`](./DATABASE_README.md) - Ana rehber
+- [`DATABASE_STATUS.md`](./DATABASE_STATUS.md) - Mevcut durum
+- [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) - SQL sorguları
 
 ---
 
-## ✅ Available Commands
+## 💡 Profesyonel İpuçları
 
-| Command | What It Does |
+1. **Etkileşimli yöneticiyi kullanın:** `npm run db-manager`
+   - Hatırlanacak komut yok
+   - Gerçek zamanlı istatistikleri görün
+   - Doğrudan kitap arayın
+
+2. **Sağlığı düzenli kontrol edin:** `npm run check-db`
+   - Her şeyin çalıştığını doğrular
+   - Mevcut veri sayılarını gösterir
+   - İzinleri test eder
+
+3. **Değişikliklerden önce yedekleyin:** `npm run backup-db`
+   - Güvenlik ağı oluşturur
+   - `backups/` klasöründe saklanır
+   - Her zaman geri yüklenebilir
+
+4. **SQL bilgisi gerekmez!**
+   - Tüm işlemler otomatiktir
+   - Hazır sorgular mevcuttur
+   - Tam belgelendirme sağlanmıştır
+
+---
+
+## ✅ Mevcut Komutlar
+
+| Komut | Ne Yapar |
 |---------|--------------|
-| `npm run db-manager` | **Interactive menu (EASIEST)** |
-| `npm run check-db` | Check database health |
-| `npm run fix-db` | Fix permissions (one time) |
-| `npm run import-books` | Import 150+ books |
-| `npm run add-reviews` | Add sample reviews |
-| `npm run backup-db` | Create backup |
-| `npm run restore-db` | Restore from backup |
-| `npm run sql -- "QUERY"` | Run custom SQL |
-| `npm run dev` | Start the app |
+| `npm run db-manager` | **Etkileşimli menü (EN KOLAY)** |
+| `npm run check-db` | Veritabanı sağlığını kontrol et |
+| `npm run fix-db` | İzinleri düzelt (bir kez) |
+| `npm run import-books` | 150+ kitabı içe aktar |
+| `npm run add-reviews` | Örnek incelemeler ekle |
+| `npm run backup-db` | Yedek oluştur |
+| `npm run restore-db` | Yedekten geri yükle |
+| `npm run sql -- "SORGU"` | Özel SQL çalıştır |
+| `npm run dev` | Uygulamayı başlat |
 
 ---
 
-## 🎯 Your SQL Database Specialist
+## 🎯 SQL Veritabanı Uzmanınız
 
-I've set up **everything** for you:
+**Her şeyi** sizin için kurdum:
 
-✅ **8 Automated Scripts** - No manual work needed  
-✅ **5 Documentation Guides** - 2,000+ lines of docs  
-✅ **Interactive Manager** - Menu-driven interface  
-✅ **Professional Database** - Production-ready setup  
-✅ **Complete Integration** - App fully connected  
+✅ **8 Otomatik Script** - Manuel iş gücü gerekmez  
+✅ **5 Belgelendirme Rehberi** - 2,000+ satır belge  
+✅ **Etkileşimli Yönetici** - Menü temelli arayüz  
+✅ **Profesyonel Veritabanı** - Üretim hazır kurulum  
+✅ **Tam Entegrasyon** - Uygulama tamamen bağlı  
 
-**You just run the commands - I handle all the SQL!** 🚀
-
----
-
-## 🎓 Learning Path (Optional)
-
-Want to understand what's happening?
-
-1. **Start Here:** [`DATABASE_README.md`](./DATABASE_README.md)
-   - Overview of all tools
-   - Common workflows
-   - Troubleshooting guide
-
-2. **Deep Dive:** [`DATABASE_GUIDE.md`](./DATABASE_GUIDE.md)
-   - Complete schema documentation
-   - Security explanations
-   - Performance details
-
-3. **SQL Reference:** [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md)
-   - Ready-to-use queries
-   - Advanced analytics
-   - Maintenance scripts
-
-But remember: **You don't need to learn SQL!**  
-Everything is automated for you! 😊
+**Sadece komutları çalıştırın - Tüm SQL işlemlerini ben hallederim!** 🚀
 
 ---
 
-## 🚦 Status Check
+## 🎓 Öğrenme Yolu (İsteğe Bağlı)
 
-After setup, your database will have:
+Neler olduğunu anlamak ister misiniz?
+
+1. **Buradan Başlayın:** [`DATABASE_README.md`](./DATABASE_README.md)
+   - Tüm araçlara genel bakış
+   - Yaygın iş akışları
+   - Sorun giderme rehberi
+
+2. **Derinlemesine İnceleme:** [`DATABASE_GUIDE.md`](./DATABASE_GUIDE.md)
+   - Tam şema belgelendirmesi
+   - Güvenlik açıklamaları
+   - Performans detayları
+
+3. **SQL Referansı:** [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md)
+   - Kullanıma hazır sorgular
+   - Gelişmiş analizler
+   - Bakım scriptleri
+
+Ama unutmayın: **SQL öğrenmenize gerek yok!**  
+Her şey sizin için otomatikleştirildi! 😊
+
+---
+
+## 🚦 Durum Kontrolü
+
+Kurulumdan sonra veritabanınızda şu olacak:
 
 ```
-📊 Database Status
-├── 📚 Books: 150+ across 25+ categories
-├── 💬 Reviews: Ready to add
-├── 🔐 Security: RLS policies configured
-├── ⚡ Performance: Indexes optimized
-├── 💾 Backups: System ready
-└── ✅ Health: Fully operational
+📊 Veritabanı Durumu
+├── 📚 Kitaplar: 25+ kategoride 150+
+├── 💬 İncelemeler: Eklemeye hazır
+├── 🔐 Güvenlik: RLS politikaları yapılandırıldı
+├── ⚡ Performans: İndeksler optimize edildi
+├── 💾 Yedekler: Sistem hazır
+└── ✅ Sağlık: Tamamen operasyonel
 ```
 
 ---
 
-## 🎉 Ready to Go!
+## 🎉 Hazırsınız!
 
-Your database is now a **professional, production-ready system** with:
+Veritabanınız artık **profesyonel, üretim hazır bir sistem**:
 
-- Automated management tools
-- Complete documentation
-- Health monitoring
-- Backup/restore capabilities
-- Search functionality
-- No SQL knowledge required
+- Otomatik yönetim araçları
+- Tam belgelendirme
+- Sağlık izleme
+- Yedekleme/geri yükleme yetenekleri
+- Arama işlevselliği
+- SQL bilgisi gerekmez
 
-**Welcome to your fully-managed database!** 🚀
+**Tamamen yönetilen veritabanınıza hoş geldiniz!** 🚀
 
-For any questions or issues, check the documentation files or let me know!
+Herhangi bir soru veya sorun için belgelendirme dosyalarını kontrol edin veya bana bildirin!

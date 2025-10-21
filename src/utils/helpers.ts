@@ -1,5 +1,3 @@
-import { Book } from '../types';
-
 /**
  * Format rating to one decimal place
  */

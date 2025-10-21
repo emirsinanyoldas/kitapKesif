@@ -1,38 +1,38 @@
-# 🏗️ Database Architecture Overview
+# 🏗️ Veritabanı Mimarisi Genel Bakışı
 
-**Visual guide to your complete database system**
+**Tam veritabanı sisteminizin görsel rehberi**
 
 ---
 
-## 📊 System Architecture
+## 📊 Sistem Mimarisi
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        KitapKeşif Database System                    │
-│                     (No SQL Knowledge Required!)                     │
+│                        KitapKeşif Veritabanı Sistemi              │
+│                     (SQL Bilgisi Gerekmez!)                      │
 └─────────────────────────────────────────────────────────────────────┘
                                     │
         ┌───────────────────────────┼───────────────────────────┐
         │                           │                           │
         ▼                           ▼                           ▼
 ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
-│   Frontend   │          │   Backend    │          │  Management  │
-│  React App   │◄────────►│  Supabase    │◄────────►│    Tools     │
-│              │          │  PostgreSQL  │          │  (Scripts)   │
+│   Ön Yüz     │          │   Arka Yüz   │          │  Yönetim     │
+│  React Uyg.  │◄────────►│  Supabase    │◄────────►│    Araçlar   │
+│              │          │  PostgreSQL  │          │  (Scriptler) │
 └──────────────┘          └──────────────┘          └──────────────┘
                                     │
                     ┌───────────────┼───────────────┐
                     │               │               │
                     ▼               ▼               ▼
             ┌──────────┐    ┌──────────┐    ┌──────────┐
-            │  Tables  │    │ Security │    │ Indexes  │
-            │  (Data)  │    │  (RLS)   │    │ (Speed)  │
+            │  Tablolar│    │ Güvenlik │    │ İndeksler│
+            │  (Veri)  │    │  (RLS)   │    │ (Hız)    │
             └──────────┘    └──────────┘    └──────────┘
 ```
 
 ---
 
-## 🗄️ Database Layer
+## 🗄️ Veritabanı Katmanı
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -59,438 +59,438 @@
 
 ---
 
-## 🔐 Security Layer (Row Level Security)
+## 🔐 Güvenlik Katmanı (Satır Düzeyi Güvenlik)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    RLS Policies (books)                          │
+│                    RLS Politikaları (books)                     │
 ├─────────────────────────────────────────────────────────────────┤
-│  ✅ SELECT   → Anyone can view books                            │
-│  ✅ INSERT   → Anyone can insert books (after fix-db)           │
-│  ✅ UPDATE   → Anyone can update books (after fix-db)           │
-│  ❌ DELETE   → Blocked (data protection)                        │
+│  ✅ SELECT   → Herkes kitapları görüntüleyebilir               │
+│  ✅ INSERT   → Herkes kitap ekleyebilir (fix-db sonrası)       │
+│  ✅ UPDATE   → Herkes kitapları güncelleyebilir (fix-db sonrası)│
+│  ❌ DELETE   → Engellendi (veri koruma)                         │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│                   RLS Policies (reviews)                         │
+│                   RLS Politikaları (reviews)                    │
 ├─────────────────────────────────────────────────────────────────┤
-│  ✅ SELECT   → Anyone can view reviews                          │
-│  ✅ INSERT   → Anyone can insert reviews (after fix-db)         │
-│  ✅ UPDATE   → Anyone can update reviews (after fix-db)         │
-│  ❌ DELETE   → Blocked (data protection)                        │
-└─────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## ⚡ Performance Layer (Indexes)
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Performance Indexes                       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  Books Table:                                                    │
-│  ├─ idx_books_category      → Fast category filtering           │
-│  ├─ idx_books_rating        → Fast rating sorting               │
-│  └─ idx_books_created_at    → Fast recent books                 │
-│                                                                  │
-│  Reviews Table:                                                  │
-│  ├─ idx_reviews_book_id     → Fast book review lookup           │
-│  └─ idx_reviews_created_at  → Fast recent reviews               │
-│                                                                  │
-│  Performance Gain: ~10x faster queries!                         │
-│                                                                  │
+│  ✅ SELECT   → Herkes incelemeleri görüntüleyebilir            │
+│  ✅ INSERT   → Herkes inceleme ekleyebilir (fix-db sonrası)    │
+│  ✅ UPDATE   → Herkes incelemeleri güncelleyebilir (fix-db sonrası)│
+│  ❌ DELETE   → Engellendi (veri koruma)                         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🤖 Automation Layer (Management Tools)
+## ⚡ Performans Katmanı (İndeksler)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     Automated Scripts (8)                        │
+│                        Performans İndeksleri                    │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  1. database-manager.js          Interactive menu interface     │
-│     └─ npm run db-manager        (Easiest way!)                 │
+│  Books Tablosu:                                                  │
+│  ├─ idx_books_category      → Hızlı kategori filtreleme        │
+│  ├─ idx_books_rating        → Hızlı puan sıralama              │
+│  └─ idx_books_created_at    → Hızlı son kitaplar               │
 │                                                                  │
-│  2. check-database.js            Health monitoring              │
-│     └─ npm run check-db          Verify system status           │
+│  Reviews Tablosu:                                                │
+│  ├─ idx_reviews_book_id     → Hızlı kitap inceleme arama       │
+│  └─ idx_reviews_created_at  → Hızlı son incelemeler            │
 │                                                                  │
-│  3. fix-database-permissions.js  RLS policy automation          │
-│     └─ npm run fix-db            Enable INSERT/UPDATE           │
-│                                                                  │
-│  4. import-books.js              Book import from API           │
-│     └─ npm run import-books      Import 150+ books              │
-│                                                                  │
-│  5. backup-database.js           Data export to JSON            │
-│     └─ npm run backup-db         Create backup                  │
-│                                                                  │
-│  6. restore-database.js          Data import from JSON          │
-│     └─ npm run restore-db        Restore backup                 │
-│                                                                  │
-│  7. run-sql.js                   SQL query executor             │
-│     └─ npm run sql -- "QUERY"    Run custom SQL                 │
-│                                                                  │
-│  8. add-reviews.js               Review data generator          │
-│     └─ npm run add-reviews       Add sample reviews             │
+│  Performans Kazancı: ~10x daha hızlı sorgular!                  │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📚 Documentation Layer
+## 🤖 Otomasyon Katmanı (Yönetim Araçları)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                  Documentation (6 Guides)                        │
+│                     Otomatik Scriptler (8)                       │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  For Quick Start:                                                │
-│  ├─ QUICK_START.md             Get running in 3 minutes         │
-│  ├─ README_DATABASE.md         Complete overview                │
-│  └─ DATABASE_STATUS.md         Current status                   │
+│  1. database-manager.js          Etkileşimli menü arayüzü       │
+│     └─ npm run db-manager        (En kolay yol!)                │
 │                                                                  │
-│  For Operations:                                                 │
-│  ├─ DATABASE_README.md         User guide & workflows           │
-│  ├─ SQL_OPERATIONS.md          SQL query cookbook               │
-│  └─ FIX_DATABASE_NOW.sql       Permission fix script            │
+│  2. check-database.js            Sağlık izleme                  │
+│     └─ npm run check-db          Sistem durumunu doğrula        │
 │                                                                  │
-│  For Deep Dive:                                                  │
-│  ├─ DATABASE_GUIDE.md          Technical reference              │
-│  ├─ SQL_SPECIALIST_REPORT.md   Complete project report          │
-│  └─ DATABASE_ARCHITECTURE.md   This file!                       │
+│  3. fix-database-permissions.js  RLS politikası otomasyonu      │
+│     └─ npm run fix-db            INSERT/UPDATE etkinleştir      │
 │                                                                  │
-│  Total: 3,500+ lines of documentation!                          │
+│  4. import-books.js              API'den kitap içe aktarma      │
+│     └─ npm run import-books      150+ kitap içe aktar           │
+│                                                                  │
+│  5. backup-database.js           JSON'a veri dışa aktarma       │
+│     └─ npm run backup-db         Yedek oluştur                  │
+│                                                                  │
+│  6. restore-database.js          JSON'dan veri içe aktarma      │
+│     └─ npm run restore-db        Yedeği geri yükle              │
+│                                                                  │
+│  7. run-sql.js                   SQL sorgusu çalıştırıcı        │
+│     └─ npm run sql -- "SORGU"    Özel SQL çalıştır              │
+│                                                                  │
+│  8. add-reviews.js               İnceleme veri oluşturucu       │
+│     └─ npm run add-reviews       Örnek incelemeler ekle         │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔄 Data Flow
-
-### Book Import Flow
+## 📚 Belgelendirme Katmanı
 
 ```
-User Command
+┌─────────────────────────────────────────────────────────────────┐
+│                  Belgelendirme (6 Rehber)                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Hızlı Başlangıç İçin:                                           │
+│  ├─ QUICK_START.md             3 dakikada çalışmaya başla      │
+│  ├─ README_DATABASE.md         Tam genel bakış                  │
+│  └─ DATABASE_STATUS.md         Mevcut durum                     │
+│                                                                  │
+│  İşlemler İçin:                                                  │
+│  ├─ DATABASE_README.md         Kullanıcı rehberi & iş akışları  │
+│  ├─ SQL_OPERATIONS.md          SQL sorgu yemek kitabı           │
+│  └─ FIX_DATABASE_NOW.sql       İzin düzeltme scripti            │
+│                                                                  │
+│  Derinlemesine İnceleme İçin:                                    │
+│  ├─ DATABASE_GUIDE.md          Teknik referans                  │
+│  ├─ SQL_SPECIALIST_REPORT.md   Tam proje raporu                 │
+│  └─ DATABASE_ARCHITECTURE.md   Bu dosya!                        │
+│                                                                  │
+│  Toplam: 3,500+ satır belgelendirme!                            │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔄 Veri Akışı
+
+### Kitap İçe Aktarma Akışı
+
+```
+Kullanıcı Komutu
     │
     ├─► npm run import-books
     │
     ▼
 Open Library API
     │
-    ├─► Search 25+ topics
-    ├─► Collect ~200 books
-    ├─► Transform data
-    └─► Generate cover URLs
+    ├─► 25+ konu ara
+    ├─► ~200 kitap topla
+    ├─► Veriyi dönüştür
+    └─► Kapak URL'leri oluştur
     │
     ▼
-Validation
+Doğrulama
     │
-    ├─► Remove duplicates
-    ├─► Validate fields
-    ├─► Check formats
-    └─► Rate limit
-    │
-    ▼
-Database Insert
-    │
-    ├─► Batch insert (50/batch)
-    ├─► Update ratings
-    └─► Create indexes
+    ├─► Yinelenenleri kaldır
+    ├─► Alanları doğrula
+    ├─► Formatları kontrol et
+    └─► Oran sınırı
     │
     ▼
-Result
+Veritabanı Ekleme
     │
-    └─► 150+ books ready! ✅
+    ├─► Toplu ekle (50/toplu)
+    ├─► Puanları güncelle
+    └─► İndeksleri oluştur
+    │
+    ▼
+Sonuç
+    │
+    └─► 150+ kitap hazır! ✅
 ```
 
 ---
 
-### Review Generation Flow
+### İnceleme Oluşturma Akışı
 
 ```
-User Command
+Kullanıcı Komutu
     │
     ├─► npm run add-reviews
     │
     ▼
-Fetch Books
+Kitapları Getir
     │
-    ├─► Get all books from DB
-    └─► Filter books needing reviews
-    │
-    ▼
-Generate Reviews
-    │
-    ├─► Create realistic names
-    ├─► Generate avatars
-    ├─► Write varied comments
-    └─► Assign ratings (1-5)
+    ├─► Tüm kitapları VT'den al
+    └─► İnceleme gereken kitapları filtrele
     │
     ▼
-Insert Reviews
+İncelemeler Oluştur
     │
-    ├─► Insert to reviews table
-    └─► Update book ratings
-    │
-    ▼
-Recalculate
-    │
-    ├─► Average rating per book
-    └─► Count total reviews
+    ├─► Gerçekçi isimler oluştur
+    ├─► Avatarlar oluştur
+    ├─► Çeşitli yorumlar yaz
+    └─► Puan ata (1-5)
     │
     ▼
-Result
+İncelemeleri Ekle
     │
-    └─► Books with reviews! ✅
+    ├─► İncelemeler tablosuna ekle
+    └─► Kitap puanlarını güncelle
+    │
+    ▼
+Yeniden Hesapla
+    │
+    ├─► Kitap başına ortalama puan
+    └─► Toplam incelemeleri say
+    │
+    ▼
+Sonuç
+    │
+    └─► İncelemelerle kitaplar! ✅
 ```
 
 ---
 
-### Backup/Restore Flow
+### Yedekleme/Geri Yükleme Akışı
 
 ```
-Backup:                          Restore:
+Yedekleme:                       Geri Yükleme:
   │                                │
   ├─► npm run backup-db            ├─► npm run restore-db
   │                                │
   ▼                                ▼
-Fetch All Data                   Read Backup File
+Tüm Veriyi Getir                 Yedek Dosyasını Oku
   │                                │
-  ├─► Books table                  ├─► Parse JSON
-  └─► Reviews table                └─► Validate data
-  │                                │
-  ▼                                ▼
-Create JSON                      Insert Data
-  │                                │
-  ├─► Add metadata                 ├─► Clear old (optional)
-  ├─► Timestamp                    ├─► Batch insert books
-  └─► Categories                   └─► Batch insert reviews
+  ├─► Books tablosu                ├─► JSON'u ayrıştır
+  └─► Reviews tablosu              └─► Veriyi doğrula
   │                                │
   ▼                                ▼
-Save File                        Recalculate
+JSON Oluştur                     Veri Ekle
   │                                │
-  └─► backups/                     ├─► Average ratings
-      backup_YYYY-MM-DD.json       └─► Review counts
+  ├─► Meta veri ekle               ├─► Eski veriyi temizle (isteğe bağlı)
+  ├─► Zaman damgası                ├─► Kitapları toplu ekle
+  └─► Kategoriler                  └─► İncelemeleri toplu ekle
+  │                                │
+  ▼                                ▼
+Dosyayı Kaydet                   Yeniden Hesapla
+  │                                │
+  └─► backups/                     ├─► Ortalama puanlar
+      backup_YYYY-MM-DD.json       └─► İnceleme sayıları
                                    │
                                    ▼
-                                 Result
+                                 Sonuç
                                    │
-                                   └─► Data restored! ✅
+                                   └─► Veri geri yüklendi! ✅
 ```
 
 ---
 
-## 🎯 User Interaction Flows
+## 🎯 Kullanıcı Etkileşim Akışları
 
-### Interactive Manager Flow
+### Etkileşimli Yönetici Akışı
 
 ```
-User
+Kullanıcı
   │
   ├─► npm run db-manager
   │
   ▼
-Main Menu
+Ana Menü
   │
-  ├─► 1. Check Health      → Run health check
-  ├─► 2. Fix Permissions   → Enable INSERT/UPDATE
-  ├─► 3. Import Books      → Import 150+ books
-  ├─► 4. Add Reviews       → Generate reviews
-  ├─► 5. Backup            → Create backup
-  ├─► 6. Restore           → Restore backup
-  ├─► 7. Statistics        → View stats
-  ├─► 8. Search            → Search books
-  ├─► 9. Guides            → Show docs
-  └─► 0. Exit              → Close manager
+  ├─► 1. Sağlık Kontrolü   → Sağlık kontrolü çalıştır
+  ├─► 2. İzinleri Düzelt   → INSERT/UPDATE etkinleştir
+  ├─► 3. Kitapları İçe Aktar → 150+ kitap içe aktar
+  ├─► 4. İnceleme Ekle     → İncelemeler oluştur
+  ├─► 5. Yedekle           → Yedek oluştur
+  ├─► 6. Geri Yükle        → Yedeği geri yükle
+  ├─► 7. İstatistikler     → İstatistikleri görüntüle
+  ├─► 8. Ara               → Kitap ara
+  ├─► 9. Rehberler         → Belgeleri göster
+  └─► 0. Çıkış             → Yöneticiyi kapat
 ```
 
 ---
 
-### Command Line Flow
+### Komut Satırı Akışı
 
 ```
-Traditional Commands:
+Geleneksel Komutlar:
 
 ┌─────────────────────┐
-│  First Time Setup   │
+│  İlk Kurulum        │
 ├─────────────────────┤
-│  1. npm run fix-db  │ → Fix RLS policies
+│  1. npm run fix-db  │ → RLS politikalarını düzelt
 │  2. npm run         │
-│     import-books    │ → Import books
+│     import-books    │ → Kitapları içe aktar
 │  3. npm run         │
-│     check-db        │ → Verify
+│     check-db        │ → Doğrula
 └─────────────────────┘
 
 ┌─────────────────────┐
-│   Regular Use       │
+│   Normal Kullanım   │
 ├─────────────────────┤
 │  • npm run          │
-│    check-db         │ → Health check
+│    check-db         │ → Sağlık kontrolü
 │  • npm run          │
-│    backup-db        │ → Create backup
+│    backup-db        │ → Yedek oluştur
 │  • npm run          │
-│    db-manager       │ → Interactive UI
+│    db-manager       │ → Etkileşimli arayüz
 └─────────────────────┘
 
 ┌─────────────────────┐
-│  Emergency          │
+│  Acil Durum         │
 ├─────────────────────┤
 │  • npm run          │
-│    restore-db       │ → Restore data
+│    restore-db       │ → Veriyi geri yükle
 └─────────────────────┘
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Teknoloji Yığını
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                       Technology Stack                           │
+│                       Teknoloji Yığını                          │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  Database:                                                       │
-│  ├─ PostgreSQL 15 (via Supabase)                               │
-│  ├─ Row Level Security (RLS)                                    │
-│  ├─ UUID primary keys                                           │
-│  └─ JSONB support                                               │
+│  Veritabanı:                                                     │
+│  ├─ PostgreSQL 15 (Supabase üzerinden)                         │
+│  ├─ Satır Düzeyi Güvenlik (RLS)                                 │
+│  ├─ UUID birincil anahtarlar                                    │
+│  └─ JSONB desteği                                               │
 │                                                                  │
-│  Backend:                                                        │
-│  ├─ Supabase Client (@supabase/supabase-js)                    │
-│  ├─ Node.js scripts                                             │
-│  ├─ Environment variables (dotenv)                              │
-│  └─ REST API communication                                       │
+│  Arka Yüz:                                                       │
+│  ├─ Supabase İstemcisi (@supabase/supabase-js)                 │
+│  ├─ Node.js scriptleri                                          │
+│  ├─ Ortam değişkenleri (dotenv)                                 │
+│  └─ REST API iletişimi                                           │
 │                                                                  │
-│  Frontend:                                                       │
+│  Ön Yüz:                                                         │
 │  ├─ React 18                                                     │
 │  ├─ TypeScript                                                   │
-│  ├─ Vite build tool                                             │
-│  └─ Real-time subscriptions                                      │
+│  ├─ Vite derleme aracı                                          │
+│  └─ Gerçek zamanlı abonelikler                                   │
 │                                                                  │
-│  External APIs:                                                  │
+│  Harici API'ler:                                                 │
 │  ├─ Open Library (openlibrary.org)                             │
-│  ├─ Cover images API                                            │
-│  └─ Rate limited requests                                        │
+│  ├─ Kapak görüntüsü API'si                                      │
+│  └─ Oran sınırlı istekler                                       │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📊 Scale & Capacity
+## 📊 Ölçek ve Kapasite
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                   System Capacity                                │
+│                   Sistem Kapasitesi                             │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  Current:                                                        │
-│  ├─ Books:         15 books                                     │
-│  ├─ Reviews:       33 reviews                                   │
-│  └─ Categories:    8 categories                                 │
+│  Mevcut:                                                         │
+│  ├─ Kitaplar:      15 kitap                                     │
+│  ├─ İncelemeler:   33 inceleme                                 │
+│  └─ Kategoriler:   8 kategori                                   │
 │                                                                  │
-│  After Import:                                                   │
-│  ├─ Books:         150+ books                                   │
-│  ├─ Categories:    25+ categories                               │
-│  └─ Ready:         For unlimited reviews                        │
+│  İçe Aktarımdan Sonra:                                           │
+│  ├─ Kitaplar:      150+ kitap                                   │
+│  ├─ Kategoriler:   25+ kategori                                 │
+│  └─ Hazır:         Sınırsız inceleme                            │
 │                                                                  │
-│  System Limits:                                                  │
-│  ├─ Books:         Tested up to 10,000+                         │
-│  ├─ Reviews:       Tested up to 100,000+                        │
-│  ├─ Queries:       ~10ms average (with indexes)                 │
-│  └─ Concurrent:    100+ users (Supabase handles)                │
+│  Sistem Sınırları:                                               │
+│  ├─ Kitaplar:      10,000+ test edildi                          │
+│  ├─ İncelemeler:   100,000+ test edildi                         │
+│  ├─ Sorgular:      ~10ms ortalama (indekslerle)                 │
+│  └─ Eşzamanlı:     100+ kullanıcı (Supabase yönetir)            │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔍 Key Features
+## 🔍 Ana Özellikler
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Key Features                              │
+│                        Ana Özellikler                            │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  ✅ Zero SQL Knowledge Required                                 │
-│     └─ All operations automated via scripts                      │
+│  ✅ SQL Bilgisi Gerekmez                                        │
+│     └─ Tüm işlemler scriptlerle otomatik                         │
 │                                                                  │
-│  ✅ Interactive Management                                       │
-│     └─ Menu-driven interface (db-manager)                        │
+│  ✅ Etkileşimli Yönetim                                         │
+│     └─ Menü temelli arayüz (db-manager)                          │
 │                                                                  │
-│  ✅ Automated Backups                                            │
-│     └─ JSON exports with metadata                                │
+│  ✅ Otomatik Yedekler                                           │
+│     └─ Meta veriyle JSON dışa aktarma                            │
 │                                                                  │
-│  ✅ Health Monitoring                                            │
-│     └─ Automated checks & diagnostics                            │
+│  ✅ Sağlık İzleme                                               │
+│     └─ Otomatik kontroller ve tanılar                            │
 │                                                                  │
-│  ✅ Data Import                                                  │
-│     └─ 150+ books from Open Library                              │
+│  ✅ Veri İçe Aktarma                                            │
+│     └─ Open Library'den 150+ kitap                               │
 │                                                                  │
-│  ✅ Security                                                     │
-│     └─ RLS policies & data validation                            │
+│  ✅ Güvenlik                                                    │
+│     └─ RLS politikaları ve veri doğrulama                        │
 │                                                                  │
-│  ✅ Performance                                                  │
-│     └─ Optimized indexes (10x faster)                            │
+│  ✅ Performans                                                  │
+│     └─ Optimize edilmiş indeksler (10x daha hızlı)               │
 │                                                                  │
-│  ✅ Documentation                                                │
-│     └─ 3,500+ lines of guides                                    │
+│  ✅ Belgelendirme                                               │
+│     └─ 3,500+ satır rehber                                       │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🎯 Success Metrics
+## 🎯 Başarı Metrikleri
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                      Success Metrics                             │
+│                      Başarı Metrikleri                           │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  Time Saved:            97-99% reduction vs manual SQL          │
-│  Lines of Code:         3,500+ documentation                     │
-│  Automation:            8 scripts covering all operations        │
-│  Documentation:         6 comprehensive guides                   │
-│  Performance:           10x query speed improvement              │
-│  Security:              Enterprise-grade RLS                     │
-│  User Experience:       No SQL knowledge required                │
-│  Reliability:           Backup/restore ready                     │
+│  Zaman Tasarrufu:       %97-99 azalma vs manuel SQL             │
+│  Kod Satırları:         3,500+ belgelendirme                     │
+│  Otomasyon:             8 script tüm işlemleri kapsar            │
+│  Belgelendirme:         6 kapsamlı rehber                        │
+│  Performans:            10x sorgu hızı iyileşmesi                │
+│  Güvenlik:              Kurumsal düzeyde RLS                     │
+│  Kullanıcı Deneyimi:    SQL bilgisi gerekmez                    │
+│  Güvenilirlik:          Yedekleme/geri yükleme hazır            │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Başlarken
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                   Quick Start Commands                           │
+│                   Hızlı Başlangıç Komutları                     │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  Easiest Way (Interactive):                                      │
+│  En Kolay Yol (Etkileşimli):                                     │
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │  npm run db-manager                                       │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                                                                  │
-│  Command Line (Traditional):                                     │
+│  Komut Satırı (Geleneksel):                                      │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │  npm run fix-db        # Step 1: Fix permissions         │  │
-│  │  npm run import-books  # Step 2: Import books            │  │
-│  │  npm run check-db      # Step 3: Verify                  │  │
+│  │  npm run fix-db        # Adım 1: İzinleri düzelt         │  │
+│  │  npm run import-books  # Adım 2: Kitapları içe aktar     │  │
+│  │  npm run check-db      # Adım 3: Doğrula                 │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                                                                  │
-│  Documentation:                                                  │
+│  Belgelendirme:                                                  │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │  Read: QUICK_START.md                                     │  │
-│  │  Read: README_DATABASE.md                                 │  │
+│  │  Oku: QUICK_START.md                                      │  │
+│  │  Oku: README_DATABASE.md                                  │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
@@ -498,50 +498,50 @@ Traditional Commands:
 
 ---
 
-## ✅ System Status
+## ✅ Sistem Durumu
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     Current System Status                        │
+│                     Mevcut Sistem Durumu                         │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  Database:           ✅ Connected & operational                 │
-│  Tables:             ✅ Created with proper structure           │
-│  Indexes:            ✅ Optimized for performance               │
-│  Security:           ✅ RLS enabled                             │
-│  INSERT Permission:  ⚠️  Needs one-time fix (npm run fix-db)   │
-│  Data:               ✅ 15 books, 33 reviews                    │
-│  Ready to Import:    📦 186 books waiting                       │
-│  Automation:         ✅ 8 scripts ready                         │
-│  Documentation:      ✅ 6 guides available                      │
-│  Production Ready:   ✅ Yes (after permission fix)              │
+│  Veritabanı:         ✅ Bağlı ve çalışıyor                      │
+│  Tablolar:           ✅ Uygun yapıyla oluşturuldu              │
+│  İndeksler:          ✅ Performans için optimize edildi        │
+│  Güvenlik:           ✅ RLS etkin                              │
+│  INSERT İzinleri:    ⚠️  Tek seferlik düzeltme gerekli (npm run fix-db)│
+│  Veri:               ✅ 15 kitap, 33 inceleme                  │
+│  İçe Aktarıma Hazır: 📦 186 kitap bekliyor                    │
+│  Otomasyon:          ✅ 8 script hazır                         │
+│  Belgelendirme:      ✅ 6 rehber mevcut                        │
+│  Üretim Hazır:       ✅ Evet (izin düzeltmesi sonrası)         │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🎉 Summary
+## 🎉 Özet
 
-**Your database is a professional, enterprise-grade system with:**
+**Veritabanınız profesyonel, kurumsal düzeyde bir sistemdir:**
 
-- 🗄️ Production-ready PostgreSQL database
-- 🤖 Complete automation (no SQL needed)
-- 📚 Comprehensive documentation
-- 🔐 Enterprise security (RLS)
-- ⚡ Optimized performance (indexes)
-- 💾 Data protection (backup/restore)
-- 🎯 User-friendly (interactive manager)
-- 🚀 Ready to scale (10,000+ books)
+- 🗄️ Üretim hazır PostgreSQL veritabanı
+- 🤖 Tam otomasyon (SQL bilgisi gerekmez)
+- 📚 Kapsamlı belgelendirme
+- 🔐 Kurumsal güvenlik (RLS)
+- ⚡ Optimize edilmiş performans (indeksler)
+- 💾 Veri koruma (yedekleme/geri yükleme)
+- 🎯 Kullanıcı dostu (etkileşimli yönetici)
+- 🚀 Ölçeklemeye hazır (10,000+ kitap)
 
-**All set up by your SQL Database Specialist!**
-
----
-
-**Next Step:** Run `npm run db-manager` to get started!
-
-**Questions?** Check the documentation in the `/docs` folder!
+**Tümü SQL Veritabanı Uzmanınız tarafından kuruldu!**
 
 ---
 
-*Visual architecture designed for clarity and ease of understanding* 📊
+**Sonraki Adım:** Başlamak için `npm run db-manager` komutunu çalıştırın!
+
+**Sorular?** `/docs` klasöründeki belgeleri kontrol edin!
+
+---
+
+*Görsel mimari netlik ve kolay anlaşılabilirlik için tasarlandı* 📊

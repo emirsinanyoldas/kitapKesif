@@ -1,260 +1,260 @@
-# Open Library Integration Guide
+# Open Library Entegrasyon Rehberi
 
-This guide explains how to import books from Open Library API into your KitapKeşif database.
+Bu rehber, Open Library API'sinden KitapKeşif veritabanınıza kitapları nasıl içe aktaracağınızı açıklar.
 
-## 🎯 Overview
+## 🎯 Genel Bakış
 
-The Open Library integration allows you to:
-- 📚 Import hundreds of books automatically
-- 🔍 Search books by keywords, titles, or topics
-- 🖼️ Automatically fetch book cover images
-- 📊 Organize books by categories
-- 💾 Bulk insert into Supabase database
+Open Library entegrasyonu şunları yapmanızı sağlar:
+- 📚 Yüzlerce kitabı otomatik olarak içe aktar
+- 🔍 Kitapları anahtar kelimelere, başlıklara veya konulara göre ara
+- 🖼️ Kitap kapak resimlerini otomatik olarak getir
+- 📊 Kitapları kategorilere göre organize et
+- 💾 Supabase veritabanına toplu ekleme yap
 
-## 🗂️ New Files Added
+## 🗂️ Eklenen Yeni Dosyalar
 
 ### 1. `src/services/openLibraryService.ts`
-TypeScript service for Open Library API integration with:
-- Search functionality
-- Cover image URL generation
-- Book data transformation
-- Category mapping
+Open Library API entegrasyonu için TypeScript servisi:
+- Arama işlevselliği
+- Kapak resmi URL oluşturma
+- Kitap veri dönüştürme
+- Kategori eşleme
 
 ### 2. `scripts/import-books.js`
-Node.js script to import books from Open Library:
-- Fetches books from 25+ diverse topics
-- Removes duplicates
-- Batch inserts into Supabase
-- Progress logging
+Open Library'den kitap içe aktarmak için Node.js scripti:
+- 25+ çeşitli konudan kitap getirir
+- Yinelenenleri kaldırır
+- Supabase'e toplu ekleme yapar
+- İlerleme günlüğü tutar
 
 ### 3. `supabase/migrations/20251016000000_import_open_library_books.sql`
-SQL migration with sample books for manual insertion.
+Manuel ekleme için örnek kitaplarla SQL geçişi.
 
-## 🚀 Quick Start
+## 🚀 Hızlı Başlangıç
 
-### Method 1: Using the Import Script (Recommended)
+### Yöntem 1: İçe Aktarma Scriptini Kullanma (Önerilen)
 
-1. **Ensure your `.env` file has Supabase credentials:**
+1. **`.env` dosyanızın Supabase kimlik bilgilerine sahip olduğundan emin olun:**
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_anon_key
+VITE_SUPABASE_URL=supabase_url_niz
+VITE_SUPABASE_ANON_KEY=anon_anahtarınız
 ```
 
-2. **Run the import script:**
+2. **İçe aktarma scriptini çalıştırın:**
 ```bash
 npm run import-books
 ```
 
-This will:
-- Fetch ~300+ books from various categories
-- Remove duplicates
-- Insert them into your database
-- Show progress and statistics
+Bu işlem:
+- Çeşitli kategorilerden ~300+ kitap getirir
+- Yinelenenleri kaldırır
+- Veritabanınıza ekler
+- İlerleme ve istatistikleri gösterir
 
-### Method 2: Using SQL Migration
+### Yöntem 2: SQL Geçişi Kullanma
 
-1. **Open Supabase SQL Editor**
-2. **Copy and paste** the content from:
+1. **Supabase SQL Düzenleyiciyi açın**
+2. **İçeriği kopyalayıp yapıştırın:**
    `supabase/migrations/20251016000000_import_open_library_books.sql`
-3. **Run the SQL** to insert sample books
+3. **Örnek kitapları eklemek için SQL'i çalıştırın**
 
-### Method 3: Using the Service in Code
+### Yöntem 3: Kodda Servisi Kullanma
 
 ```typescript
 import { OpenLibraryService } from './services';
 
-// Search for books
-const { data, error } = await OpenLibraryService.searchBooks('fantasy', 20);
+// Kitap ara
+const { data, error } = await OpenLibraryService.searchBooks('fantazi', 20);
 
-// Transform for database
+// Veritabanı için dönüştür
 const books = data
   .map(book => OpenLibraryService.transformToBook(book))
   .filter(book => book !== null);
 
-// Insert to Supabase
+// Supabase'e ekle
 const { error: insertError } = await supabase
   .from('books')
   .insert(books);
 ```
 
-## 📚 Import Categories
+## 📚 İçe Aktarma Kategorileri
 
-The import script fetches books from these topics:
+İçe aktarma scripti bu konulardan kitap getirir:
 
-**Fiction:**
-- Fantasy, Mystery/Thriller, Science Fiction, Romance, Historical Fiction
+**Kurgu:**
+- Fantazi, Gizem/Gerilim, Bilim Kurgu, Romantik, Tarihi Kurgu
 
-**Non-Fiction:**
-- Biography, History, Philosophy, Psychology, Business
+**Kurgu Dışı:**
+- Biyografi, Tarih, Felsefe, Psikoloji, İş
 
-**Science & Tech:**
-- Computer Science, Physics, Biology, Technology
+**Bilim ve Teknoloji:**
+- Bilgisayar Bilimi, Fizik, Biyoloji, Teknoloji
 
-**Arts & Culture:**
-- Art History, Music, Photography, Poetry
+**Sanat ve Kültür:**
+- Sanat Tarihi, Müzik, Fotoğrafçılık, Şiir
 
-**Self-Improvement:**
-- Self-Help, Motivation, Productivity
+**Kişisel Gelişim:**
+- Kendi Kendine Yardım, Motivasyon, Verimlilik
 
-**Others:**
-- Adventure, Drama, Classic Literature
+**Diğerleri:**
+- Macera, Drama, Klasik Edebiyat
 
-## 🎨 Book Data Structure
+## 🎨 Kitap Veri Yapısı
 
-Each imported book includes:
+Her içe aktarılan kitap şunları içerir:
 
 ```typescript
 {
-  title: string;           // Book title
-  author: string;          // Primary author
-  description: string;     // Auto-generated from metadata
-  cover_image: string;     // Large cover (L size)
-  back_cover_image: string | null; // Medium cover (M size)
-  category: string;        // Auto-detected category
-  average_rating: 0;       // Default rating
-  total_reviews: 0;        // Default review count
+  title: string;           // Kitap başlığı
+  author: string;          // Ana yazar
+  description: string;     // Meta veriden otomatik oluşturulmuş
+  cover_image: string;     // Büyük kapak (L boyutu)
+  back_cover_image: string | null; // Orta kapak (M boyutu)
+  category: string;        // Otomatik algılanan kategori
+  average_rating: 0;       // Varsayılan puan
+  total_reviews: 0;        // Varsayılan inceleme sayısı
 }
 ```
 
-## 🔧 Customization
+## 🔧 Özelleştirme
 
-### Change Number of Books Per Topic
+### Konu Başına Kitap Sayısını Değiştirme
 
-Edit `scripts/import-books.js`:
+`scripts/import-books.js` dosyasını düzenleyin:
 
 ```javascript
-const openLibBooks = await fetchBooksFromOpenLibrary(query, 15); // Change 15 to desired number
+const openLibBooks = await fetchBooksFromOpenLibrary(query, 15); // 15'i istediğiniz sayı ile değiştirin
 ```
 
-### Add More Topics
+### Daha Fazla Konu Ekleme
 
-Edit `SEARCH_QUERIES` array in `scripts/import-books.js`:
+`scripts/import-books.js` dosyasındaki `SEARCH_QUERIES` dizisini düzenleyin:
 
 ```javascript
 const SEARCH_QUERIES = [
-  // ... existing queries
-  'your custom topic',
-  'another topic',
+  // ... mevcut sorgular
+  'özel konunuz',
+  'başka bir konu',
 ];
 ```
 
-### Modify Category Mapping
+### Kategori Eşlemesini Değiştirme
 
-Edit `determineCategory()` function in either:
+Aşağıdaki dosyalardaki `determineCategory()` fonksiyonunu düzenleyin:
 - `src/services/openLibraryService.ts` (TypeScript)
 - `scripts/import-books.js` (JavaScript)
 
-## 📊 API Endpoints Used
+## 📊 Kullanılan API Uç Noktaları
 
-### Search Books
+### Kitap Arama
 ```
-GET https://openlibrary.org/search.json?q={query}&limit={limit}
+GET https://openlibrary.org/search.json?q={sorgu}&limit={limit}
 ```
 
-**Response:**
+**Yanıt:**
 ```json
 {
   "numFound": 1234,
   "docs": [
     {
-      "title": "Book Title",
-      "author_name": ["Author Name"],
+      "title": "Kitap Başlığı",
+      "author_name": ["Yazar Adı"],
       "first_publish_year": 2020,
       "isbn": ["9781234567890"],
-      "subject": ["topic1", "topic2"],
+      "subject": ["konu1", "konu2"],
       "cover_i": 12345
     }
   ]
 }
 ```
 
-### Book Covers
+### Kitap Kapakları
 
-**By ISBN:**
+**ISBN ile:**
 ```
-https://covers.openlibrary.org/b/isbn/{ISBN}-{size}.jpg
-```
-
-**By Cover ID:**
-```
-https://covers.openlibrary.org/b/id/{cover_id}-{size}.jpg
+https://covers.openlibrary.org/b/isbn/{ISBN}-{boyut}.jpg
 ```
 
-**Sizes:** S (small), M (medium), L (large)
+**Kapak ID ile:**
+```
+https://covers.openlibrary.org/b/id/{kapak_id}-{boyut}.jpg
+```
 
-## ⚠️ Important Notes
+**Boyutlar:** S (küçük), M (orta), L (büyük)
 
-1. **Rate Limiting:** The script includes 1-second delays between requests to respect API limits
-2. **Duplicates:** Books are deduplicated by title during import
-3. **Cover Images:** Some books may not have cover images (fallback image used)
-4. **Batch Size:** Books are inserted in batches of 50 for optimal performance
-5. **Environment Variables:** Required for script execution
+## ⚠️ Önemli Notlar
 
-## 🐛 Troubleshooting
+1. **Oran Sınırlama:** API sınırlarına saygı duymak için script, istekler arasında 1 saniyelik gecikmeler içerir
+2. **Yinelenenler:** Kitaplar içe aktarma sırasında başlığa göre yinelenenlerden arındırılır
+3. **Kapak Resimleri:** Bazı kitapların kapak resimleri olmayabilir (yedek resim kullanılır)
+4. **Toplu İş Boyutu:** Optimum performans için kitaplar 50'lik gruplar halinde eklenir
+5. **Ortam Değişkenleri:** Script çalıştırması için gereklidir
 
-### "Missing Supabase credentials" error
-- Ensure `.env` file exists in project root
-- Verify `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set
+## 🐛 Sorun Giderme
 
-### No books imported
-- Check your internet connection
-- Verify Supabase is accessible
-- Check console for API errors
+### "Missing Supabase credentials" hatası
+- `.env` dosyasının proje kök dizininde olduğundan emin olun
+- `VITE_SUPABASE_URL` ve `VITE_SUPABASE_ANON_KEY` değerlerinin ayarlandığını doğrulayın
 
-### Duplicate key errors
-- Some books may already exist in database
-- The script will skip duplicates and continue
+### Kitap içe aktarılmadı
+- İnternet bağlantınızı kontrol edin
+- Supabase'in erişilebilir olduğunu doğrulayın
+- API hataları için konsolu kontrol edin
 
-### Cover images not loading
-- Open Library may not have covers for all books
-- Fallback images are used automatically
+### Yinelenen anahtar hataları
+- Bazı kitaplar veritabanında zaten mevcut olabilir
+- Script yinelenenleri atlayıp devam edecektir
 
-## 📈 Expected Results
+### Kapak resimleri yüklenmiyor
+- Open Library tüm kitaplar için kapaklara sahip olmayabilir
+- Yedek resimler otomatik olarak kullanılır
 
-Running `npm run import-books` typically imports:
-- **~300+ unique books**
-- **15+ different categories**
-- **From 25+ diverse topics**
+## 📈 Beklenen Sonuçlar
 
-Time: ~2-3 minutes (due to rate limiting)
+`npm run import-books` komutunu çalıştırmak genellikle şunları içe aktarır:
+- **~300+ benzersiz kitap**
+- **15+ farklı kategori**
+- **25+ çeşitli konudan**
 
-## 🎯 Next Steps
+Süre: ~2-3 dakika (oran sınırlaması nedeniyle)
 
-After importing books:
+## 🎯 Sonraki Adımlar
 
-1. **Add Reviews:** Run `npm run add-reviews` to populate reviews
-2. **Verify Data:** Check your Supabase dashboard
-3. **Test Frontend:** Run `npm run dev` to see books in UI
-4. **Customize:** Modify queries/categories as needed
+Kitapları içe aktardıktan sonra:
 
-## 📝 API Reference
+1. **İncelemeler Ekle:** İncelemeleri doldurmak için `npm run add-reviews` komutunu çalıştırın
+2. **Veriyi Doğrula:** Supabase kontrol panelinizi kontrol edin
+3. **Ön Yüzü Test Et:** Kitapları UI'da görmek için `npm run dev` komutunu çalıştırın
+4. **Özelleştir:** Sorguları/kategorileri gerektiği gibi değiştirin
 
-### OpenLibraryService Methods
+## 📝 API Referansı
+
+### OpenLibraryService Metotları
 
 ```typescript
-// Search books
+// Kitap ara
 searchBooks(query: string, limit?: number): Promise<{data, error}>
 
-// Get cover URL from ISBN
+// ISBN'den kapak URL'si al
 getCoverImageUrl(isbn: string, size?: 'S'|'M'|'L'): string
 
-// Get cover URL from ID
+// ID'den kapak URL'si al
 getCoverImageUrlById(coverId: number, size?: 'S'|'M'|'L'): string
 
-// Transform API response to Book type
+// API yanıtını Kitap türüne dönüştür
 transformToBook(openLibBook: OpenLibraryBook): Partial<Book> | null
 
-// Fetch books ready for import
+// İçe aktarma için hazır kitapları getir
 fetchBooksForImport(queries: string[], booksPerQuery?: number): Promise<{data, error}>
 ```
 
-## 🌟 Tips
+## 🌟 İpuçları
 
-- Import books during off-peak hours for better API performance
-- Start with fewer topics to test the integration
-- Monitor console output for errors
-- Check Supabase logs if issues persist
+- Daha iyi API performansı için kitapları yoğun olmayan saatlerde içe aktarın
+- Entegrasyonu test etmek için daha az konuyla başlayın
+- Hatalar için konsol çıktısını izleyin
+- Sorunlar devam ederse Supabase günlüklerini kontrol edin
 
 ---
 
-**Happy Reading! 📚✨**
+**İyi Okumalar! 📚✨**

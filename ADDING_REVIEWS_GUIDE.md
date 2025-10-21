@@ -1,142 +1,142 @@
-# 📝 Guide: Adding Realistic Reviews to Your Books
+# 📝 Rehber: Kitaplarınıza Gerçekçi İncelemeler Ekleme
 
-This guide explains how to add diverse, realistic reviews to your book database.
-
----
-
-## 🎯 Overview
-
-I've created **50+ realistic, diverse reviews** in Turkish with:
-
-✅ **Varied Ratings**: 1-5 stars with realistic distribution  
-✅ **Authentic Comments**: Real, natural Turkish language  
-✅ **Different Perspectives**: Positive, negative, and neutral  
-✅ **Realistic Users**: Turkish names with avatar images  
-✅ **Spread Timestamps**: Reviews from different dates  
+Bu rehber, kitap veritabanınıza çeşitli, gerçekçi incelemelerin nasıl ekleneceğini açıklar.
 
 ---
 
-## 📊 Review Distribution
+## 🎯 Genel Bakış
 
-The reviews follow a realistic bell curve:
-- **5 stars**: 35% (Excellent, enthusiastic)
-- **4 stars**: 30% (Good, satisfied)
-- **3 stars**: 20% (Neutral, mixed feelings)
-- **2 stars**: 10% (Below average, disappointed)
-- **1 star**: 5% (Poor, very critical)
+**50+ gerçekçi, çeşitli inceleme** oluşturdum:
+
+✅ **Çeşitli Puanlar**: 1-5 yıldız gerçekçi dağılım  
+✅ **Otantik Yorumlar**: Gerçek, doğal Türkçe dil  
+✅ **Farklı Bakış Açıları**: Pozitif, negatif ve nötr  
+✅ **Gerçekçi Kullanıcılar**: Türkçe isimler avatar resimleriyle  
+✅ **Yayvan Zaman Damgaları**: Farklı tarihlerden incelemeler  
 
 ---
 
-## 🚀 Method 1: Automated Script (Recommended)
+## 📊 İnceleme Dağılımı
 
-### Step 1: Run the Script
+İncelemeler gerçekçi bir çan eğrisini takip eder:
+- **5 yıldız**: %35 (Mükemmel, hevesli)
+- **4 yıldız**: %30 (İyi, memnun)
+- **3 yıldız**: %20 (Nötr, karışık duygular)
+- **2 yıldız**: %10 (Ortalamanın altında, hayal kırıklığı)
+- **1 yıldız**: %5 (Kötü, çok eleştirel)
 
-Simply run this command in your terminal:
+---
+
+## 🚀 Yöntem 1: Otomatikleştirilmiş Script (Önerilen)
+
+### 1. Adım: Scripti Çalıştırın
+
+Terminalinizde bu komutu çalıştırın:
 
 ```bash
 npm run add-reviews
 ```
 
-or
+veya
 
 ```bash
 node scripts/add-reviews.js
 ```
 
-### What It Does:
+### Ne Yapar:
 
-1. ✅ Fetches all books from your database
-2. ✅ Adds 5-8 realistic reviews to each book
-3. ✅ Automatically calculates and updates ratings
-4. ✅ Uses varied timestamps (spread over 30 days)
-5. ✅ Ensures unique usernames per book
-6. ✅ Realistic rating distribution
+1. ✅ Veritabanınızdan tüm kitapları getirir
+2. ✅ Her kitaba 5-8 gerçekçi inceleme ekler
+3. ✅ Otomatik olarak puanları hesaplar ve günceller
+4. ✅ Çeşitli zaman damgaları kullanır (30 gün boyunca yayılmış)
+5. ✅ Her kitap için benzersiz kullanıcı adları sağlar
+6. ✅ Gerçekçi puan dağılımı
 
-### Output Example:
+### Çıktı Örneği:
 
-```
-🚀 Starting review generation...
+```bash
+🚀 İnceleme oluşturmaya başlanıyor...
 
-📖 Found 10 books
+📖 10 kitap bulundu
 
-📚 Adding 6 reviews to "Suç ve Ceza"...
-✅ Added 6 reviews to "Suç ve Ceza"
-   📊 Updated rating: 4.5 (6 reviews)
+📚 "Suç ve Ceza" kitabına 6 inceleme ekleniyor...
+✅ "Suç ve Ceza" kitabına 6 inceleme eklendi
+   📊 Puan güncellendi: 4.5 (6 inceleme)
 
-📚 Adding 7 reviews to "1984"...
-✅ Added 7 reviews to "1984"
-   📊 Updated rating: 4.1 (7 reviews)
+📚 "1984" kitabına 7 inceleme ekleniyor...
+✅ "1984" kitabına 7 inceleme eklendi
+   📊 Puan güncellendi: 4.1 (7 inceleme)
 
-✨ All reviews added successfully!
-🔄 Refresh your app to see the new reviews
+✨ Tüm incelemeler başarıyla eklendi!
+🔄 Yeni incelemeleri görmek için uygulamayı yenileyin
 ```
 
 ---
 
-## 🔧 Method 2: Manual SQL (If you prefer)
+## 🔧 Yöntem 2: Manuel SQL (Tercih ederseniz)
 
-### Step 1: Get Your Book IDs
+### 1. Adım: Kitap Kimliklerinizi Alın
 
-Run this in Supabase SQL Editor:
+Bunu Supabase SQL Düzenleyicide çalıştırın:
 
 ```sql
 SELECT id, title FROM books ORDER BY created_at;
 ```
 
-### Step 2: Copy Book IDs
+### 2. Adım: Kitap Kimliklerini Kopyalayın
 
-Note down the UUID for each book.
+Her kitap için UUID'yi not edin.
 
-### Step 3: Edit Migration File
+### 3. Adım: Geçiş Dosyasını Düzenleyin
 
-Open: `supabase/migrations/20251015000000_add_diverse_realistic_reviews.sql`
+Açın: `supabase/migrations/20251015000000_add_diverse_realistic_reviews.sql`
 
-Replace placeholders:
-- `BOOK_ID_1` → Your first book's UUID
-- `BOOK_ID_2` → Your second book's UUID
-- etc.
+Yer tutucuları değiştirin:
+- `BOOK_ID_1` → İlk kitabınızın UUID'si
+- `BOOK_ID_2` → İkinci kitabınızın UUID'si
+- vb.
 
-### Step 4: Run Migration
+### 4. Adım: Geçişi Çalıştırın
 
-Copy the modified SQL and execute in Supabase SQL Editor.
+Değiştirilen SQL'i kopyalayın ve Supabase SQL Düzenleyicide çalıştırın.
 
-### Step 5: Update Ratings
+### 5. Adım: Puanları Güncelleyin
 
-Run this for each book:
+Her kitap için bunu çalıştırın:
 
 ```sql
-SELECT update_book_rating('your-book-uuid');
+SELECT update_book_rating('kitap-uuid');
 ```
 
 ---
 
-## 📝 Review Examples
+## 📝 İnceleme Örnekleri
 
-### 5-Star Review (Excellent)
+### 5 Yıldızlı İnceleme (Mükemmel)
 ```
 "Muhteşem bir kitap! Karakterler çok gerçekçi yazılmış, 
 kendimi hikayenin içinde hissettim. Kesinlikle tavsiye ediyorum!"
 ```
 
-### 4-Star Review (Good)
+### 4 Yıldızlı İnceleme (İyi)
 ```
 "Güzel bir roman. Akıcı bir dili var, saatlerce okuyup bitirdim. 
 Genel olarak keyifli bir okuma deneyimiydi."
 ```
 
-### 3-Star Review (Neutral)
+### 3 Yıldızlı İnceleme (Nötr)
 ```
 "Fena değil ama beklediğim kadar iyi olmadı. 
 Hikaye ortalarına doğru biraz yavaşlıyor."
 ```
 
-### 2-Star Review (Below Average)
+### 2 Yıldızlı İnceleme (Ortalamanın Altı)
 ```
 "Ne yazık ki çok beğenmedim. Anlatım tarzı bana göre değildi, 
 çok yavaş ilerliyor."
 ```
 
-### 1-Star Review (Poor)
+### 1 Yıldızlı İnceleme (Kötü)
 ```
 "Okumak için harcadığım zamana değmedi. Hikaye çok dağınık, 
 karakterler gelişmemiş. Maalesef tavsiye edemem."
@@ -144,69 +144,69 @@ karakterler gelişmemiş. Maalesef tavsiye edemem."
 
 ---
 
-## 👥 Sample Reviewers
+## 👥 Örnek İnceleyiciler
 
-The script uses realistic Turkish names:
+Script gerçekçi Türkçe isimler kullanır:
 - Ayşe Yılmaz
 - Mehmet Demir
 - Zeynep Kaya
 - Can Öztürk
 - Elif Şahin
 - Burak Arslan
-- ... and 35+ more
+- ... ve 35+ daha fazlası
 
-Each reviewer gets a unique avatar from [pravatar.cc](https://pravatar.cc).
+Her inceleyici [pravatar.cc](https://pravatar.cc) adresinden benzersiz bir avatar alır.
 
 ---
 
-## 🎨 Review Characteristics
+## 🎨 İnceleme Özellikleri
 
-### Positive Reviews (4-5 stars):
-- Enthusiastic language
-- Specific praise (characters, plot, style)
-- Recommendations to others
-- Emotional connections
+### Pozitif İncelemeler (4-5 yıldız):
+- Hevesli dil
+- Özel övgüler (karakterler, hikaye, stil)
+- Başkalarına öneriler
+- Duygusal bağlantılar
 - "Muhteşem!", "Harika!", "Kesinlikle tavsiye!"
 
-### Neutral Reviews (3 stars):
-- Balanced criticism
-- "Could be better" sentiment
-- Mixed feelings
-- Average experience
+### Nötr İncelemeler (3 yıldız):
+- Dengeli eleştiriler
+- "Daha iyi olabilirdi" duygusu
+- Karışık duygular
+- Ortalama deneyim
 - "Fena değil", "İdare eder", "Ortalama"
 
-### Negative Reviews (1-2 stars):
-- Specific disappointments
-- Below expectations
-- Constructive criticism
-- Not recommended
+### Negatif İncelemeler (1-2 yıldız):
+- Özel hayal kırıklıkları
+- Beklentilerin altında
+- Yapıcı eleştiriler
+- Tavsiye edilmez
 - "Beğenmedim", "Hayal kırıklığı", "Tavsiye etmem"
 
 ---
 
-## 🔄 After Adding Reviews
+## 🔄 İncelemeler Eklendikten Sonra
 
-### Your App Will Show:
+### Uygulamanız Gösterecek:
 
-1. **Updated Ratings**: Each book shows new average rating
-2. **Review Count**: Total number of reviews displayed
-3. **Review List**: All reviews when you click a book
-4. **Star Ratings**: Visual star display in book cards
-5. **User Info**: Name and avatar for each reviewer
+1. **Güncellenmiş Puanlar**: Her kitap yeni ortalama puanı gösterir
+2. **İnceleme Sayısı**: Toplam inceleme sayısı görüntülenir
+3. **İnceleme Listesi**: Bir kitaba tıkladığınızda tüm incelemeler
+4. **Yıldız Puanları**: Kitap kartlarında görsel yıldız gösterimi
+5. **Kullanıcı Bilgileri**: Her inceleyenin adı ve avatarı
 
-### Refresh Your App:
+### Uygulamanızı Yenileyin:
 
 ```bash
-# Just reload your browser
-# Or restart dev server:
+# Sadece tarayıcınızı yenileyin
+# Veya geliştirme sunucusunu yeniden başlatın:
 npm run dev
 ```
 
 ---
 
-## 📊 Database Schema
+## 📊 Veritabanı Şeması
 
-Reviews are stored in the `reviews` table:
+İncelemeler `reviews` tablosunda saklanır:
 
 ```sql
 CREATE TABLE reviews (
@@ -220,61 +220,61 @@ CREATE TABLE reviews (
 );
 ```
 
-Book ratings are updated in the `books` table:
+Kitap puanları `books` tablosunda güncellenir:
 
 ```sql
 UPDATE books SET
-  average_rating = (AVG of all review ratings),
-  total_reviews = (COUNT of all reviews)
+  average_rating = (tüm inceleme puanlarının ortalaması),
+  total_reviews = (tüm incelemelerin sayısı)
 ```
 
 ---
 
-## 🛠️ Customization
+## 🛠️ Özelleştirme
 
-### Add More Reviews:
+### Daha Fazla İnceleme Ekleyin:
 
-Edit `scripts/add-reviews.js`:
+`scripts/add-reviews.js` dosyasını düzenleyin:
 
 ```javascript
-// Change review count per book (default: 5-8)
-const reviewCount = Math.floor(Math.random() * 6) + 8; // 8-13 reviews
+// Kitap başına inceleme sayısını değiştirin (varsayılan: 5-8)
+const reviewCount = Math.floor(Math.random() * 6) + 8; // 8-13 inceleme
 ```
 
-### Add Custom Review Templates:
+### Özel İnceleme Şablonları Ekleyin:
 
-Add to the `reviewTemplates` object:
+`reviewTemplates` nesnesine ekleyin:
 
 ```javascript
 const reviewTemplates = {
   5: [
-    'Your custom 5-star review here...',
-    // Add more...
+    'Özel 5 yıldızlı incelemeniz buraya...',
+    // Daha fazlasını ekleyin...
   ],
-  // ... other ratings
+  // ... diğer puanlar
 };
 ```
 
-### Add More Names:
+### Daha Fazla İsim Ekleyin:
 
-Add to the `turkishNames` array:
+`turkishNames` dizisine ekleyin:
 
 ```javascript
 const turkishNames = [
   'Ayşe Yılmaz',
-  'Your Custom Name',
-  // Add more...
+  'Özel Adınız',
+  // Daha fazlasını ekleyin...
 ];
 ```
 
 ---
 
-## ✅ Verification
+## ✅ Doğrulama
 
-### Check Reviews in Database:
+### Veritabanında İncelemeleri Kontrol Edin:
 
 ```sql
--- See all reviews
+-- Tüm incelemeleri görün
 SELECT 
   b.title,
   r.user_name,
@@ -285,10 +285,10 @@ JOIN books b ON b.id = r.book_id
 ORDER BY r.created_at DESC;
 ```
 
-### Check Book Ratings:
+### Kitap Puanlarını Kontrol Edin:
 
 ```sql
--- See updated book ratings
+-- Güncellenmiş kitap puanlarını görün
 SELECT 
   title,
   average_rating,
@@ -299,82 +299,82 @@ ORDER BY average_rating DESC;
 
 ---
 
-## 🐛 Troubleshooting
+## 🐛 Sorun Giderme
 
-### Script Not Running?
+### Script Çalışmıyor mu?
 
 ```bash
-# Make sure you're in project directory
+# Proje dizininde olduğunuzdan emin olun
 cd project
 
-# Check if .env file exists with Supabase credentials
+# Supabase kimlik bilgileriyle .env dosyasının varlığını kontrol edin
 cat .env
 
-# Install dependencies if needed
+# Gerekirse bağımlılıkları yükleyin
 npm install
 ```
 
-### No Reviews Appearing?
+### İnceleme Görünmüyor mu?
 
-1. Check Supabase connection
-2. Verify book IDs exist
-3. Check browser console for errors
-4. Clear cache and reload
+1. Supabase bağlantısını kontrol edin
+2. Kitap kimliklerinin varlığını doğrulayın
+3. Tarayıcı konsolunda hataları kontrol edin
+4. Önbelleği temizleyin ve yeniden yükleyin
 
-### Rating Not Updating?
+### Puan Güncellenmiyor mu?
 
-The script automatically updates ratings. If manual:
+Script otomatik olarak puanları günceller. Manuel olarak:
 
 ```sql
--- Manually update a book's rating
-SELECT update_book_rating('book-uuid-here');
+-- Bir kitabın puanını manuel olarak güncelleyin
+SELECT update_book_rating('kitap-uuid-buraya');
 ```
 
 ---
 
-## 📚 Files Created
+## 📚 Oluşturulan Dosyalar
 
-1. **`scripts/add-reviews.js`** - Automated review generator
-2. **`supabase/migrations/20251015000000_add_diverse_realistic_reviews.sql`** - SQL migration
-3. **`supabase/migrations/README_REVIEWS.md`** - Migration guide
-4. **`ADDING_REVIEWS_GUIDE.md`** - This guide
-
----
-
-## 🎓 Tips for Best Results
-
-1. ✅ Run script once per book collection
-2. ✅ Don't run multiple times (duplicates)
-3. ✅ Verify in Supabase dashboard
-4. ✅ Refresh app to see changes
-5. ✅ Check review distribution looks natural
+1. **`scripts/add-reviews.js`** - Otomatik inceleme oluşturucu
+2. **`supabase/migrations/20251015000000_add_diverse_realistic_reviews.sql`** - SQL geçişi
+3. **`supabase/migrations/README_REVIEWS.md`** - Geçiş rehberi
+4. **`ADDING_REVIEWS_GUIDE.md`** - Bu rehber
 
 ---
 
-## 🎉 Expected Results
+## 🎓 En İyi Sonuçlar İçin İpuçları
 
-After running the script:
-
-- ✅ Each book has 5-8 reviews
-- ✅ Ratings range from 1-5 stars
-- ✅ Comments are realistic and varied
-- ✅ Users have Turkish names
-- ✅ Avatars are displayed
-- ✅ Timestamps are spread naturally
-- ✅ Book ratings are updated
-- ✅ Total review counts are accurate
+1. ✅ Scripti her kitap koleksiyonu için bir kez çalıştırın
+2. ✅ Birden fazla çalıştırmayın (yinelemeler)
+3. ✅ Supabase kontrol panelinde doğrulayın
+4. ✅ Değişiklikleri görmek için uygulamayı yenileyin
+5. ✅ İnceleme dağılımının doğal göründüğünü kontrol edin
 
 ---
 
-## 📞 Support
+## 🎉 Beklenen Sonuçlar
 
-If you encounter any issues:
+Scripti çalıştırdıktan sonra:
 
-1. Check the console output for errors
-2. Verify Supabase credentials
-3. Ensure books exist in database
-4. Check network connectivity
+- ✅ Her kitabın 5-8 incelemesi olacak
+- ✅ Puanlar 1-5 yıldız aralığında olacak
+- ✅ Yorumlar gerçekçi ve çeşitli olacak
+- ✅ Kullanıcıların Türkçe isimleri olacak
+- ✅ Avatarlar görüntülenecek
+- ✅ Zaman damgaları doğal şekilde yayılacak
+- ✅ Kitap puanları güncellenecek
+- ✅ Toplam inceleme sayıları doğru olacak
 
 ---
 
-**Happy reviewing! 📚⭐**
+## 📞 Destek
+
+Herhangi bir sorunla karşılaşırsanız:
+
+1. Hatalar için konsol çıktısını kontrol edin
+2. Supabase kimlik bilgilerini doğrulayın
+3. Veritabanında kitapların varlığını kontrol edin
+4. Ağ bağlantısını kontrol edin
+
+---
+
+**İyi incelemeler! 📚⭐**

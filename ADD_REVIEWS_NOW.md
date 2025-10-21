@@ -1,160 +1,160 @@
-# 🚀 Add Reviews NOW - Quick Steps
+# 🚀 İncelemeleri ŞİMDİ Ekle - Hızlı Adımlar
 
-## ✅ Your Modal is Already Working!
+## ✅ Modalınız Zaten Çalışıyor!
 
-The book modal implementation is **correct** and should work. The design **matches** the previous implementation perfectly.
-
----
-
-## 🎯 The Issue: Reviews Not Added Yet
-
-You just need to **add the reviews to your database**. Here's how:
+Kitap modal uygulaması **doğru** ve çalışmalı. Tasarım önceki uygulamayla **tamamen uyumlu**.
 
 ---
 
-## 📋 Prerequisites Check
+## 🎯 Sorun: İncelemeler Henüz Eklenmedi
 
-### Do you have Supabase configured?
-
-**Check your `.env` file:**
-- Does it have real values (not `your-project-url-here`)?
-- If NO → See "Setup Supabase" below
-- If YES → Skip to "Add Reviews" section
+Sadece **veritabanınıza incelemeler eklemeniz** gerekiyor. İşte nasıl yapacağınız:
 
 ---
 
-## 🔧 Setup Supabase (If Needed)
+## 📋 Önkoşullar Kontrolü
 
-### Quick Method:
+### Supabase yapılandırılmış mı?
 
-1. **Open `.env` file**
-2. **Replace** placeholder values with real ones:
+**`.env` dosyanızı kontrol edin:**
+- Gerçek değerler var mı (yani `your-project-url-here` değil mi)?
+- HAYIRSA → Aşağıdaki "Supabase Kurulumu" bölümüne bakın
+- EVETSE → "İncelemeler Ekle" bölümüne geçin
+
+---
+
+## 🔧 Supabase Kurulumu (Gerekirse)
+
+### Hızlı Yöntem:
+
+1. **`.env` dosyasını açın**
+2. **Yer tutucu değerleri gerçek değerlerle değiştirin:**
    ```env
    VITE_SUPABASE_URL=https://xxxxxxxxx.supabase.co
    VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxx
    ```
 
-3. **Get credentials** from: https://supabase.com/dashboard
-   - Settings → API
-   - Copy Project URL and anon key
+3. **Kimlik bilgilerini alın:** https://supabase.com/dashboard adresinden
+   - Ayarlar → API
+   - Proje URL'sini ve anon anahtarını kopyalayın
 
-4. **Create database tables:**
-   - Go to Supabase → SQL Editor
-   - Run the SQL from [`FIX_MODAL_AND_ADD_REVIEWS.md`](./FIX_MODAL_AND_ADD_REVIEWS.md) (Step 2C)
+4. **Veritabanı tablolarını oluşturun:**
+   - Supabase → SQL Düzenleyici'ye gidin
+   - [`FIX_MODAL_AND_ADD_REVIEWS.md`](./FIX_MODAL_AND_ADD_REVIEWS.md) dosyasından SQL'i çalıştırın (2C Adımı)
 
-5. **Restart server:**
+5. **Sunucuyu yeniden başlatın:**
    ```bash
-   # Press Ctrl+C to stop
+   # Durdurmak için Ctrl+C'ye basın
    npm run dev
    ```
 
 ---
 
-## 🎉 Add Reviews (MAIN STEP)
+## 🎉 İncelemeler Ekle (ANA ADIM)
 
-### If you already have books:
+### Zaten kitaplarınız varsa:
 
 ```bash
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; npm run add-reviews
 ```
 
-### If you DON'T have books yet:
+### Kitabınız YOKSA:
 
 ```bash
-# Step 1: Import books first
+# 1. Adım: Önce kitapları içe aktarın
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; npm run import-books
 
-# Step 2: Then add reviews
+# 2. Adım: Ardından incelemeleri ekleyin
 npm run add-reviews
 ```
 
 ---
 
-## ⏱️ What to Expect
+## ⏱️ Beklenenler
 
-### Import Books (~2 minutes):
+### Kitapları İçe Aktar (~2 dakika):
 ```
-🚀 Starting book import...
-✅ Imported 150+ books from Open Library
-```
-
-### Add Reviews (~2 minutes):
-```
-🚀 Starting realistic bilingual review generation...
-📚 Adding 16 bilingual reviews to "Book 1"...
-✅ Added 16 reviews
-📚 Adding 13 bilingual reviews to "Book 2"...
-✅ Added 13 reviews
-... [continues]
-✨ All reviews added successfully!
-📊 Total: ~1650 reviews (each with TR + EN)
+🚀 Kitap içe aktarma başlatılıyor...
+✅ Open Library'den 150+ kitap içe aktarıldı
 ```
 
----
-
-## ✅ Test It
-
-1. **Refresh browser** (F5)
-2. **Click any book**
-3. **Modal opens** with:
-   - Book cover ✅
-   - Book details ✅
-   - 5-20 bilingual reviews ✅
-   - Each review has Turkish + English ✅
-
----
-
-## 🐛 Quick Troubleshooting
-
-### Modal doesn't open?
-- Check browser console (F12) for errors
-- Verify `.env` has real Supabase values
-- Restart dev server
-
-### No reviews showing?
-- Run: `npm run add-reviews`
-- Wait for completion
-- Refresh browser
-
-### "No books found"?
-- Run: `npm run import-books`
-- Then: `npm run add-reviews`
+### İncelemeler Ekle (~2 dakika):
+```
+🚀 Gerçekçi iki dilli inceleme oluşturmaya başlanıyor...
+📚 "Kitap 1" kitabına 16 iki dilli inceleme ekleniyor...
+✅ 16 inceleme eklendi
+📚 "Kitap 2" kitabına 13 iki dilli inceleme ekleniyor...
+✅ 13 inceleme eklendi
+... [devam eder]
+✨ Tüm incelemeler başarıyla eklendi!
+📊 Toplam: ~1650 inceleme (her biri TR + EN)
+```
 
 ---
 
-## 📞 Current Status
+## ✅ Test Edin
 
-Your app is at: **http://localhost:5174**
-
-**What works:**
-- ✅ Server running
-- ✅ Modal component ready
-- ✅ Design correct
-- ✅ Footer links functional
-
-**What's missing:**
-- ❌ Reviews not in database
-
-**Solution:**
-- ▶️ Run `npm run add-reviews`
+1. **Tarayıcıyı yenileyin** (F5)
+2. **Herhangi bir kitaba tıklayın**
+3. **Modal açılır:**
+   - Kitap kapağı ✅
+   - Kitap detayları ✅
+   - 5-20 iki dilli inceleme ✅
+   - Her incelemede Türkçe + İngilizce ✅
 
 ---
 
-## 🎯 Bottom Line
+## 🐛 Hızlı Sorun Giderme
 
-**The modal is fine. You just need to:**
+### Modal açılmıyor mu?
+- Tarayıcı konsolunu kontrol edin (F12) hatalar için
+- `.env` dosyasının gerçek Supabase değerlerine sahip olduğunu doğrulayın
+- Geliştirme sunucusunu yeniden başlatın
 
-1. Make sure Supabase is configured
-2. Run `npm run import-books` (if no books)
-3. Run `npm run add-reviews` 
-4. Refresh browser
-5. Done! ✅
+### İnceleme görünmüyor mu?
+- Çalıştırın: `npm run add-reviews`
+- Tamamlanmasını bekleyin
+- Tarayıcıyı yenileyin
 
-**Time needed:** 5 minutes total
+### "Kitap bulunamadı" mu?
+- Çalıştırın: `npm run import-books`
+- Ardından: `npm run add-reviews`
 
 ---
 
-Ready to add reviews? Open a new PowerShell terminal and run:
+## 📞 Mevcut Durum
+
+Uygulamanız: **http://localhost:5174** adresinde
+
+**Çalışanlar:**
+- ✅ Sunucu çalışıyor
+- ✅ Modal bileşeni hazır
+- ✅ Tasarım doğru
+- ✅ Alt bilgi bağlantıları işlevsel
+
+**Eksik olan:**
+- ❌ Veritabanında incelemeler yok
+
+**Çözüm:**
+- ▶️ `npm run add-reviews` komutunu çalıştırın
+
+---
+
+## 🎯 Alt Satır
+
+**Modal sorunsuz. Sadece şunları yapmanız gerekiyor:**
+
+1. Supabase'in yapılandırıldığından emin olun
+2. `npm run import-books` komutunu çalıştırın (kitap yoksa)
+3. `npm run add-reviews` komutunu çalıştırın
+4. Tarayıcıyı yenileyin
+5. Bitti! ✅
+
+**Gereken süre:** Toplam 5 dakika
+
+---
+
+İncelemeleri eklemeye hazır mısınız? Yeni bir PowerShell terminali açın ve şunu çalıştırın:
 
 ```bash
 cd "c:\Users\emir-\OneDrive\Belgeler\GitHub\kitapKesif"
@@ -162,4 +162,4 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 npm run add-reviews
 ```
 
-🎉 **That's it!**
+🎉 **Bu kadar!**

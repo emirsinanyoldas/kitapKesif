@@ -1,6 +1,6 @@
-# 🏗️ Architecture Diagram
+# 🏗️ Mimari Diyagram
 
-## System Architecture Overview
+## Sistem Mimarisine Genel Bakış
 
 ```mermaid
 graph TB
@@ -56,7 +56,7 @@ graph TB
     ReviewService --> Supabase
 ```
 
-## Data Flow Architecture
+## Veri Akışı Mimarisi
 
 ```mermaid
 graph LR
@@ -78,7 +78,7 @@ graph LR
     Component --> User
 ```
 
-## Component Architecture
+## Bileşen Mimarisi
 
 ```mermaid
 graph TB
@@ -111,7 +111,7 @@ graph TB
     AppMain --> AIComp
 ```
 
-## Hook Dependencies
+## Hook Bağımlılıkları
 
 ```mermaid
 graph TB
@@ -148,7 +148,7 @@ graph TB
     ModalHook --> Callback
 ```
 
-## Service Layer Structure
+## Servis Katmanı Yapısı
 
 ```mermaid
 graph TB
@@ -178,7 +178,7 @@ graph TB
     ThemeSvc --> Direct
 ```
 
-## State Management Flow
+## Durum Yönetimi Akışı
 
 ```mermaid
 graph LR
@@ -197,7 +197,7 @@ graph LR
     Update --> Render
 ```
 
-## Theme System Flow
+## Tema Sistemi Akışı
 
 ```mermaid
 graph TB
@@ -220,7 +220,7 @@ graph TB
     DOM --> Rerender
 ```
 
-## Book Loading Flow
+## Kitap Yükleme Akışı
 
 ```mermaid
 graph TB
@@ -249,7 +249,7 @@ graph TB
     SetError --> Render
 ```
 
-## Folder Structure Visualization
+## Klasör Yapısı Görselleştirme
 
 ```
 src/
@@ -290,7 +290,7 @@ src/
 └── 💅 index.css           (Global Styles)
 ```
 
-## Technology Stack Layers
+## Teknoloji Yığını Katmanları
 
 ```mermaid
 graph TB
@@ -324,7 +324,7 @@ graph TB
     Supabase --> PostgreSQL
 ```
 
-## Request/Response Flow
+## İstek/Yanıt Akışı
 
 ```mermaid
 sequenceDiagram
@@ -344,7 +344,7 @@ sequenceDiagram
     C-->>U: Show Modal with Reviews
 ```
 
-## Error Handling Flow
+## Hata İşleme Akışı
 
 ```mermaid
 graph TB
@@ -373,36 +373,36 @@ graph TB
 
 ---
 
-## Key Architecture Principles
+## Ana Mimari İlkeler
 
-### 1. Separation of Concerns
-- **Components**: Only UI rendering
-- **Hooks**: State and side effects
-- **Services**: Business logic and API
-- **Utils**: Reusable functions
+### 1. Endişelerin Ayrılması
+- **Bileşenler**: Sadece UI oluşturma
+- **Hook'lar**: Durum ve yan etkiler
+- **Servisler**: İş mantığı ve API
+- **Araçlar**: Yeniden kullanılabilir fonksiyonlar
 
-### 2. Unidirectional Data Flow
+### 2. Tek Yönlü Veri Akışı
 ```
 User Action → Component → Hook → Service → API
                   ↑                        ↓
                   └──── State Update ←─────┘
 ```
 
-### 3. Dependency Injection
-- Services are independent
-- Hooks consume services
-- Components consume hooks
+### 3. Bağımlılık Enjeksiyonu
+- Servisler bağımsızdır
+- Hook'lar servisleri tüketir
+- Bileşenler hook'ları tüketir
 
-### 4. Single Responsibility
-- Each module has one job
-- Easy to test and maintain
-- Clear boundaries
+### 4. Tek Sorumluluk
+- Her modülün tek bir işi vardır
+- Test edilmesi ve bakımı kolaydır
+- Net sınırlar
 
 ---
 
-**This architecture ensures**:
-✅ Maintainability  
-✅ Scalability  
-✅ Testability  
-✅ Performance  
-✅ Developer Experience
+**Bu mimari şunları sağlar**:
+✅ Bakım Kolaylığı  
+✅ Ölçeklenebilirlik  
+✅ Test Edilebilirlik  
+✅ Performans  
+✅ Geliştirici Deneyimi

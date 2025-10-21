@@ -1,339 +1,338 @@
-# 🗄️ Database Management Guide
+# 🗄️ Veritabanı Yönetim Rehberi
 
-**Your Complete SQL & Database Operations Reference**
+**Tam SQL & Veritabanı İşlemleri Referansınız**
 
-As your SQL Database Specialist, I've set up everything you need to manage your database without any SQL knowledge. This guide shows you how to use all the automated tools.
+SQL Veritabanı Uzmanınız olarak, SQL bilgisi olmadan veritabanınızı yönetmek için ihtiyacınız olan her şeyi kurdum. Bu rehber size tüm otomatik araçların nasıl kullanılacağını gösterir.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Hızlı Başlangıç
 
-### 1️⃣ First-Time Setup (REQUIRED)
+### 1️⃣ İlk Kurulum (GEREKLİ)
 
-Before importing books, you must fix the database permissions:
+Kitapları içe aktarmadan önce veritabanı izinlerini düzeltmelisiniz:
 
 ```bash
-# Option A: Automated fix (try this first)
+# Seçenek A: Otomatik düzeltme (ilk önce bunu deneyin)
 npm run fix-db
 
-# Option B: Manual fix (if option A doesn't work)
-# Open FIX_DATABASE_NOW.sql and run it in Supabase SQL Editor
+# Seçenek B: Manuel düzeltme (seçenek A işe yaramazsa)
+# FIX_DATABASE_NOW.sql dosyasını açın ve Supabase SQL Düzenleyicide çalıştırın
 ```
 
-**Why?** Your database currently blocks INSERT operations. This is a one-time fix.
+**Neden?** Veritabanınız şu anda INSERT işlemlerini engelliyor. Bu tek seferlik bir düzeltmedir.
 
-### 2️⃣ Check Database Health
+### 2️⃣ Veritabanı Sağlığını Kontrol Edin
 
 ```bash
 npm run check-db
 ```
 
-This checks:
-- ✅ Database connection
-- ✅ Table record counts
-- ✅ Data integrity
-- ✅ INSERT permissions
-- ✅ Sample data
+Bu kontrolleri yapar:
+- ✅ Veritabanı bağlantısı
+- ✅ Tablo kayıt sayıları
+- ✅ Veri bütünlüğü
+- ✅ INSERT izinleri
+- ✅ Örnek veri
 
-### 3️⃣ Import Books
+### 3️⃣ Kitapları İçe Aktar
 
 ```bash
 npm run import-books
 ```
 
-Imports 150+ books from Open Library API across 25+ diverse topics.
+Open Library API'den 150+ kitap içe aktarır.
 
 ---
 
-## 📋 Available Commands
+## 📋 Mevcut Komutlar
 
-### Database Health & Maintenance
+### Veritabanı Sağlığı & Bakımı
 
-| Command | Description | When to Use |
-|---------|-------------|-------------|
-| `npm run check-db` | Full database health check | Anytime, to verify everything is working |
-| `npm run fix-db` | Fix INSERT/UPDATE permissions | One-time, before importing books |
-| `npm run backup-db` | Create backup of all data | Before major changes, weekly backups |
-| `npm run restore-db -- "filename.json"` | Restore from backup | If data is lost or corrupted |
+| Komut | Açıklama | Ne Zaman Kullanılır |
+|-------|----------|---------------------|
+| `npm run check-db` | Tam veritabanı sağlık kontrolü | Her zaman, her şeyin çalıştığını doğrulamak için |
+| `npm run fix-db` | INSERT/UPDATE izinlerini düzelt | Tek seferlik, kitapları içe aktarmadan önce |
+| `npm run backup-db` | Tüm verilerin yedeğini oluştur | Büyük değişikliklerden önce, haftalık yedeklemeler |
 
-### Data Import & Population
+### Veri İçe Aktarma & Doldurma
 
-| Command | Description | Output |
-|---------|-------------|--------|
-| `npm run import-books` | Import books from Open Library | 150+ books across 25+ categories |
-| `npm run add-reviews` | Add sample reviews to books | Realistic reviews for all books |
-| `npm run test-api` | Test Open Library API connection | Verifies API is accessible |
+| Komut | Açıklama | Çıktı |
+|-------|----------|-------|
+| `npm run import-books` | Open Library'den kitapları içe aktar | 150+ kitap 25+ kategoride |
+| `npm run add-reviews` | Kitaplara örnek incelemeler ekle | Tüm kitaplar için gerçekçi incelemeler |
+| `npm run test-api` | Open Library API bağlantısını test et | API'nin erişilebilir olduğunu doğrular |
 
-### SQL Operations
+### SQL İşlemleri
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `npm run sql -- "QUERY"` | Run custom SQL query | `npm run sql -- "SELECT COUNT(*) FROM books;"` |
+| Komut | Açıklama | Örnek |
+|-------|----------|-------|
+| `npm run sql -- "SORGU"` | Özel SQL sorgusu çalıştır | `npm run sql -- "SELECT COUNT(*) FROM books;"` |
 
 ---
 
-## 🔧 Detailed Usage
+## 🔧 Detaylı Kullanım
 
-### Database Health Check
+### Veritabanı Sağlık Kontrolü
 
-**Command:** `npm run check-db`
+**Komut:** `npm run check-db`
 
-**What it does:**
-- Connects to your database
-- Counts books and reviews
-- Shows sample data
-- Checks category distribution
-- Verifies data integrity
-- Tests INSERT permissions
+**Ne yapar:**
+- Veritabanınıza bağlanır
+- Kitap ve inceleme sayılarını sayar
+- Örnek verileri gösterir
+- Kategori dağılımını kontrol eder
+- Veri bütünlüğünü doğrular
+- INSERT izinlerini test eder
 
-**Example Output:**
-```
-🏥 Database Health Check
-1️⃣  Checking database connection...
-   ✅ Connection successful
+**Örnek Çıktı:**
+```bash
+🏥 Veritabanı Sağlık Kontrolü
+1️⃣  Veritabanı bağlantısı kontrol ediliyor...
+   ✅ Bağlantı başarılı
 
-2️⃣  Checking table record counts...
-   📚 Books: 15 records
-   💬 Reviews: 33 records
-   ✅ Books table populated
+2️⃣  Tablo kayıt sayıları kontrol ediliyor...
+   📚 Kitaplar: 15 kayıt
+   💬 İncelemeler: 33 kayıt
+   ✅ Kitaplar tablosu dolduruldu
 
-3️⃣  Checking sample data...
-   ✅ Sample books retrieved:
+3️⃣  Örnek veriler kontrol ediliyor...
+   ✅ Örnek kitaplar alındı:
       1. "1984" by George Orwell
-         Category: Distopya | Rating: 4.9 (521 reviews)
+         Kategori: Distopya | Derecelendirme: 4.9 (521 inceleme)
 
-6️⃣  Testing INSERT permissions...
-   ✅ INSERT permission working
+6️⃣  INSERT izinleri test ediliyor...
+   ✅ INSERT izni çalışıyor
 ```
 
 ---
 
-### Fix Database Permissions
+### Veritabanı İzinlerini Düzelt
 
-**Command:** `npm run fix-db`
+**Komut:** `npm run fix-db`
 
-**What it does:**
-- Fixes Row Level Security (RLS) policies
-- Enables INSERT operations on books table
-- Enables UPDATE operations on books table
-- Enables INSERT/UPDATE on reviews table
+**Ne yapar:**
+- Satır Seviyesi Güvenlik (RLS) politikalarını düzeltir
+- Kitaplar tablosunda INSERT işlemlerini etkinleştirir
+- Kitaplar tablosunda UPDATE işlemlerini etkinleştirir
+- İncelemeler tablosunda INSERT/UPDATE işlemlerini etkinleştirir
 
-**When to run:**
-- ⚠️ **Required before first import**
-- If `check-db` shows "INSERT permission denied"
-- After database reset
+**Ne zaman çalıştırılır:**
+- ⚠️ **İlk içe aktarmadan önce gerekli**
+- `check-db` "INSERT izni reddedildi" gösterirse
+- Veritabanı sıfırlandıktan sonra
 
-**What if automated fix doesn't work?**
+**Otomatik düzeltme işe yaramazsa ne olur?**
 
-Run the SQL manually:
-1. Open [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql)
-2. Copy all the SQL
-3. Go to: https://supabase.com/dashboard → Your Project → SQL Editor
-4. Paste and click "Run"
-
----
-
-### Import Books
-
-**Command:** `npm run import-books`
-
-**What it does:**
-- Fetches books from Open Library API
-- Imports 150+ diverse books
-- Covers 25+ topics and genres
-- Removes duplicates
-- Adds Turkish-appropriate content
-
-**Topics Covered:**
-- Classic Literature
-- Science Fiction
-- Fantasy
-- Philosophy
-- Psychology
-- History
-- Science
-- Art
-- Biography
-- And many more!
-
-**Example Output:**
-```
-📚 Open Library Book Import Tool
-Collecting books across 25 diverse topics...
-
-Progress: ████████████████████ 100% (25/25 topics)
-
-✅ Book collection completed!
-📊 Books to import: 186 unique books
-
-Starting import to database...
-Progress: ████████████████████ 100% (186/186)
-
-✅ Import completed!
-Success: 186 books
-```
-
-**Note:** Requires `npm run fix-db` to be run first!
+SQL'i manuel olarak çalıştırın:
+1. [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) dosyasını açın
+2. Tüm SQL'i kopyalayın
+3. Şuraya gidin: https://supabase.com/dashboard → Projeniz → SQL Düzenleyici
+4. Yapıştırın ve "Run" tıklayın
 
 ---
 
-### Backup Database
+### Kitapları İçe Aktar
 
-**Command:** `npm run backup-db`
+**Komut:** `npm run import-books`
 
-**What it does:**
-- Exports all books and reviews to JSON
-- Saves to `backups/` directory
-- Includes metadata and timestamps
-- Shows category breakdown
+**Ne yapar:**
+- Open Library API'den kitaplar getirir
+- 150+ çeşitli kitap içe aktarır
+- 25+ konu ve türü kapsar
+- Yinelenenleri kaldırır
+- Türkçe uygun içerik ekler
 
-**Example Output:**
+**Kapsanan Konular:**
+- Klasik Edebiyat
+- Bilim Kurgu
+- Fantastik
+- Felsefe
+- Psikoloji
+- Tarih
+- Bilim
+- Sanat
+- Biyografi
+- Ve daha fazlası!
+
+**Örnek Çıktı:**
+```bash
+📚 Open Library Kitap İçe Aktarma Aracı
+25 çeşitli konu boyunca kitaplar toplanıyor...
+
+İlerleme: ████████████████████ 100% (25/25 konu)
+
+✅ Kitap koleksiyonu tamamlandı!
+📊 İçe aktarılacak kitaplar: 186 benzersiz kitap
+
+Veritabanına içe aktarma başlatılıyor...
+İlerleme: ████████████████████ 100% (186/186)
+
+✅ İçe aktarma tamamlandı!
+Başarı: 186 kitap
 ```
-💾 Database Backup Tool
 
-📚 Backing up books...
-   ✅ Retrieved 186 books
-💬 Backing up reviews...
-   ✅ Retrieved 450 reviews
+**Not:** Önce `npm run fix-db` çalıştırılmalıdır!
 
-✅ Backup completed successfully!
+---
 
-📊 Backup Summary:
-   • Books: 186
-   • Reviews: 450
-   • File size: 2.45 MB
-   • Location: backups/backup_2025-10-17T14-30-00.json
+### Veritabanını Yedekle
 
-📂 Categories backed up:
-   • Fiction: 45 books
-   • Fantasy: 32 books
-   • Science: 28 books
+**Komut:** `npm run backup-db`
+
+**Ne yapar:**
+- Tüm kitapları ve incelemeleri JSON'a dışa aktarır
+- `backups/` dizinine kaydeder
+- Meta verileri ve zaman damgalarını içerir
+- Kategori dağılımını gösterir
+
+**Örnek Çıktı:**
+```bash
+💾 Veritabanı Yedekleme Aracı
+
+📚 Kitaplar yedekleniyor...
+   ✅ 186 kitap alındı
+💬 İncelemeler yedekleniyor...
+   ✅ 450 inceleme alındı
+
+✅ Yedekleme başarıyla tamamlandı!
+
+📊 Yedekleme Özeti:
+   • Kitaplar: 186
+   • İncelemeler: 450
+   • Dosya boyutu: 2.45 MB
+   • Konum: backups/backup_2025-10-17T14-30-00.json
+
+📂 Yedeklenen kategoriler:
+   • Kurgu: 45 kitap
+   • Fantastik: 32 kitap
+   • Bilim: 28 kitap
    ...
 ```
 
 ---
 
-### Restore Database
+### Veritabanını Geri Yükle
 
-**Command:** `npm run restore-db -- "backup_filename.json"`
+**Komut:** `npm run restore-db -- "yedek_dosya_adı.json"`
 
-**What it does:**
-- Restores books and reviews from backup
-- Recalculates ratings
-- Can merge or replace existing data
+**Ne yapar:**
+- Kitapları ve incelemeleri yedekten geri yükler
+- Derecelendirmeleri yeniden hesaplar
+- Mevcut verilerle birleştirebilir veya değiştirebilir
 
-**Options:**
+**Seçenekler:**
 ```bash
-# Merge with existing data (default - safe)
+# Mevcut verilerle birleştir (varsayılan - güvenli)
 npm run restore-db -- "backup_2025-10-17T14-30-00.json"
 
-# Clear all data and restore (DANGEROUS!)
+# Tüm verileri temizle ve geri yükle (TEHLİKELİ!)
 npm run restore-db -- "backup_2025-10-17T14-30-00.json" --clear
 ```
 
-**List available backups:**
+**Mevcut yedekleri listele:**
 ```bash
 npm run restore-db
 ```
 
 ---
 
-### Run Custom SQL
+### Özel SQL Çalıştır
 
-**Command:** `npm run sql -- "YOUR_SQL_QUERY"`
+**Komut:** `npm run sql -- "SQL_SORGUNUZ"`
 
-**Examples:**
+**Örnekler:**
 
 ```bash
-# Count all books
+# Tüm kitapları say
 npm run sql -- "SELECT COUNT(*) FROM books;"
 
-# Get top rated books
+# En iyi dereceli kitapları al
 npm run sql -- "SELECT title, author, average_rating FROM books ORDER BY average_rating DESC LIMIT 5;"
 
-# Count books by category
+# Kategoriye göre kitap say
 npm run sql -- "SELECT category, COUNT(*) FROM books GROUP BY category;"
 ```
 
-**For more queries, see:** [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md)
+**Daha fazla sorgu için:** [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md)
 
 ---
 
-## 📚 Reference Files
+## 📚 Referans Dosyaları
 
-| File | Description |
-|------|-------------|
-| [`DATABASE_GUIDE.md`](./DATABASE_GUIDE.md) | Complete database documentation (600+ lines) |
-| [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) | Ready-to-use SQL queries for common tasks |
-| [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) | Critical permissions fix (run once) |
-
----
-
-## 🎯 Common Workflows
-
-### Setting Up a New Database
-
-```bash
-1. npm run fix-db              # Fix permissions
-2. npm run import-books        # Import books
-3. npm run add-reviews         # Add reviews
-4. npm run check-db            # Verify everything
-5. npm run backup-db           # Create initial backup
-```
-
-### Weekly Maintenance
-
-```bash
-1. npm run backup-db           # Create backup
-2. npm run check-db            # Health check
-```
-
-### After Making Changes
-
-```bash
-1. npm run check-db            # Verify changes
-2. npm run backup-db           # Backup new state
-```
-
-### Disaster Recovery
-
-```bash
-1. npm run restore-db          # List backups
-2. npm run restore-db -- "backup_file.json"  # Restore
-3. npm run check-db            # Verify restore
-```
+| Dosya | Açıklama |
+|-------|----------|
+| [`DATABASE_GUIDE.md`](./DATABASE_GUIDE.md) | Tam veritabanı belgeleri (600+ satır) |
+| [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) | Yaygın görevler için kullanıma hazır SQL sorguları |
+| [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) | Kritik izin düzeltmesi (bir kez çalıştır) |
 
 ---
 
-## 🔍 Troubleshooting
+## 🎯 Yaygın İş Akışları
 
-### Problem: "INSERT permission denied"
+### Yeni Veritabanı Kurulumu
 
-**Solution:**
+```bash
+1. npm run fix-db              # İzinleri düzelt
+2. npm run import-books        # Kitapları içe aktar
+3. npm run add-reviews         # İncelemeler ekle
+4. npm run check-db            # Her şeyi doğrula
+5. npm run backup-db           # İlk yedek oluştur
+```
+
+### Haftalık Bakım
+
+```bash
+1. npm run backup-db           # Yedek oluştur
+2. npm run check-db            # Sağlık kontrolü
+```
+
+### Değişiklik Yaptıktan Sonra
+
+```bash
+1. npm run check-db            # Değişiklikleri doğrula
+2. npm run backup-db           # Yeni durumu yedekle
+```
+
+### Felaket Kurtarma
+
+```bash
+1. npm run restore-db          # Yedekleri listele
+2. npm run restore-db -- "yedek_dosya.json"  # Geri yükle
+3. npm run check-db            # Geri yüklemeyi doğrula
+```
+
+---
+
+## 🔍 Sorun Giderme
+
+### Sorun: "INSERT izni reddedildi"
+
+**Çözüm:**
 ```bash
 npm run fix-db
 ```
 
-Or manually run [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) in Supabase SQL Editor.
+Veya [`FIX_DATABASE_NOW.sql`](./FIX_DATABASE_NOW.sql) dosyasını Supabase SQL Düzenleyicide manuel olarak çalıştırın.
 
 ---
 
-### Problem: "No books in database"
+### Sorun: "Veritabanında kitap yok"
 
-**Solution:**
+**Çözüm:**
 ```bash
-# First check if permissions are fixed
+# Önce izinlerin düzeltildiğini kontrol edin
 npm run check-db
 
-# If permissions OK, import books
+# İzinler TAMAMSA, kitapları içe aktarın
 npm run import-books
 ```
 
 ---
 
-### Problem: "Wrong book ratings"
+### Sorun: "Yanlış kitap derecelendirmeleri"
 
-**Solution:** Run this SQL in Supabase SQL Editor:
+**Çözüm:** Supabase SQL Düzenleyicide bu SQL'i çalıştırın:
 ```sql
 UPDATE books
 SET 
@@ -346,13 +345,13 @@ SET
   );
 ```
 
-Or see [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) → "Recalculate Book Ratings"
+Veya [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) → "Kitap Derecelendirmelerini Yeniden Hesapla" bölümüne bakın
 
 ---
 
-### Problem: "Slow queries"
+### Sorun: "Yavaş sorgular"
 
-**Solution:** Run this SQL to add performance indexes:
+**Çözüm:** Performans dizinleri eklemek için bu SQL'i çalıştırın:
 ```sql
 CREATE INDEX IF NOT EXISTS idx_books_title_search 
 ON books USING gin(to_tsvector('english', title));
@@ -361,115 +360,115 @@ CREATE INDEX IF NOT EXISTS idx_books_category_rating
 ON books(category, average_rating DESC);
 ```
 
-See [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) → "Performance Optimization"
+[`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md) → "Performans Optimizasyonu" bölümüne bakın
 
 ---
 
-### Problem: "Need to see database statistics"
+### Sorun: "Veritabanı istatistiklerini görmek istiyorum"
 
-**Solution:**
+**Çözüm:**
 ```bash
 npm run check-db
 ```
 
-Or run this SQL:
+Veya bu SQL'i çalıştırın:
 ```bash
 npm run sql -- "SELECT (SELECT COUNT(*) FROM books) as books, (SELECT COUNT(*) FROM reviews) as reviews;"
 ```
 
 ---
 
-## 🛠️ Database Structure
+## 🛠️ Veritabanı Yapısı
 
-### Books Table
+### Kitaplar Tablosu
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | UUID | Unique identifier (auto-generated) |
-| `title` | TEXT | Book title |
-| `author` | TEXT | Author name |
-| `description` | TEXT | Book description |
-| `cover_image` | TEXT | Cover image URL |
-| `back_cover_image` | TEXT | Back cover URL (optional) |
-| `category` | TEXT | Genre/category |
-| `average_rating` | NUMERIC | Calculated average (0-5) |
-| `total_reviews` | INTEGER | Number of reviews |
-| `created_at` | TIMESTAMP | When book was added |
+| Sütun | Tür | Açıklama |
+|-------|-----|----------|
+| `id` | UUID | Benzersiz tanımlayıcı (otomatik oluşturulan) |
+| `title` | TEXT | Kitap başlığı |
+| `author` | TEXT | Yazar adı |
+| `description` | TEXT | Kitap açıklaması |
+| `cover_image` | TEXT | Kapak görseli URL'si |
+| `back_cover_image` | TEXT | Arka kapak URL'si (isteğe bağlı) |
+| `category` | TEXT | Tür/kategori |
+| `average_rating` | NUMERIC | Hesaplanan ortalama (0-5) |
+| `total_reviews` | INTEGER | İnceleme sayısı |
+| `created_at` | TIMESTAMP | Kitabın eklendiği zaman |
 
-### Reviews Table
+### İncelemeler Tablosu
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | UUID | Unique identifier (auto-generated) |
-| `book_id` | UUID | Links to books table (foreign key) |
-| `user_name` | TEXT | Reviewer's name |
-| `user_avatar` | TEXT | Reviewer's avatar URL |
-| `rating` | INTEGER | 1-5 stars (validated) |
-| `comment` | TEXT | Review text |
-| `created_at` | TIMESTAMP | When review was posted |
+| Sütun | Tür | Açıklama |
+|-------|-----|----------|
+| `id` | UUID | Benzersiz tanımlayıcı (otomatik oluşturulan) |
+| `book_id` | UUID | Kitaplar tablosuna bağlar (yabancı anahtar) |
+| `user_name` | TEXT | İnceleyenin adı |
+| `user_avatar` | TEXT | İnceleyenin avatar URL'si |
+| `rating` | INTEGER | 1-5 yıldız (doğrulanmış) |
+| `comment` | TEXT | İnceleme metni |
+| `created_at` | TIMESTAMP | İncelemenin yayınlandığı zaman |
 
-### Relationships
+### İlişkiler
 
 ```
-books (1) ←──── (Many) reviews
-  └── One book can have many reviews
-  └── If book deleted, all its reviews deleted (CASCADE)
+books (1) ←──── (Çok) reviews
+  └── Bir kitabın birçok incelemesi olabilir
+  └── Kitap silinirse, tüm incelemeleri silinir (CASCADE)
 ```
 
 ---
 
-## 📊 Database Dashboard
+## 📊 Veritabanı Kontrol Paneli
 
-**Access your Supabase Dashboard:**
+**Supabase Kontrol Panelinize Erişin:**
 
-1. Go to: https://supabase.com/dashboard
-2. Select your project
-3. Use these tools:
-   - **Table Editor** - View/edit data visually
-   - **SQL Editor** - Run custom queries
-   - **Database** - See structure and policies
-   - **Logs** - Monitor queries and errors
-
----
-
-## 🎓 Learning SQL (Optional)
-
-You don't need to learn SQL to use this project, but if you're curious:
-
-- **See common queries:** [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md)
-- **Understand structure:** [`DATABASE_GUIDE.md`](./DATABASE_GUIDE.md)
-- **Practice safely:** Use `npm run sql -- "SELECT * FROM books LIMIT 5;"`
-
-All queries are documented and ready to copy-paste!
+1. Şuraya gidin: https://supabase.com/dashboard
+2. Projenizi seçin
+3. Bu araçları kullanın:
+   - **Table Editor** - Verileri görsel olarak görüntüleyin/düzenleyin
+   - **SQL Editor** - Özel sorgular çalıştırın
+   - **Database** - Yapıyı ve politikaları görün
+   - **Logs** - Sorguları ve hataları izleyin
 
 ---
 
-## ✅ Summary
+## 🎓 SQL Öğrenme (İsteğe Bağlı)
 
-**You now have complete database control:**
+Bu projeyi kullanmak için SQL öğrenmeniz gerekmez, ama merak ediyorsanız:
 
-✅ **Automated Tools** - No SQL knowledge required  
-✅ **Health Monitoring** - Check database status anytime  
-✅ **Data Import** - 150+ books ready to import  
-✅ **Backup & Restore** - Protect your data  
-✅ **Custom Queries** - Run SQL when needed  
-✅ **Full Documentation** - Every operation documented  
-✅ **Troubleshooting** - Solutions for common issues  
+- **Yaygın sorguları görün:** [`SQL_OPERATIONS.md`](./SQL_OPERATIONS.md)
+- **Yapıyı anlayın:** [`DATABASE_GUIDE.md`](./DATABASE_GUIDE.md)
+- **Güvenli bir şekilde pratik yapın:** `npm run sql -- "SELECT * FROM books LIMIT 5;"` komutunu kullanın
 
-**Your SQL Database Specialist has set up everything!** 🚀
-
-Just run the commands, and I'll handle all the SQL complexity behind the scenes.
+Tüm sorgular belgelenmiştir ve kopyalayıp yapıştırılabilir!
 
 ---
 
-## 🆘 Need Help?
+## ✅ Özet
 
-If you encounter any issues:
+**Artık tam veritabanı kontrolüne sahipsiniz:**
 
-1. Run `npm run check-db` to diagnose
-2. Check the output for specific error messages
-3. Look up the error in "Troubleshooting" section above
-4. Check reference files for detailed documentation
-5. Let me know the error and I'll create the exact SQL you need!
+✅ **Otomatik Araçlar** - SQL bilgisi gerekmez  
+✅ **Sağlık İzleme** - Veritabanı durumunu istediğiniz zaman kontrol edin  
+✅ **Veri İçe Aktarma** - 150+ kitap içe aktarmaya hazır  
+✅ **Yedekleme & Geri Yükleme** - Verilerinizi koruyun  
+✅ **Özel Sorgular** - Gerektiğinde SQL çalıştırın  
+✅ **Tam Belgeme** - Her işlem belgelenmiştir  
+✅ **Sorun Giderme** - Yaygın sorunlar için çözümler  
 
-**Remember:** You never need to write SQL yourself. All operations are automated or pre-written for you!
+**SQL Veritabanı Uzmanınız her şeyi kurdu!** 🚀
+
+Sadece komutları çalıştırın ve tüm SQL karmaşasını ben halledeceğim.
+
+---
+
+## 🆘 Yardıma mı İhtiyacınız Var?
+
+Herhangi bir sorunla karşılaşırsanız:
+
+1. `npm run check-db` komutunu çalıştırarak teşhis yapın
+2. Çıktıda belirli hata mesajlarını arayın
+3. Yukarıdaki "Sorun Giderme" bölümünde hatayı bulun
+4. Ayrıntılı belgeler için referans dosyalarına bakın
+5. Hata mesajını bana bildirin ve size tam SQL'i oluşturayım!
+
+**Unutmayın:** SQL'i kendiniz yazmanıza gerek yok. Tüm işlemler otomatikleştirilmiştir veya sizin için önceden yazılmıştır!

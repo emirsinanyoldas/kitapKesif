@@ -1,137 +1,137 @@
-# 📚 KitapKeşif - Book Discovery Platform
+# 📚 KitapKeşif - Kitap Keşfetme Platformu
 
-> A modern, enterprise-grade book discovery and review platform built with React, TypeScript, and Supabase.
+> Modern, kurumsal düzeyde bir kitap keşfetme ve inceleme platformu, React, TypeScript ve Supabase kullanılarak geliştirilmiştir.
 
-![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
+![Durum](https://img.shields.io/badge/Durum-Üretim%20Hazır-success)
 ![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue)
-![Architecture](https://img.shields.io/badge/Architecture-A+-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Mimari](https://img.shields.io/badge/Mimari-A+-brightgreen)
+![Lisans](https://img.shields.io/badge/Lisans-MIT-green)
 
 ---
 
-## 🎯 Project Overview
+## 🎯 Proje Genel Bakışı
 
-KitapKeşif is a full-stack web application that allows users to discover books, read reviews, and explore different categories. Built with modern web technologies and following enterprise-level architecture patterns.
+KitapKeşif, kullanıcıların kitapları keşfetmelerine, incelemeleri okumalarına ve farklı kategorileri keşfetmelerine olanak tanıyan tam teşekküllü bir web uygulamasıdır. Modern web teknolojileri ve kurumsal düzeyde mimari kalıplar kullanılarak geliştirilmiştir.
 
-### ✨ Key Features
+### ✨ Ana Özellikler
 
-- 📖 **Book Discovery**: Browse and explore books with beautiful card layouts
-- 🔍 **Advanced Search**: Search by title, author, or category (debounced)
-- ⭐ **Review System**: Read detailed user reviews and ratings
-- 🌓 **Theme Support**: Beautiful light (autumn orange) and dark (night navy) themes
-- 📱 **Responsive Design**: Perfect experience on all devices
-- ⚡ **Performance Optimized**: 52% faster load, 38% smaller bundle
-- 🤖 **AI Assistant**: Interactive help widget
-- 💾 **Smart Caching**: 90% fewer API calls with intelligent caching
-- 🎯 **Lazy Loading**: Components and images load on-demand
-- 📚 **Open Library Integration**: Import hundreds of books automatically
+- 📖 **Kitap Keşfi**: Güzel kart düzenleriyle kitaplara göz atın ve keşfedin
+- 🔍 **Gelişmiş Arama**: Başlığa, yazara veya kategoriye göre arama (gecikmeli)
+- ⭐ **İnceleme Sistemi**: Detaylı kullanıcı incelemelerini ve puanlamaları okuyun
+- 🌓 **Tema Desteği**: Güzel açık (sonbahar turuncu) ve koyu (gece lacivert) temalar
+- 📱 **Duyarlı Tasarım**: Tüm cihazlarda mükemmel deneyim
+- ⚡ **Performans Optimizasyonu**: %52 daha hızlı yükleme, %38 daha küçük paket
+- 🤖 **Yapay Zeka Asistanı**: Etkileşimli yardım widget'ı
+- 💾 **Akıllı Önbellekleme**: %90 daha az API çağrısı ile zeki önbellekleme
+- 🎯 **Lazy Loading**: Bileşenler ve resimler istek üzerine yüklenir
+- 📚 **Open Library Entegrasyonu**: Yüzlerce kitabı otomatik olarak içe aktarın
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Mimari
 
-This project follows a **clean, layered architecture** based on industry best practices:
+Bu proje, endüstriyel en iyi uygulamalara dayanan **temiz, katmanlı bir mimari** izler:
 
 ```
 ┌─────────────────────────────────────┐
-│     Presentation Layer              │
-│     (React Components)              │
+│     Sunum Katmanı                  │
+│     (React Bileşenleri)            │
 ├─────────────────────────────────────┤
-│     Business Logic Layer            │
-│     (Custom Hooks)                  │
+│     İş Mantığı Katmanı             │
+│     (Özel Hook'lar)                │
 ├─────────────────────────────────────┤
-│     Service Layer                   │
-│     (API & Business Logic)          │
+│     Servis Katmanı                 │
+│     (API ve İş Mantığı)            │
 ├─────────────────────────────────────┤
-│     Data Layer                      │
-│     (Supabase, LocalStorage)        │
+│     Veri Katmanı                   │
+│     (Supabase, LocalStorage)       │
 └─────────────────────────────────────┘
 ```
 
-### Architecture Highlights
+### Mimari Öne Çıkan Özellikler
 
-✅ **Separation of Concerns**: Clear boundaries between layers  
-✅ **SOLID Principles**: Professional design patterns  
-✅ **Type Safety**: 100% TypeScript coverage  
-✅ **Performance**: Optimized with React.memo and hooks  
-✅ **Maintainability**: Clean, documented code  
-✅ **Scalability**: Ready for growth  
+✅ **İşlerin Ayrılması**: Katmanlar arasında net sınırlar  
+✅ **SOLID İlkeleri**: Profesyonel tasarım kalıpları  
+✅ **Tip Güvenliği**: %100 TypeScript kapsamı  
+✅ **Performans**: React.memo ve hook'larla optimize edildi  
+✅ **Bakım Kolaylığı**: Temiz, belgelenmiş kod  
+✅ **Ölçeklenebilirlik**: Büyüme için hazır  
 
 ---
 
-## 📁 Project Structure
+## 📁 Proje Yapısı
 
 ```
-project/
+proje/
 ├── src/
-│   ├── components/        # UI Components (7 files)
-│   ├── hooks/            # Custom Hooks (3 files)
-│   ├── services/         # Service Layer (3 files)
-│   ├── utils/            # Utility Functions
-│   ├── constants/        # App Constants
-│   ├── lib/              # External Libraries
-│   ├── types.ts          # TypeScript Definitions
-│   ├── App.tsx           # Main Application
-│   └── main.tsx          # Entry Point
-├── public/               # Static Assets
-├── supabase/            # Database Migrations
-└── docs/                # Documentation
+│   ├── components/        # UI Bileşenleri (7 dosya)
+│   ├── hooks/            # Özel Hook'lar (3 dosya)
+│   ├── services/         # Servis Katmanı (3 dosya)
+│   ├── utils/            # Yardımcı Fonksiyonlar
+│   ├── constants/        # Uygulama Sabitleri
+│   ├── lib/              # Harici Kütüphaneler
+│   ├── types.ts          # TypeScript Tanımları
+│   ├── App.tsx           # Ana Uygulama
+│   └── main.tsx          # Giriş Noktası
+├── public/               # Statik Varlıklar
+├── supabase/            # Veritabanı Geçişleri
+└── docs/                # Belgeler
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Başlarken
 
-### Prerequisites
+### Gereksinimler
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Supabase account
+- Node.js (v18 veya üzeri)
+- npm veya yarn
+- Supabase hesabı
 
-### Installation
+### Kurulum
 
-1. **Clone the repository**
+1. **Depoyu klonlayın**
 ```bash
-git clone <repository-url>
-cd project
+git clone <depo-url>
+cd proje
 ```
 
-2. **Install dependencies**
+2. **Bağımlılıkları yükleyin**
 ```bash
 npm install
 ```
 
-3. **Set up environment variables**
+3. **Ortam değişkenlerini ayarlayın**
 
-Create a `.env` file in the root directory:
+Kök dizinde bir `.env` dosyası oluşturun:
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=supabase_url_niz
+VITE_SUPABASE_ANON_KEY=supabase_anon_anahtarınız
 ```
 
-4. **Import books from Open Library (Optional)**
+4. **Open Library'den kitapları içe aktarın (İsteğe bağlı)**
 ```bash
-# Test API connection first
+# Önce API bağlantısını test edin
 npm run test-api
 
-# Import 300+ books automatically
+# 300+ kitabı otomatik olarak içe aktarın
 npm run import-books
 
-# Add reviews to imported books
+# İçe aktarılan kitaplara inceleme ekleyin
 npm run add-reviews
 ```
 
-5. **Run development server**
+5. **Geliştirme sunucusunu çalıştırın**
 ```bash
 npm run dev
 ```
 
-6. **Open in browser**
+6. **Tarayıcıda açın**
 ```
 http://localhost:5173
 ```
 
-### Build for Production
+### Üretim için Derleme
 
 ```bash
 npm run build
@@ -140,85 +140,85 @@ npm run preview
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Teknoloji Yığını
 
-### Frontend
-- **React 18** - Modern UI library
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Vite** - Lightning-fast build tool
-- **Lucide React** - Beautiful icons
+### Ön Yüz
+- **React 18** - Modern UI kütüphanesi
+- **TypeScript** - Tip güvenli geliştirme
+- **Tailwind CSS** - Yardımcı odaklı stil
+- **Vite** - Yıldırım hızında derleme aracı
+- **Lucide React** - Güzel ikonlar
 
-### Backend
-- **Supabase** - Backend as a Service
-- **PostgreSQL** - Robust database
+### Arka Yüz
+- **Supabase** - Arka uç hizmeti
+- **PostgreSQL** - Sağlam veritabanı
 
-### Development
-- **ESLint** - Code linting
-- **PostCSS** - CSS processing
-- **TypeScript Compiler** - Type checking
-
----
-
-## 📖 Documentation
-
-Comprehensive documentation is available in the following files:
-
-| Document | Description |
-|----------|-------------|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Detailed architecture overview and best practices |
-| [CODE_REVIEW.md](CODE_REVIEW.md) | Complete code review and quality assessment |
-| [DEVELOPMENT.md](DEVELOPMENT.md) | Development guide for contributors |
-| [PERFORMANCE_OPTIMIZATIONS.md](PERFORMANCE_OPTIMIZATIONS.md) | **⚡ Performance guide and optimizations** |
-| [PERFORMANCE_SUMMARY.md](PERFORMANCE_SUMMARY.md) | Quick performance overview |
-| [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) | Summary of architecture improvements |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Current project status and metrics |
-| [ARCHITECTURE_DIAGRAM.md](ARCHITECTURE_DIAGRAM.md) | Visual architecture diagrams |
-| [OPEN_LIBRARY_INTEGRATION.md](OPEN_LIBRARY_INTEGRATION.md) | **📚 Open Library API integration guide** |
-| [QUICK_START_IMPORT.md](QUICK_START_IMPORT.md) | **⚡ Quick start for importing books** |
-| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Technical implementation details |
+### Geliştirme
+- **ESLint** - Kod linting
+- **PostCSS** - CSS işleme
+- **TypeScript Derleyici** - Tip kontrolü
 
 ---
 
-## 🎨 Theme System
+## 📖 Belgeler
 
-### Light Mode (Autumn Orange)
-- Warm, welcoming color scheme
-- Shades of orange and amber
-- Perfect for daytime reading
+Kapsamlı belgeler aşağıdaki dosyalarda mevcuttur:
 
-### Dark Mode (Night Navy Blue)
-- Cool, elegant design
-- Deep blue and slate tones
-- Easy on the eyes at night
-
-Theme preference is automatically saved and restored.
-
----
-
-## 📊 Code Quality
-
-### Metrics
-- **TypeScript Coverage**: 100%
-- **Component Memoization**: 100%
-- **Type Safety**: Complete
-- **Architecture Grade**: A+
-- **Production Ready**: ✅
-
-### Best Practices
-- ✅ SOLID principles
-- ✅ Clean code standards
-- ✅ DRY principle
-- ✅ Separation of concerns
-- ✅ Performance optimization
-- ✅ Error handling
-- ✅ Loading states
+| Belge | Açıklama |
+|-------|----------|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Detaylı mimari genel bakış ve en iyi uygulamalar |
+| [CODE_REVIEW.md](CODE_REVIEW.md) | Tam kod incelemesi ve kalite değerlendirmesi |
+| [DEVELOPMENT.md](DEVELOPMENT.md) | Katkıda bulunanlar için geliştirme rehberi |
+| [PERFORMANCE_OPTIMIZATIONS.md](PERFORMANCE_OPTIMIZATIONS.md) | **⚡ Performans rehberi ve optimizasyonlar** |
+| [PERFORMANCE_SUMMARY.md](PERFORMANCE_SUMMARY.md) | Hızlı performans genel bakışı |
+| [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) | Mimari iyileştirmelerin özeti |
+| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Mevcut proje durumu ve metrikler |
+| [ARCHITECTURE_DIAGRAM.md](ARCHITECTURE_DIAGRAM.md) | Görsel mimari diyagramları |
+| [OPEN_LIBRARY_INTEGRATION.md](OPEN_LIBRARY_INTEGRATION.md) | **📚 Open Library API entegrasyon rehberi** |
+| [QUICK_START_IMPORT.md](QUICK_START_IMPORT.md) | **⚡ Kitap içe aktarma hızlı başlangıç** |
+| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Teknik uygulama detayları |
 
 ---
 
-## 🧪 Testing
+## 🎨 Tema Sistemi
 
-### Type Checking
+### Açık Mod (Sonbahar Turuncu)
+- Sıcak, davetkar renk şeması
+- Turuncu ve amber tonları
+- Gündüz okumak için mükemmel
+
+### Koyu Mod (Gece Lacivert)
+- Soğuk, zarif tasarım
+- Derin mavi ve slate tonları
+- Geceleyin gözleri yormaz
+
+Tema tercihi otomatik olarak kaydedilir ve geri yüklenir.
+
+---
+
+## 📊 Kod Kalitesi
+
+### Metrikler
+- **TypeScript Kapsamı**: %100
+- **Bileşen Belleğe Alma**: %100
+- **Tip Güvenliği**: Tam
+- **Mimari Notu**: A+
+- **Üretim Hazır**: ✅
+
+### En İyi Uygulamalar
+- ✅ SOLID ilkeleri
+- ✅ Temiz kod standartları
+- ✅ DRY ilkesi
+- ✅ İşlerin ayrılması
+- ✅ Performans optimizasyonu
+- ✅ Hata işleme
+- ✅ Yükleme durumları
+
+---
+
+## 🧪 Test
+
+### Tip Kontrolü
 ```bash
 npm run typecheck
 ```
@@ -230,140 +230,139 @@ npm run lint
 
 ---
 
-## 🚀 Deployment
+## 🚀 Dağıtım
 
-### Recommended Platforms
-- **Vercel** (Recommended)
+### Önerilen Platformlar
+- **Vercel** (Önerilen)
 - **Netlify**
 - **AWS Amplify**
 - **GitHub Pages**
 
-### Environment Setup
-1. Set environment variables in your hosting platform
-2. Configure build command: `npm run build`
-3. Set publish directory: `dist`
-4. Deploy!
+### Ortam Kurulumu
+1. Barındırma platformunuzda ortam değişkenlerini ayarlayın
+2. Derleme komutunu yapılandırın: `npm run build`
+3. Yayınlama dizinini ayarlayın: `dist`
+4. Dağıtın!
 
 ---
 
-## 📈 Performance
+## 📈 Performans
 
-### Optimizations Implemented
-- ✅ Component memoization (React.memo)
-- ✅ Callback optimization (useCallback)
-- ✅ Efficient re-renders
-- ✅ Code splitting ready
-- ✅ Lazy loading ready
-- ✅ Optimized bundle size
+### Uygulanan Optimizasyonlar
+- ✅ Bileşen belleğe alma (React.memo)
+- ✅ Geri çağırma optimizasyonu (useCallback)
+- ✅ Verimli yeniden oluşturma
+- ✅ Kod bölme hazır
+- ✅ Lazy loading hazır
 
-### Lighthouse Scores
-- Performance: 🟢 High
-- Accessibility: 🟢 High
-- Best Practices: 🟢 High
-- SEO: 🟢 High
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Development Guidelines
-- Follow the existing code style
-- Add TypeScript types for all code
-- Write meaningful commit messages
-- Update documentation as needed
-- Test your changes thoroughly
+### Lighthouse Skorları
+- Performans: 🟢 Yüksek
+- Erişilebilirlik: 🟢 Yüksek
+- En İyi Uygulamalar: 🟢 Yüksek
+- SEO: 🟢 Yüksek
 
 ---
 
-## 📝 License
+## 🤝 Katkıda Bulunma
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Katkılara açığız! Lütfen şu adımları izleyin:
 
----
+1. Depoyu fork'layın
+2. Bir özellik dalı oluşturun (`git checkout -b feature/MuhtesemOzellik`)
+3. Değişikliklerinizi commit'leyin (`git commit -m 'Bazı Muhtesem Ozellik ekle'`)
+4. Dalı push'layın (`git push origin feature/MuhtesemOzellik`)
+5. Bir Pull Request açın
 
-## 👥 Authors
-
-- **Development Team** - Initial work and architecture
-
----
-
-## 🙏 Acknowledgments
-
-- React team for an amazing framework
-- Supabase for excellent backend services
-- Tailwind CSS for beautiful styling utilities
-- The open-source community
+### Geliştirme Yönergeleri
+- Mevcut kod stilini izleyin
+- Tüm kod için TypeScript tipleri ekleyin
+- Anlamlı commit mesajları yazın
+- Gerektiğinde belgeleri güncelleyin
+- Değişikliklerinizi kapsamlı test edin
 
 ---
 
-## 📞 Support
+## 📝 Lisans
 
-For support, questions, or feedback:
-- Create an issue in the repository
-- Contact the development team
-- Check the documentation
+Bu proje MIT Lisansı altında lisanslanmıştır - detaylar için LICENSE dosyasına bakın.
 
 ---
 
-## 🎯 Roadmap
+## 👥 Yazarlar
 
-### Current Version (v1.0)
-- ✅ Core book discovery features
-- ✅ Theme system
-- ✅ Search and filtering
-- ✅ Review system
-
-### Future Enhancements
-- [ ] User authentication
-- [ ] User profiles
-- [ ] Book recommendations
-- [ ] Social features
-- [ ] Reading lists
-- [ ] Comments on reviews
-- [ ] Book ratings by users
-- [ ] Advanced analytics
+- **Geliştirme Ekibi** - İlk çalışma ve mimari
 
 ---
 
-## 📸 Screenshots
+## 🙏 Teşekkürler
 
-*(Add screenshots here)*
+- Harika bir framework için React ekibi
+- Mükemmel arka uç hizmetleri için Supabase
+- Güzel stil yardımcıları için Tailwind CSS
+- Açık kaynak topluluğu
 
 ---
 
-## ⚡ Quick Start Commands
+## 📞 Destek
+
+Destek, sorular veya geri bildirim için:
+- Depoda bir issue oluşturun
+- Geliştirme ekibiyle iletişime geçin
+- Belgeleri kontrol edin
+
+---
+
+## 🎯 Yol Haritası
+
+### Mevcut Sürüm (v1.0)
+- ✅ Temel kitap keşfi özellikleri
+- ✅ Tema sistemi
+- ✅ Arama ve filtreleme
+- ✅ İnceleme sistemi
+
+### Gelecek İyileştirmeler
+- [ ] Kullanıcı kimlik doğrulama
+- [ ] Kullanıcı profilleri
+- [ ] Kitap önerileri
+- [ ] Sosyal özellikler
+- [ ] Okuma listeleri
+- [ ] İncelemelere yorum yapma
+- [ ] Kitap puanlamaları kullanıcılar tarafından
+- [ ] Gelişmiş analizler
+
+---
+
+## 📸 Ekran Görüntüleri
+
+*(Buraya ekran görüntüleri ekleyin)*
+
+---
+
+## ⚡ Hızlı Başlangıç Komutları
 
 ```bash
-# Install dependencies
+# Bağımlılıkları yükleyin
 npm install
 
-# Test Open Library API
+# Open Library API'sini test edin
 npm run test-api
 
-# Import books from Open Library
+# Open Library'den kitapları içe aktarın
 npm run import-books
 
-# Add reviews to books
+# Kitaplara inceleme ekleyin
 npm run add-reviews
 
-# Run development server
+# Geliştirme sunucusunu çalıştırın
 npm run dev
 
-# Build for production
+# Üretim için derleyin
 npm run build
 
-# Preview production build
+# Üretim derlemesini önizleyin
 npm run preview
 
-# Type checking
+# Tip kontrolü
 npm run typecheck
 
 # Linting
@@ -372,12 +371,12 @@ npm run lint
 
 ---
 
-## 🌟 Star History
+## 🌟 Yıldız Geçmişi
 
-If you find this project helpful, please consider giving it a star ⭐
+Bu projeyi faydalı bulursanız, lütfen yıldız vermayı düşünün ⭐
 
 ---
 
-**Made with ❤️ using React and TypeScript**
+**React ve TypeScript kullanılarak ❤️ ile yapıldı**
 
-**Status**: 🚀 Production Ready | **Quality**: ⭐⭐⭐⭐⭐ | **Architecture**: 💎 Enterprise Grade
+**Durum**: 🚀 Üretim Hazır | **Kalite**: ⭐⭐⭐⭐⭐ | **Mimari**: 💎 Kurumsal Seviye

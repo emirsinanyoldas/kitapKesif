@@ -20,9 +20,11 @@ Server başladığında şu mesajı göreceksiniz:
 
 ```
 VITE v5.4.8 ready in 898 ms
-➜ Local:   http://localhost:5173/
+➜ Local:   http://localhost:5175/
 ➜ Network: use --host to expose
 ```
+
+**Not:** Port numarası sisteminizdeki mevcut duruma göre değişebilir. Terminalde gösterilen gerçek port numarasını kullanın.
 
 **3 farklı yolla açabilirsiniz:**
 
@@ -34,13 +36,13 @@ VITE v5.4.8 ready in 898 ms
 
 #### B) Link'e Tıklayarak 🖱️
 
-1. Terminal'deki `http://localhost:5173/` linkine **Ctrl + Click** yapın
+1. Terminal'deki `http://localhost:5175/` linkine **Ctrl + Click** yapın
 2. Tarayıcınızda otomatik açılır
 
 #### C) Manuel Olarak 🌐
 
 1. Tarayıcınızı açın (Chrome, Firefox, Edge, vb.)
-2. Adres çubuğuna yazın: `http://localhost:5173/`
+2. Adres çubuğuna terminalde belirtilen adresi yazın: `http://localhost:5175/`
 3. Enter'a basın
 
 ---
@@ -93,8 +95,8 @@ Bu adresi tarayıcınızda açın.
 # Terminal'de
 npm run dev
 
-# Tarayıcıda
-http://localhost:5173/
+# Tarayıcıda (terminalde belirtilen portu kullanın)
+http://localhost:5175/
 ```
 
 ---
@@ -161,15 +163,15 @@ npm run dev -- --host
 Şu çıktıyı göreceksiniz:
 
 ```
-➜ Local:   http://localhost:5173/
-➜ Network: http://192.168.1.100:5173/
+➜ Local:   http://localhost:5175/
+➜ Network: http://192.168.1.100:5175/
 ```
 
 ### Adım 2: Mobil Cihazda Açın
 
 1. Mobil cihazınız **aynı WiFi**'de olmalı
 2. Mobil tarayıcıda `Network` adresini açın
-3. Örnek: `http://192.168.1.100:5173/`
+3. Örnek: `http://192.168.1.100:5175/`
 
 ---
 
@@ -211,12 +213,12 @@ npm run dev -- --port 3000
 
 2. **Doğru adresi kullanıyor musunuz?**
    ```
-   ✅ http://localhost:5173/
-   ❌ https://localhost:5173/  (https değil!)
+   ✅ http://localhost:5175/  (veya terminalde belirtilen port)
+   ❌ https://localhost:5175/  (https değil!)
    ```
 
 3. **Firewall sorunu mu var?**
-   - Windows Firewall'da port 5173'ü açın
+   - Windows Firewall'da ilgili portu açın
 
 ### Değişiklikler Görünmüyor?
 
@@ -255,10 +257,10 @@ Farklı ekran boyutlarında test etmek için:
 ### Farklı Tarayıcılarda Test:
 
 ```
-✅ Chrome:  http://localhost:5173/
-✅ Firefox: http://localhost:5173/
-✅ Edge:    http://localhost:5173/
-✅ Safari:  http://localhost:5173/ (Mac)
+✅ Chrome:  http://localhost:5175/
+✅ Firefox: http://localhost:5175/
+✅ Edge:    http://localhost:5175/
+✅ Safari:  http://localhost:5175/ (Mac)
 ```
 
 ---
@@ -274,7 +276,7 @@ Farklı ekran boyutlarında test etmek için:
 
 2. **Tarayıcıda açın:**
    ```
-   http://localhost:5173/
+   http://localhost:5175/
    ```
 
 3. **Tema butonuna tıklayın:**
@@ -324,7 +326,7 @@ Farklı ekran boyutlarında test etmek için:
 # 2. Bu komutu çalıştırın:
 npm run dev
 
-# 3. Tarayıcıda açılacak linke tıklayın!
+# 3. Tarayıcıda açılacak linke tıklayın! (Terminalde belirtilen adres)
 ```
 
 **İşte bu kadar!** 🎉
@@ -403,8 +405,8 @@ Preview başarılı sayılır eğer:
 ✅ Sayfa 1-2 saniyede yüklenirse
 ✅ Tüm görseller görünüyorsa
 ✅ Tema değiştirme çalışıyorsa
-✅ Arama filtreleme yapıyorsa
-✅ Kitap modali açılıyorsa
+✅ Arama çalışıyor mu?
+✅ Kitap modali açılıyor mu?
 ✅ Animasyonlar smooth ise
 ✅ Mobilde responsive ise
 ✅ Console'da hata yoksa
@@ -450,7 +452,7 @@ Preview yapmadan önce:
 - [ ] Node.js yüklü mü? (`node -v`)
 - [ ] Dependencies yüklü mü? (`npm install`)
 - [ ] `.env` dosyası var mı?
-- [ ] Port 5173 boş mu?
+- [ ] Gerekli port boş mu?
 - [ ] Firewall izin veriyor mu?
 
 Preview sırasında kontrol edin:
@@ -473,15 +475,16 @@ Artık projenizi önizleyebilirsiniz!
 ```bash
 npm run dev
 ```
-Sonra tarayıcıda:
+Sonra tarayıcıda terminalde belirtilen adresi açın:
 ```
-http://localhost:5173/
+http://localhost:5175/  (veya başka bir port)
 ```
 
 **İyi çalışmalar!** 🚀
 
 ---
 
-**Son Güncelleme**: 2025-10-16  
+**Son Güncelleme**: 2025-10-20  
 **Durum**: ✅ Hazır ve Çalışıyor  
-**Preview URL**: http://localhost:5173/
+**Development Server**: http://localhost:5175/ (veya terminalde belirtilen port)  
+**Preview Server**: http://localhost:4173/
