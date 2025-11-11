@@ -5,7 +5,7 @@
 ### Development Server (For Active Development)
 - **Status**: ✅ Running
 - **Command**: `npm run dev`
-- **URL**: http://localhost:5175/
+- **URL**: http://localhost:5173/
 - **Features**: Hot reload, real-time updates
 
 ### Preview Server (For Production Testing)
@@ -23,7 +23,7 @@
    ```
 2. Open your browser and go to:
    ```
-   http://localhost:5175/
+   http://localhost:5173/
    ```
 
 ### Option 2: Production Preview
@@ -71,7 +71,7 @@
 ## ✅ Verification
 
 The application should be accessible at one of these URLs:
-- Development: http://localhost:5175/
+- Development: http://localhost:5173/
 - Preview: http://localhost:4173/
 
 Check your terminal output to confirm the exact port being used.

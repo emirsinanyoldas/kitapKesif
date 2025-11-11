@@ -42,6 +42,26 @@ export function useBookModal() {
     setError(null);
   }, []);
 
+  // Refresh reviews for the currently selected book
+  const refreshReviews = useCallback(async () => {
+    if (!selectedBook) return;
+
+    try {
+      const { data, error: fetchError } = await ReviewService.fetchReviewsByBookId(selectedBook.id);
+
+      if (fetchError) {
+        console.error('Error refreshing reviews:', fetchError);
+        setError(MESSAGES.ERROR_FETCHING_REVIEWS);
+      } else {
+        setReviews(data || []);
+        setError(null);
+      }
+    } catch (err) {
+      console.error('Unexpected error refreshing reviews:', err);
+      setError(MESSAGES.ERROR_FETCHING_REVIEWS);
+    }
+  }, [selectedBook]);
+
   return {
     selectedBook,
     reviews,
@@ -49,5 +69,6 @@ export function useBookModal() {
     error,
     openModal,
     closeModal,
+    refreshReviews,
   };
 }

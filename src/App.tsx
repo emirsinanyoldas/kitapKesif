@@ -23,7 +23,7 @@ function App() {
     setSearchQuery,
     setSelectedCategory,
   } = useBooks();
-  const { selectedBook, reviews, openModal, closeModal } = useBookModal();
+  const { selectedBook, reviews, openModal, closeModal, refreshReviews } = useBookModal();
 
   const handleSettingsClick = () => {
     alert(MESSAGES.SETTINGS_COMING_SOON);
@@ -99,6 +99,7 @@ function App() {
             book={selectedBook}
             reviews={reviews}
             onClose={closeModal}
+            refreshReviews={refreshReviews}
           />
         )}
 

@@ -1,17 +1,29 @@
-import { X, Star, User } from 'lucide-react';
+import { X, Star, User, Send } from 'lucide-react';
 import { Book, Review } from '../types';
 import { formatDate, formatRating } from '../utils';
 import { MESSAGES } from '../constants';
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
+import { ReviewService } from '../services';
 
 interface BookModalProps {
   book: Book;
   reviews: Review[];
   onClose: () => void;
+  refreshReviews?: () => Promise<void>;
 }
 
-export const BookModal = memo(function BookModal({ book, reviews, onClose }: BookModalProps) {
+export const BookModal = memo(function BookModal({ book, reviews: initialReviews, onClose, refreshReviews }: BookModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  const [newReview, setNewReview] = useState({
+    rating: 0,
+    comment: '',
+    user_name: '',
+    user_avatar: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [hoveredRating, setHoveredRating] = useState(0);
 
   // Handle escape key to close modal and scroll to modal
   useEffect(() => {
@@ -23,7 +35,7 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
 
     // Debug: Log book data to console
     console.log('BookModal - Book data:', book);
-    console.log('BookModal - Reviews:', reviews);
+    console.log('BookModal - Reviews:', initialReviews);
 
     // Scroll to modal when it opens
     const scrollToModal = () => {
@@ -65,13 +77,85 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
       // Restore body scrolling when modal is closed
       document.body.style.overflow = 'unset';
     };
-  }, [book, reviews, onClose]);
+  }, [book, initialReviews, onClose]);
+
+  // Update reviews when initialReviews change
+  useEffect(() => {
+    setReviews(initialReviews);
+  }, [initialReviews]);
 
   // Ensure we have valid book data
   if (!book) {
     console.error('BookModal - No book data provided');
     return null;
   }
+
+  const handleAddReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!newReview.user_name.trim() || !newReview.comment.trim() || newReview.rating === 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitSuccess(false);
+
+    try {
+      // Generate a simple avatar URL based on the user's name
+      const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(newReview.user_name)}`;
+
+      const reviewData = {
+        book_id: book.id,
+        user_name: newReview.user_name,
+        user_avatar: avatarUrl,
+        rating: newReview.rating,
+        comment: newReview.comment
+      };
+
+      const { data, error } = await ReviewService.addReview(reviewData);
+
+      if (error) {
+        console.error('Error adding review:', error);
+      }
+
+      // If we have a refreshReviews function, use it to fetch updated reviews
+      if (refreshReviews) {
+        await refreshReviews();
+      } else {
+        // Fallback: Add the new review to the local state
+        if (data) {
+          setReviews(prev => [data, ...prev]);
+        } else {
+          // Create a local review object for demo purposes
+          const localReview: Review = {
+            id: `local-${Date.now()}`,
+            ...reviewData,
+            created_at: new Date().toISOString()
+          };
+          setReviews(prev => [localReview, ...prev]);
+        }
+      }
+
+      // Reset form
+      setNewReview({
+        rating: 0,
+        comment: '',
+        user_name: '',
+        user_avatar: ''
+      });
+      
+      setSubmitSuccess(true);
+      
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setSubmitSuccess(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Unexpected error adding review:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div 
@@ -141,10 +225,112 @@ export const BookModal = memo(function BookModal({ book, reviews, onClose }: Boo
                 </p>
               </div>
 
+              {/* Add Review Form */}
               <div className="border-t border-gray-200 dark:border-blue-900/50 pt-6">
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                  Okuyucu Yorumları
+                  Yorum Ekle
                 </h3>
+                
+                {submitSuccess ? (
+                  <div className="bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-2xl p-4 mb-6">
+                    <p className="text-green-700 dark:text-green-300 font-medium">
+                      Yorumunuz başarıyla eklendi! Teşekkür ederiz.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleAddReview} className="space-y-4 mb-6">
+                    <div>
+                      <label htmlFor="user_name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        Adınız <span className="text-orange-600">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="user_name"
+                        value={newReview.user_name}
+                        onChange={(e) => setNewReview({...newReview, user_name: e.target.value})}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 dark:focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        placeholder="Adınızı girin"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        Puanınız <span className="text-orange-600">*</span>
+                      </label>
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setNewReview({...newReview, rating: star})}
+                            onMouseEnter={() => setHoveredRating(star)}
+                            onMouseLeave={() => setHoveredRating(0)}
+                            className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+                          >
+                            <Star
+                              className={`w-8 h-8 ${
+                                star <= (hoveredRating || newReview.rating)
+                                  ? 'fill-orange-500 text-orange-500'
+                                  : 'text-gray-300 dark:text-gray-600'
+                              }`}
+                            />
+                          </button>
+                        ))}
+                        {newReview.rating > 0 && (
+                          <span className="ml-2 text-gray-600 dark:text-gray-400 self-center">
+                            {newReview.rating} / 5
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="comment" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        Yorumunuz <span className="text-orange-600">*</span>
+                      </label>
+                      <textarea
+                        id="comment"
+                        value={newReview.comment}
+                        onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
+                        rows={4}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 dark:focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                        placeholder="Bu kitap hakkında düşüncelerinizi paylaşın..."
+                        required
+                      />
+                    </div>
+                    
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !newReview.user_name.trim() || !newReview.comment.trim() || newReview.rating === 0}
+                      className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <span>Gönderiliyor...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Yorumu Gönder</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+              </div>
+
+              {/* Existing Reviews Section */}
+              <div className="border-t border-gray-200 dark:border-blue-900/50 pt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    Okuyucu Yorumları
+                  </h3>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {reviews.length} yorum
+                  </span>
+                </div>
 
                 <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
                   {reviews.length === 0 ? (
